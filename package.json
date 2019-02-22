@@ -1,0 +1,15 @@
+{
+  "name": "publicgoods-scripts",
+  "version": "0.0.1",
+  "description": "Scripts to automate the management of the Digital Public Goods infrastructure",
+  "main": "index.js",
+  "scripts": {
+    "test": ""
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "glob": "^7.1.3",
+    "replace-in-file": "^3.4.3"
+  }
+}
