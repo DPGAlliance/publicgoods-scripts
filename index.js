@@ -21,7 +21,7 @@ const SDGS = ['No Poverty',
               'Partnerships to achieve the Goal']
 
 path = '../publicgoods-candidates/candidates'
-pathHtml = '../publicgoods-website/candidate/index.html';
+pathHtml = '../publicgoods-website/candidates/index.html';
 
 let candidates=[];
 let htmlOutput='<table class="table">';

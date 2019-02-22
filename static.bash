@@ -10,7 +10,7 @@ else
 	find . -name '*.html' -exec sed -i -e 's_http://localhost:8000/_/_g' {} \;
 	find . -name '*.html' -exec sed -i -e 's_http:\\/\\/localhost:8000\\/_\\/_g' {} \;
 fi
-rm -rf comments feed wp-json xmlrpc.php\?rsd 
+rm -rf comments feed wp-json xmlrpc.php\?rsd wp-login* wp-admin author
 popd
 cp -a static/* ../publicgoods-website
 rm -rf static
