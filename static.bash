@@ -7,8 +7,8 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 	find . -name '*.html' -exec sed -i '' -e 's_http:\\/\\/localhost:8000\\/_\\/_g' {} \;
 else
 	echo 'Detected non-OSX...'
-	find . -name '*.html' -exec sed -e 's_http://localhost:8000/_/_g' {} \;
-	find . -name '*.html' -exec sed -e 's_http:\\/\\/localhost:8000\\/_\\/_g' {} \;
+	find . -name '*.html' -exec sed -i -e 's_http://localhost:8000/_/_g' {} \;
+	find . -name '*.html' -exec sed -i -e 's_http:\\/\\/localhost:8000\\/_\\/_g' {} \;
 fi
 rm -rf comments feed wp-json xmlrpc.php\?rsd 
 popd
