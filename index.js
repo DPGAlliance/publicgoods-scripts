@@ -80,7 +80,7 @@ htmlOutput += '</div>';
 htmlOutput += `
 
 <!-- Load d3.js -->
-<script src="http://d3js.org/d3.v4.js" charset="utf-8"></script>
+<script src="https://d3js.org/d3.v4.js" charset="utf-8"></script>
 <script>
 
 // set the dimensions and margins of the graph
