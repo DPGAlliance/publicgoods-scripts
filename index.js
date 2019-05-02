@@ -72,7 +72,7 @@ glob(path + '/*.json', {}, (err, files)=>{
   }
 
 let htmlOutput = '<div class="row">';
-htmlOutput += '<div class="col-xs-2 col-xs-offset-1"><span class="big-details">34</span><span class="small-title">candidates</span></div>'
+htmlOutput += '<div class="col-xs-2 col-xs-offset-1"><span class="big-details">'+candidates.length+'</span><span class="small-title">candidates</span></div>'
 htmlOutput += '<div class="col-xs-4" id="piechart"></div></div>'
 htmlOutput += '<div class="row" style="margin-bottom:5em"><div class="col-xs-10 col-xs-offset-1" id="treemap"><span class="small-title">distribution by SDG</span><div id="treemap"></div></div>';
 htmlOutput += '</div>';
