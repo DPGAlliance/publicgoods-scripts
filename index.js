@@ -20,6 +20,24 @@ const SDGS = ['No Poverty',
               'Peace and Justice Strong Institutions',
               'Partnerships to achieve the Goal']
 
+const sdgColors = ['#E5243B',
+                   '#DDA63A',
+                   '#4C9F38',
+                   '#C5192D',
+                   '#FF3A21',
+                   '#26BDE2',
+                   '#FCC30B',
+                   '#A21942',
+                   '#FD6925',
+                   '#DD1367',
+                   '#FD9D24',
+                   '#BF8B2E',
+                   '#3F7E44',
+                   '#0A97D9',
+                   '#56C02B',
+                   '#00689D',
+                   '#19486A']
+
 path = '../publicgoods-candidates/candidates'
 pathHtml = '../publicgoods-website/candidates/index.html';
 
@@ -95,6 +113,7 @@ var svg = d3.select("#treemap")
 htmlOutput += 'var data_sdg = '+JSON.stringify(sdgData)+';';
 htmlOutput += 'var data_type = '+JSON.stringify(typeData)+';';
 htmlOutput += 'var sdg_labels = '+JSON.stringify(SDGS)+';';
+htmlOutput += 'var sdg_colors = '+JSON.stringify(sdgColors)+';';
 
 htmlOutput += `
 
@@ -120,7 +139,7 @@ htmlOutput += `
       .attr('width', function (d) { return d.x1 - d.x0; })
       .attr('height', function (d) { return d.y1 - d.y0; })
       .style("stroke", "white")
-      .style("fill", "grey")
+      .style("fill", function (d) { return sdg_colors[d.data.name-1]; })
       .on("mouseover", handleMouseOver)
       .on("mousemove", handleMouseMove)
       .on("mouseout", handleMouseOut);
@@ -139,7 +158,7 @@ htmlOutput += `
 
   function handleMouseOver(d) {  // Add interactivity
     // Use D3 to select element, change color and size
-    d3.select(this).style('fill','#e91e63');
+    d3.select(this).style('fill','grey');
   }
 
   function handleMouseMove(d) {
@@ -151,7 +170,7 @@ htmlOutput += `
 
   function handleMouseOut(d, i) {
     // Use D3 to select element, change color back to normal
-    d3.select(this).style('fill','grey');
+    d3.select(this).style('fill', function (d) { return sdg_colors[d.data.name-1]; }); 
 
     // Select text by id and then remove
     tool.style("display", "none");
