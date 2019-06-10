@@ -249,13 +249,17 @@ let keys = legend.selectAll('.key')
 htmlOutput += '<table class="table">';
 htmlOutput += '<tr><th>Candidate</th><th>Description</th><th>Type</th><th>SDGs</th><th>License</th></tr>';
 
-
-
   for (var i=0; i<candidates.length; i++) {
     htmlOutput += '<tr>';
-    htmlOutput += '<td><a href="'+ candidates[i].website +'" target="_blank">' + candidates[i].name + '</a></td>';
-    htmlOutput += '<td>' + candidates[i].description + '</td>';
-    htmlOutput += '<td>';
+    htmlOutput += '<td style="vertical-align: top;"><div class="anchor">';
+    if(candidates[i].hasOwnProperty('initialism')){
+      htmlOutput += '<a id="'+candidates[i].initialism+'"></a></div>'
+    } else {
+      htmlOutput += '<a id="'+candidates[i].name.replace(' ','_')+'"></a></div>';
+    }
+    htmlOutput += '<a href="'+ candidates[i].website +'" target="_blank">' + candidates[i].name + '</a></td>';
+    htmlOutput += '<td style="vertical-align: top;">' + candidates[i].description + '</td>';
+    htmlOutput += '<td style="vertical-align: top;">';
     for (var j=0; j<candidates[i].type.length; j++) {
       htmlOutput += candidates[i].type[j];
       if (j < candidates[i].type.length-1) {
@@ -263,14 +267,14 @@ htmlOutput += '<tr><th>Candidate</th><th>Description</th><th>Type</th><th>SDGs</
       }
     }
     htmlOutput += '</td>';
-    htmlOutput += '<td>';
+    htmlOutput += '<td style="vertical-align: top;">';
     for (var j=0; j<candidates[i].SDGs.length; j++) {
       htmlOutput += '<a href="https://sustainabledevelopment.un.org/sdg'+candidates[i].SDGs[j]+'" target="_blank">';
       htmlOutput += '<img src="/wp-content/uploads/2019/02/SDG'+candidates[i].SDGs[j]+'.png" width="40" alt="'+SDGS[candidates[i].SDGs[j]]+'" class="sdgicon">';
       htmlOutput += '</a>';
     }
     htmlOutput += '</td>';
-    htmlOutput += '<td><a href="'+ candidates[i].license_link +'" target="_blank">' + candidates[i].license + '</a></td>';
+    htmlOutput += '<td style="vertical-align: top;"><a href="'+ candidates[i].license_link +'" target="_blank">' + candidates[i].license + '</a></td>';
     htmlOutput += '</tr>';
   }
   htmlOutput += '</table>';
