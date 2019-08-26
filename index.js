@@ -1,6 +1,8 @@
 const fs = require('fs');
 const glob = require('glob');
 const replace = require('replace-in-file');
+const cheerio = require("cheerio");
+const fetch = require("node-fetch");
 
 const SDGS = ['No Poverty',
               'Zero Hunger',
@@ -41,9 +43,94 @@ const sdgColors = ['#E5243B',
 path = '../publicgoods-candidates/candidates'
 pathHtml = '../publicgoods-website/candidates/index.html';
 
+async function fetchGithubActivity(link, item){
+  let page = 1;
+  let data, $, list=[];
+  console.log('Fetching '+link+' -> searching for '+item);
+  while(page==1 || (!list.length && page < 20)){
+    data = await fetch(link+'?tab=repositories&page='+page);
+    $ = cheerio.load(await data.text());
+    list = $("div.repo-list")
+    if(list.length) { // it is an organization, else it is a user
+      list = list.find('a.d-inline-block:contains("'+item+'")').parent().parent().next();
+    } else {
+      list = $("#user-repositories-list").find('a:contains("'+item+'")').parent().parent().parent().next();
+    }
+    if(list.length){
+      let poll = list.find('poll-include-fragment').attr('src');
+      if(poll){
+        data = await fetch(`https://github.com/`+poll);
+        $ = cheerio.load(await data.text());
+        list = $('body')
+      }
+    }
+    page+=1;
+  }
+  let output;
+  if(list.length) {
+    console.log('Activity chart found.');
+    output = list.html();
+  } else {
+    output = '&nbsp;'
+    console.log('Activity chart NOT found ! ! ! ! !')
+  }
+  console.log(output);
+  return output;
+}
+
+
+async function htmlTable(candidates){
+  var htmlOutput = '<table class="table">';
+  htmlOutput += '<tr><th>Candidate</th><th>Description</th><th>Type</th><th>SDGs</th><th>License</th><th>Past year of activity</th></tr>';
+
+  for (var i=0; i<candidates.length; i++) {
+    htmlOutput += '<tr>';
+    htmlOutput += '<td style="vertical-align: top;"><div class="anchor">';
+    if(candidates[i].hasOwnProperty('initialism')){
+      htmlOutput += '<a id="'+candidates[i].initialism+'"></a></div>'
+    } else {
+      htmlOutput += '<a id="'+candidates[i].name.replace(' ','_')+'"></a></div>';
+    }
+    htmlOutput += '<a href="'+ candidates[i].website +'" target="_blank">' + candidates[i].name + '</a></td>';
+    htmlOutput += '<td style="vertical-align: top;">' + candidates[i].description + '</td>';
+    htmlOutput += '<td style="vertical-align: top;">';
+    for (var j=0; j<candidates[i].type.length; j++) {
+      htmlOutput += candidates[i].type[j];
+      if (j < candidates[i].type.length-1) {
+        htmlOutput += ', ';
+      }
+    }
+    htmlOutput += '</td>';
+    htmlOutput += '<td style="vertical-align: top;">';
+    for (var j=0; j<candidates[i].SDGs.length; j++) {
+      htmlOutput += '<a href="https://sustainabledevelopment.un.org/sdg'+candidates[i].SDGs[j]+'" target="_blank">';
+      htmlOutput += '<img src="/wp-content/uploads/2019/02/SDG'+candidates[i].SDGs[j]+'.png" width="40" alt="'+SDGS[candidates[i].SDGs[j]]+'" class="sdgicon">';
+      htmlOutput += '</a>';
+    }
+    htmlOutput += '</td>';
+    htmlOutput += '<td style="vertical-align: top;"><a href="'+ candidates[i].license_link +'" target="_blank">' + candidates[i].license + '</a></td>';
+
+    htmlOutput += '<td style="vertical-align: top;">';
+    if(candidates[i].hasOwnProperty('repo_main')){
+      var matchGithub = candidates[i].repo_main.match(/https:\/\/github.com\/(.*)\/(.*)/);
+      if(matchGithub){
+        htmlOutput += await fetchGithubActivity('https://github.com/'+matchGithub[1], matchGithub[2]);
+      } else {
+        htmlOutput += '&nbsp;';
+      }
+    } else {
+      htmlOutput += '&nbsp;';
+    }
+    htmlOutput += '</td>';
+    htmlOutput += '</tr>';
+  }
+  htmlOutput += '</table>';
+  return htmlOutput;
+}
+  
 let candidates=[];
 
-glob(path + '/*.json', {}, (err, files)=>{
+glob(path + '/*.json', {}, async (err, files) => {
   console.log(files);
   for (var i=0; i<files.length; i++) {
     candidates.push(JSON.parse(fs.readFileSync(files[i], 'utf8')));
@@ -245,51 +332,19 @@ let keys = legend.selectAll('.key')
 </script>
 
 `
-
-htmlOutput += '<table class="table">';
-htmlOutput += '<tr><th>Candidate</th><th>Description</th><th>Type</th><th>SDGs</th><th>License</th></tr>';
-
-  for (var i=0; i<candidates.length; i++) {
-    htmlOutput += '<tr>';
-    htmlOutput += '<td style="vertical-align: top;"><div class="anchor">';
-    if(candidates[i].hasOwnProperty('initialism')){
-      htmlOutput += '<a id="'+candidates[i].initialism+'"></a></div>'
-    } else {
-      htmlOutput += '<a id="'+candidates[i].name.replace(' ','_')+'"></a></div>';
-    }
-    htmlOutput += '<a href="'+ candidates[i].website +'" target="_blank">' + candidates[i].name + '</a></td>';
-    htmlOutput += '<td style="vertical-align: top;">' + candidates[i].description + '</td>';
-    htmlOutput += '<td style="vertical-align: top;">';
-    for (var j=0; j<candidates[i].type.length; j++) {
-      htmlOutput += candidates[i].type[j];
-      if (j < candidates[i].type.length-1) {
-        htmlOutput += ', ';
-      }
-    }
-    htmlOutput += '</td>';
-    htmlOutput += '<td style="vertical-align: top;">';
-    for (var j=0; j<candidates[i].SDGs.length; j++) {
-      htmlOutput += '<a href="https://sustainabledevelopment.un.org/sdg'+candidates[i].SDGs[j]+'" target="_blank">';
-      htmlOutput += '<img src="/wp-content/uploads/2019/02/SDG'+candidates[i].SDGs[j]+'.png" width="40" alt="'+SDGS[candidates[i].SDGs[j]]+'" class="sdgicon">';
-      htmlOutput += '</a>';
-    }
-    htmlOutput += '</td>';
-    htmlOutput += '<td style="vertical-align: top;"><a href="'+ candidates[i].license_link +'" target="_blank">' + candidates[i].license + '</a></td>';
-    htmlOutput += '</tr>';
-  }
-  htmlOutput += '</table>';
+  htmlOutput += await htmlTable(candidates);
+  
   replace({files: pathHtml, from: '<p>Placeholder</p>', to: htmlOutput}, (error, changedFiles) => {
     if (error) {
       return console.error('Error occurred:', error);
     }
     console.log('Modified files:', changedFiles.join(', '));
 
-    replace({files: pathHtml, from: 'class="col-md-8 page-content-wrap  col-md-offset-2"', to: 'class="col-md-10 page-content-wrap  col-md-offset-1"'}, (error, changedFiles) => {
+    replace({files: pathHtml, from: 'class="col-md-8 page-content-wrap  col-md-offset-2"', to: 'class="col-lg-10 page-content-wrap  col-lg-offset-1"'}, (error, changedFiles) => {
     if (error) {
       return console.error('Error occurred:', error);
     }
     console.log('Modified files:', changedFiles.join(', '));
   });
   });
-
 })
