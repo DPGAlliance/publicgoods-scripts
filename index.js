@@ -89,7 +89,7 @@ async function htmlTable(candidates){
     if(candidates[i].hasOwnProperty('initialism')){
       htmlOutput += '<a id="'+candidates[i].initialism+'"></a></div>'
     } else {
-      htmlOutput += '<a id="'+candidates[i].name.replace(' ','_')+'"></a></div>';
+      htmlOutput += '<a id="'+candidates[i].name.replace(/ /g,'_')+'"></a></div>';
     }
     htmlOutput += '<a href="'+ candidates[i].website +'" target="_blank">' + candidates[i].name + '</a></td>';
     htmlOutput += '<td style="vertical-align: top;">' + candidates[i].description + '</td>';
