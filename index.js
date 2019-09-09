@@ -111,16 +111,16 @@ async function htmlTable(candidates){
     htmlOutput += '<td style="vertical-align: top;"><a href="'+ candidates[i].license_link +'" target="_blank">' + candidates[i].license + '</a></td>';
 
     htmlOutput += '<td style="vertical-align: top;">';
-    if(candidates[i].hasOwnProperty('repo_main')){
-      var matchGithub = candidates[i].repo_main.match(/https:\/\/github.com\/(.*)\/(.*)/);
-      if(matchGithub){
-        htmlOutput += await fetchGithubActivity('https://github.com/'+matchGithub[1], matchGithub[2]);
-      } else {
-        htmlOutput += '&nbsp;';
-      }
-    } else {
-      htmlOutput += '&nbsp;';
-    }
+    // if(candidates[i].hasOwnProperty('repo_main')){
+    //   var matchGithub = candidates[i].repo_main.match(/https:\/\/github.com\/(.*)\/(.*)/);
+    //   if(matchGithub){
+    //     htmlOutput += await fetchGithubActivity('https://github.com/'+matchGithub[1], matchGithub[2]);
+    //   } else {
+    //     htmlOutput += '&nbsp;';
+    //   }
+    // } else {
+    //   htmlOutput += '&nbsp;';
+    // }
     htmlOutput += '</td>';
     htmlOutput += '</tr>';
   }
@@ -136,11 +136,17 @@ glob(path + '/*.json', {}, async (err, files) => {
     candidates.push(JSON.parse(fs.readFileSync(files[i], 'utf8')));
   }
   console.log(candidates);
-
+  let combos = [0,0,0,0,0,0,0]
   // Initialize SDG array to count occurences in candidates
   let sdgs = new Array(17).fill(0);
   // Initialize type array to count occurences in candidates
-  let types = {data:0, software:0, standard:0};
+  const TYPE1='software';
+  const TYPE2='data';
+  const TYPE3='standard';
+  let types = {};
+  types[TYPE1]=0;
+  types[TYPE2]=0;
+  types[TYPE3]=0;
   // Iterate over candidates, and over each nested array and count
   candidates.forEach(function(e) {
     e['SDGs'].forEach(function(d){
@@ -149,6 +155,13 @@ glob(path + '/*.json', {}, async (err, files) => {
     e['type'].forEach(function(d){
       types[d]++;
     })
+    if     (  e['type'].includes(TYPE1) && ! e['type'].includes(TYPE2) && ! e['type'].includes(TYPE3)){ combos[0]++;}
+    else if(! e['type'].includes(TYPE1) &&   e['type'].includes(TYPE2) && ! e['type'].includes(TYPE3)){ combos[1]++;}
+    else if(! e['type'].includes(TYPE1) && ! e['type'].includes(TYPE2) &&   e['type'].includes(TYPE3)){ combos[2]++;}
+    else if(  e['type'].includes(TYPE1) &&   e['type'].includes(TYPE2) && ! e['type'].includes(TYPE3)){ combos[3]++;}
+    else if(  e['type'].includes(TYPE1) && ! e['type'].includes(TYPE2) &&   e['type'].includes(TYPE3)){ combos[4]++;}
+    else if(! e['type'].includes(TYPE1) &&   e['type'].includes(TYPE2) &&   e['type'].includes(TYPE3)){ combos[5]++;}
+    else if(  e['type'].includes(TYPE1) &&   e['type'].includes(TYPE2) &&   e['type'].includes(TYPE3)){ combos[6]++;}
   })
 
   // Prepare data for chart
@@ -158,6 +171,16 @@ glob(path + '/*.json', {}, async (err, files) => {
       sdgData['children'].push({name: i, value: sdgs[i]});
     }
   }
+
+  var sets = [
+                {sets:[1], size:  types[TYPE1], value: types[TYPE1], label: TYPE1},
+                {sets:[2], size:  types[TYPE2], value: types[TYPE2], label: TYPE2},
+                {sets:[3], size:  types[TYPE3], value: types[TYPE3], label: TYPE3},
+                {sets: [1, 2], size: combos[3], value: combos[3]},
+                {sets: [1, 3], size: combos[4], value: combos[4]},
+                {sets: [2, 3], size: combos[5], value: combos[5]},
+                {sets: [1, 2, 3], size: combos[6], value: combos[6]}
+                ];
 
   // Add total for types to get percentages below
   let t = 0;
@@ -178,7 +201,8 @@ glob(path + '/*.json', {}, async (err, files) => {
 
 let htmlOutput = '<div class="row">';
 htmlOutput += '<div class="col-xs-2 col-xs-offset-1"><span class="big-details">'+candidates.length+'</span><span class="small-title">candidates</span></div>'
-htmlOutput += '<div class="col-xs-4" id="piechart"></div></div>'
+//htmlOutput += '<div class="col-xs-4" id="piechart"></div>'
+htmlOutput += '<div class="col-xs-4" id="venn"><span class="small-title">distribution by type</span></div></div>'
 htmlOutput += '<div class="row" style="margin-bottom:5em"><div class="col-xs-10 col-xs-offset-1" id="treemap"><span class="small-title">distribution by SDG</span><div id="treemap"></div></div>';
 htmlOutput += '</div>';
 
@@ -186,6 +210,7 @@ htmlOutput += `
 
 <!-- Load d3.js -->
 <script src="https://d3js.org/d3.v4.js" charset="utf-8"></script>
+<script src="http://localhost:8000/wp-content/themes/hestia/js/venn.js"></script>
 <script>
 
 // set the dimensions and margins of the graph
@@ -201,6 +226,7 @@ htmlOutput += 'var data_sdg = '+JSON.stringify(sdgData)+';';
 htmlOutput += 'var data_type = '+JSON.stringify(typeData)+';';
 htmlOutput += 'var sdg_labels = '+JSON.stringify(SDGS)+';';
 htmlOutput += 'var sdg_colors = '+JSON.stringify(sdgColors)+';';
+htmlOutput += 'var sets = '+JSON.stringify(sets)+';';
 
 htmlOutput += `
 
@@ -263,70 +289,66 @@ htmlOutput += `
     tool.style("display", "none");
   }
 
-var color = d3.scaleOrdinal()
-  .range(['#48b8d0', '#4b5c73', '#e91e63']);
+  var color = d3.scaleOrdinal()
+      .range(['#48b8d0', '#e91e63', '#4b5c73']);
+
+  var colort = d3.scaleOrdinal()
+      .range(['white', 'white', 'black']);
+
+  var chart = venn.VennDiagram()
+    .width(350)
+    .height(200);
+  var div = d3.select("#venn")
+    .datum(sets)
+    .call(chart);
+
+  d3.selectAll("#venn .venn-circle path")
+    .style("stroke", function(d,i) { return color[i]; })
+    .style("fill-opacity", .8)
+    .style('fill', (d,i) => color(i))
+
+  d3.selectAll("#venn .venn-circle text")
+    .style('fill', (d,i) => colort(i));
+
+  div.selectAll("path")
+      .style("stroke-opacity", 0)
+      .style("stroke", "#fff")
+      .style("stroke-width", 3)
+
+  div.selectAll('g')
+    .on("mouseover", handleVennMouseOver)
+    .on("mousemove", handleVennMouseMove)
+    .on("mouseout", handleVennMouseOut);
+
+  function handleVennMouseOver(d) {  // Add interactivity
+    venn.sortAreas(div, d);
+    // Use D3 to select element, change color and size
+    d3.select(this)
+      .style("fill-opacity", 1)
+      .select("path")
+        .style("stroke-opacity", 1);
+  }
+
+  function handleVennMouseMove(d) {
+    tool.style("left", d3.event.pageX + 10 + "px")
+    tool.style("top", d3.event.pageY - 20 + "px")
+    tool.style("display", "inline-block");
+    tool.html(d.value+' candidates');
+  }
+
+  function handleVennMouseOut(d, i) {
+      venn.sortAreas(div, d);
+
+    // Use D3 to select element, change color back to normal
+    d3.select(this)
+      .style("fill-opacity", 0.9)
+      .select("path")
+        .style("stroke-opacity", 0);
 
 
-var width = 200,
-    height = 200,
-    radius = Math.min(width, height) / 2;
-
-var pie = d3.select("#piechart")
-  .append("svg")
-    .attr('width', '40%')
-    .attr('height', '40%')
-    .attr('viewBox','0 0 '+Math.min(width,height)+' '+Math.min(width,height))
-    .attr('preserveAspectRatio','xMinYMin')
-    .style('float', 'left');
-
-
-var g = pie.append('g')
-  .attr('transform', 'translate(' + (width/2) + ',' + (height/2) + ')');
-
-var arc = d3.arc()
-  .innerRadius(0)
-  .outerRadius(radius);
-
-var pie = d3.pie()
-  .value(function(d) { return d.value; })
-  .sort(null);
-
-var path = g.selectAll('path')
-  .data(pie(data_type))
-  .enter()
-  .append("g")
-  .append('path')
-  .attr('d', arc)
-  .attr('fill', (d,i) => color(i))
-  .style('stroke', 'white')
-
-let legend = d3.select("#piechart").append('div')
-      .style('float', 'left')
-      .style('margin-left', '5px')
-      .append('span')
-        .attr('class', 'small-title')
-        .text('breakdown by type');
-
-let keys = legend.selectAll('.key')
-      .data(data_type)
-      .enter().append('div')
-      .attr('class', 'key')
-      .style('display', 'flex')
-      .style('align-items', 'center')
-      .style('margin-right', '20px');
-
-    keys.append('div')
-      .attr('class', 'symbol')
-      .style('height', '10px')
-      .style('width', '10px')
-      .style('margin', '5px 5px')
-      .style('background-color', (d, i) => color(i));
-
-    keys.append('div')
-      .attr('class', 'name')
-      .text(function(d){ return d.name+': '+d.value+'%' });
-
-    keys.exit().remove();
+    // Select text by id and then remove
+    tool.style("display", "none");
+  }
 
 
 </script>
