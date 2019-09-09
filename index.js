@@ -210,7 +210,7 @@ htmlOutput += `
 
 <!-- Load d3.js -->
 <script src="https://d3js.org/d3.v4.js" charset="utf-8"></script>
-<script src="http://localhost:8000/wp-content/themes/hestia/js/venn.js"></script>
+<script src="/wp-content/themes/hestia/js/venn.js"></script>
 <script>
 
 // set the dimensions and margins of the graph
