@@ -111,16 +111,16 @@ async function htmlTable(candidates){
     htmlOutput += '<td style="vertical-align: top;"><a href="'+ candidates[i].license_link +'" target="_blank">' + candidates[i].license + '</a></td>';
 
     htmlOutput += '<td style="vertical-align: top;">';
-    // if(candidates[i].hasOwnProperty('repo_main')){
-    //   var matchGithub = candidates[i].repo_main.match(/https:\/\/github.com\/(.*)\/(.*)/);
-    //   if(matchGithub){
-    //     htmlOutput += await fetchGithubActivity('https://github.com/'+matchGithub[1], matchGithub[2]);
-    //   } else {
-    //     htmlOutput += '&nbsp;';
-    //   }
-    // } else {
-    //   htmlOutput += '&nbsp;';
-    // }
+    if(candidates[i].hasOwnProperty('repo_main')){
+      var matchGithub = candidates[i].repo_main.match(/https:\/\/github.com\/(.*)\/(.*)/);
+      if(matchGithub){
+        htmlOutput += await fetchGithubActivity('https://github.com/'+matchGithub[1], matchGithub[2]);
+      } else {
+        htmlOutput += '&nbsp;';
+      }
+    } else {
+      htmlOutput += '&nbsp;';
+    }
     htmlOutput += '</td>';
     htmlOutput += '</tr>';
   }
