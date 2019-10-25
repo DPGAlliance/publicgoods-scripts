@@ -91,7 +91,11 @@ async function htmlTable(candidates){
     } else {
       htmlOutput += '<a id="'+candidates[i].name.replace(/ /g,'_')+'"></a></div>';
     }
-    htmlOutput += '<a href="'+ candidates[i].website +'" target="_blank">' + candidates[i].name + '</a></td>';
+    htmlOutput += '<a href="'+ candidates[i].website +'" target="_blank">' + candidates[i].name
+    if(candidates[i].hasOwnProperty('initialism')){
+      htmlOutput += ' ('+candidates[i].initialism+')';
+    }
+    htmlOutput += '</a></td>';
     htmlOutput += '<td style="vertical-align: top;">' + candidates[i].description + '</td>';
     htmlOutput += '<td style="vertical-align: top;">';
     for (var j=0; j<candidates[i].type.length; j++) {
