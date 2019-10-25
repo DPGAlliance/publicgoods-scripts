@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # source a static version of the site
-wget --no-host-directories --recursive --page-requisites --no-parent --timestamping -P static http://localhost:8000
+wget --no-host-directories --recursive --page-requisites --no-parent --timestamping -e robots=off -P static http://localhost:8000
 
 # cd into the folder
 pushd static
