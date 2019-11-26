@@ -41,7 +41,7 @@ const sdgColors = ['#E5243B',
                    '#19486A']
 
 path = '../publicgoods-candidates/candidates'
-pathHtml = '../publicgoods-website/candidates/index.html';
+pathHtml = '../publicgoods-website/explore/index.html';
 
 async function fetchGithubActivity(link, item){
   let page = 1;
