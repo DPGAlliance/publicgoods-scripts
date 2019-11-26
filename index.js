@@ -81,7 +81,7 @@ async function fetchGithubActivity(link, item){
 
 async function htmlTable(candidates){
   var htmlOutput = '<table class="table">';
-  htmlOutput += '<tr><th>Candidate</th><th>Description</th><th>Type</th><th>SDGs</th><th>License</th><th>Past year of activity</th></tr>';
+  htmlOutput += '<tr><th>Nominee</th><th>Description</th><th>Type</th><th>SDGs</th><th>License</th><th>Past year of activity</th></tr>';
 
   for (var i=0; i<candidates.length; i++) {
     htmlOutput += '<tr>';
@@ -204,7 +204,7 @@ glob(path + '/*.json', {}, async (err, files) => {
   }
 
 let htmlOutput = '<div class="row">';
-htmlOutput += '<div class="col-xs-2 col-xs-offset-1"><span class="big-details">'+candidates.length+'</span><span class="small-title">candidates</span></div>'
+htmlOutput += '<div class="col-xs-2 col-xs-offset-1"><span class="big-details">'+candidates.length+'</span><span class="small-title">nominees</span></div>'
 //htmlOutput += '<div class="col-xs-4" id="piechart"></div>'
 htmlOutput += '<div class="col-xs-4" id="venn"><span class="small-title">distribution by type</span></div></div>'
 htmlOutput += '<div class="row" style="margin-bottom:5em"><div class="col-xs-10 col-xs-offset-1" id="treemap"><span class="small-title">distribution by SDG</span><div id="treemap"></div></div>';
@@ -282,7 +282,7 @@ htmlOutput += `
     tool.style("left", d3.event.pageX + 10 + "px")
     tool.style("top", d3.event.pageY - 20 + "px")
     tool.style("display", "inline-block");
-    tool.html('SDG '+d.data.name+': '+sdg_labels[d.data.name-1]+'<br/>'+d.data.value+' candidates');
+    tool.html('SDG '+d.data.name+': '+sdg_labels[d.data.name-1]+'<br/>'+d.data.value+' nominees');
   }
 
   function handleMouseOut(d, i) {
@@ -337,7 +337,7 @@ htmlOutput += `
     tool.style("left", d3.event.pageX + 10 + "px")
     tool.style("top", d3.event.pageY - 20 + "px")
     tool.style("display", "inline-block");
-    tool.html(d.value+' candidates');
+    tool.html(d.value+' nominees');
   }
 
   function handleVennMouseOut(d, i) {
