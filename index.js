@@ -112,7 +112,14 @@ async function htmlTable(candidates){
       htmlOutput += '</a>';
     }
     htmlOutput += '</td>';
-    htmlOutput += '<td style="vertical-align: top;"><a href="'+ candidates[i].license_link +'" target="_blank">' + candidates[i].license + '</a></td>';
+    htmlOutput += '<td style="vertical-align: top;">'
+    for (var j=0; j<candidates[i].license.length; j++) {
+      htmlOutput += '<a href="'+ candidates[i].license[j].link +'" target="_blank">' + candidates[i].license[j].spdx + '</a>'
+      if(j<candidates[i].license.length-1){
+        htmlOutput += ', ';
+      }
+    }
+    htmlOutput += '</td>';
 
     htmlOutput += '<td style="vertical-align: top;">';
     if(candidates[i].hasOwnProperty('repo_main')){
