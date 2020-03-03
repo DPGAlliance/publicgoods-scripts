@@ -74,7 +74,6 @@ async function fetchGithubActivity(link, item){
     output = '&nbsp;'
     console.log('Activity chart NOT found ! ! ! ! !')
   }
-  console.log(output);
   return output;
 }
 
@@ -86,15 +85,8 @@ async function htmlTable(candidates){
   for (var i=0; i<candidates.length; i++) {
     htmlOutput += '<tr>';
     htmlOutput += '<td style="vertical-align: top;"><div class="anchor">';
-    if(candidates[i].hasOwnProperty('initialism')){
-      htmlOutput += '<a id="'+candidates[i].initialism+'"></a></div>'
-    } else {
-      htmlOutput += '<a id="'+candidates[i].name.replace(/ /g,'_')+'"></a></div>';
-    }
+    htmlOutput += '<a id="'+candidates[i].name.replace(/ /g,'_')+'"></a></div>';
     htmlOutput += '<a href="'+ candidates[i].website +'" target="_blank">' + candidates[i].name
-    if(candidates[i].hasOwnProperty('initialism')){
-      htmlOutput += ' ('+candidates[i].initialism+')';
-    }
     htmlOutput += '</a></td>';
     htmlOutput += '<td style="vertical-align: top;">' + candidates[i].description + '</td>';
     htmlOutput += '<td style="vertical-align: top;">';
@@ -107,14 +99,14 @@ async function htmlTable(candidates){
     htmlOutput += '</td>';
     htmlOutput += '<td style="vertical-align: top;">';
     for (var j=0; j<candidates[i].SDGs.length; j++) {
-      htmlOutput += '<a href="https://sustainabledevelopment.un.org/sdg'+candidates[i].SDGs[j]+'" target="_blank">';
-      htmlOutput += '<img src="/wp-content/uploads/2019/02/SDG'+candidates[i].SDGs[j]+'.png" width="40" alt="'+SDGS[candidates[i].SDGs[j]]+'" class="sdgicon">';
+      htmlOutput += '<a href="https://sustainabledevelopment.un.org/sdg'+candidates[i].SDGs[j][0]+'" target="_blank">';
+      htmlOutput += '<img src="/wp-content/uploads/2019/02/SDG'+candidates[i].SDGs[j][0]+'.png" width="40" alt="'+SDGS[candidates[i].SDGs[j][0]]+'" class="sdgicon">';
       htmlOutput += '</a>';
     }
     htmlOutput += '</td>';
     htmlOutput += '<td style="vertical-align: top;">'
     for (var j=0; j<candidates[i].license.length; j++) {
-      htmlOutput += '<a href="'+ candidates[i].license[j].link +'" target="_blank">' + candidates[i].license[j].spdx + '</a>'
+      htmlOutput += '<a href="'+ candidates[i].license[j].licenseURL +'" target="_blank">' + candidates[i].license[j].spdx + '</a>'
       if(j<candidates[i].license.length-1){
         htmlOutput += ', ';
       }
@@ -122,8 +114,8 @@ async function htmlTable(candidates){
     htmlOutput += '</td>';
 
     htmlOutput += '<td style="vertical-align: top;">';
-    if(candidates[i].hasOwnProperty('repo_main')){
-      var matchGithub = candidates[i].repo_main.match(/https:\/\/github.com\/(.*)\/(.*)/);
+    if(candidates[i].hasOwnProperty('repositoryURL')){
+      var matchGithub = candidates[i].repositoryURL.match(/https:\/\/github.com\/(.*)\/(.*)/);
       if(matchGithub){
         htmlOutput += await fetchGithubActivity('https://github.com/'+matchGithub[1], matchGithub[2]);
       } else {
@@ -161,7 +153,7 @@ glob(path + '/*.json', {}, async (err, files) => {
   // Iterate over candidates, and over each nested array and count
   candidates.forEach(function(e) {
     e['SDGs'].forEach(function(d){
-      sdgs[d]++;
+      sdgs[d[0]]++;
     })
     e['type'].forEach(function(d){
       types[d]++;
