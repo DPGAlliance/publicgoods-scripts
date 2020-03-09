@@ -92,7 +92,7 @@ async function htmlTable(candidates){
       htmlOutput += '<a href="'+ candidates[i].repositoryURL +'" target="_blank">' + candidates[i].name + '</a>';
     } else {
       htmlOutput += candidates[i].name;
-    }subl
+    }
     htmlOutput += '</td>';
     htmlOutput += '<td style="vertical-align: top;">' + candidates[i].description + '</td>';
     htmlOutput += '<td style="vertical-align: top;">';
