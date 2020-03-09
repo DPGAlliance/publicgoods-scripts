@@ -86,8 +86,14 @@ async function htmlTable(candidates){
     htmlOutput += '<tr>';
     htmlOutput += '<td style="vertical-align: top;"><div class="anchor">';
     htmlOutput += '<a id="'+candidates[i].name.replace(/ /g,'_')+'"></a></div>';
-    htmlOutput += '<a href="'+ candidates[i].website +'" target="_blank">' + candidates[i].name
-    htmlOutput += '</a></td>';
+    if(candidates[i].hasOwnProperty('website') && candidates[i].website != '') {
+      htmlOutput += '<a href="'+ candidates[i].website +'" target="_blank">' + candidates[i].name + '</a>';
+    } else if(candidates[i].hasOwnProperty('repositoryURL') && candidates[i].repositoryURL != '') {
+      htmlOutput += '<a href="'+ candidates[i].repositoryURL +'" target="_blank">' + candidates[i].name + '</a>';
+    } else {
+      htmlOutput += candidates[i].name;
+    }
+    htmlOutput += '</td>';
     htmlOutput += '<td style="vertical-align: top;">' + candidates[i].description + '</td>';
     htmlOutput += '<td style="vertical-align: top;">';
     for (var j=0; j<candidates[i].type.length; j++) {
@@ -115,12 +121,12 @@ async function htmlTable(candidates){
 
     htmlOutput += '<td style="vertical-align: top;">';
     if(candidates[i].hasOwnProperty('repositoryURL')){
-      var matchGithub = candidates[i].repositoryURL.match(/https:\/\/github.com\/(.*)\/(.*)/);
-      if(matchGithub){
-        htmlOutput += await fetchGithubActivity('https://github.com/'+matchGithub[1], matchGithub[2]);
-      } else {
+      // var matchGithub = candidates[i].repositoryURL.match(/https:\/\/github.com\/(.*)\/(.*)/);
+      // if(matchGithub){
+      //   htmlOutput += await fetchGithubActivity('https://github.com/'+matchGithub[1], matchGithub[2]);
+      // } else {
         htmlOutput += '&nbsp;';
-      }
+      // }
     } else {
       htmlOutput += '&nbsp;';
     }
