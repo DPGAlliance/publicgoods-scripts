@@ -92,7 +92,7 @@ async function htmlTable(candidates){
       htmlOutput += '<a href="'+ candidates[i].repositoryURL +'" target="_blank">' + candidates[i].name + '</a>';
     } else {
       htmlOutput += candidates[i].name;
-    }
+    }subl
     htmlOutput += '</td>';
     htmlOutput += '<td style="vertical-align: top;">' + candidates[i].description + '</td>';
     htmlOutput += '<td style="vertical-align: top;">';
@@ -121,12 +121,12 @@ async function htmlTable(candidates){
 
     htmlOutput += '<td style="vertical-align: top;">';
     if(candidates[i].hasOwnProperty('repositoryURL')){
-      // var matchGithub = candidates[i].repositoryURL.match(/https:\/\/github.com\/(.*)\/(.*)/);
-      // if(matchGithub){
-      //   htmlOutput += await fetchGithubActivity('https://github.com/'+matchGithub[1], matchGithub[2]);
-      // } else {
+      var matchGithub = candidates[i].repositoryURL.match(/https:\/\/github.com\/(.*)\/(.*)/);
+      if(matchGithub){
+        htmlOutput += await fetchGithubActivity('https://github.com/'+matchGithub[1], matchGithub[2]);
+      } else {
         htmlOutput += '&nbsp;';
-      // }
+      }
     } else {
       htmlOutput += '&nbsp;';
     }
