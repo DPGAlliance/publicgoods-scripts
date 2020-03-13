@@ -52,9 +52,11 @@ async function fetchGithubActivity(link, item){
     $ = cheerio.load(await data.text());
     list = $("div.repo-list")
     if(list.length) { // it is an organization, else it is a user
-      list = list.find('a.d-inline-block:contains("'+item+'")').parent().parent().next();
+      list = list.find('a.d-inline-block:contains("'+item+'")').filter(
+        function(){return $(this).text().trim() === item;}).parent().parent().next();
     } else {
-      list = $("#user-repositories-list").find('a:contains("'+item+'")').parent().parent().parent().next();
+      list = $("#user-repositories-list").find('a:contains("'+item+'")').filter(
+        function(){return $(this).text().trim() === item;}).parent().parent().parent().next();
     }
     if(list.length){
       let poll = list.find('poll-include-fragment').attr('src');
