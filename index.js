@@ -43,6 +43,10 @@ const sdgColors = ['#E5243B',
 path = '../publicgoods-candidates/nominees'
 pathHtml = '../publicgoods-website/explore/index.html';
 
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 async function fetchGithubActivity(link, item){
   let page = 1;
   let data, $, list=[];
@@ -67,6 +71,7 @@ async function fetchGithubActivity(link, item){
       }
     }
     page+=1;
+    await sleep(2000);
   }
   let output;
   if(list.length) {
