@@ -71,7 +71,7 @@ async function fetchGithubActivity(link, item){
       }
     }
     page+=1;
-    await sleep(1000);  // sleep for 1s to avoid being rate-limited by Github (in the CI)
+    await sleep(5000);  // sleep for 1s to avoid being rate-limited by Github (in the CI)
   }
   let output;
   if(list.length) {
