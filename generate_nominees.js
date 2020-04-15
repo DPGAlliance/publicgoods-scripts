@@ -1,4 +1,4 @@
-const fs = require('fs');
+sublconst fs = require('fs');
 const glob = require('glob');
 const path = require('path');
 const fetch = require("node-fetch");
@@ -38,7 +38,7 @@ async function fetchGithubActivity(link, item){
       }
     }
     page+=1;
-    //await sleep(1000);  // sleep for 1s to avoid being rate-limited by Github (in the CI)
+    await sleep(2000);  // sleep for 2s to avoid being rate-limited by Github (in the CI)
   }
   let output;
   if(list.length) {
