@@ -25,7 +25,7 @@ async function fetchGithubActivity(link, item){
   while(page == 1 || (!list.length && page < 20)){
 
     try {
-      await retry(async bail => {
+      data = await retry(async bail => {
 
         const data = await fetch(link+'?tab=repositories&page='+page, {
           method: 'GET',
@@ -46,36 +46,51 @@ async function fetchGithubActivity(link, item){
           throw 'Rate limit hit. Retrying...';
         }
 
-        $ = cheerio.load(await data.text());
-        list = $("div.repo-list")
-        if(list.length) { // it is an organization, else it is a user
-          list = list.find('a.d-inline-block:contains("'+item+'")').filter(
-            function(){return $(this).text().trim() === item;}).parent().parent().next();
-        } else {
-          list = $("#user-repositories-list").find('a:contains("'+item+'")').filter(
-            function(){return $(this).text().trim() === item;}).parent().parent().parent().next();
-        }
-        if(list.length){
-          let poll = list.find('poll-include-fragment').attr('src');
-          if(poll){
-            data = await fetch(`https://github.com/`+poll);
-            $ = cheerio.load(await data.text());
-            list = $('body')
-          }
-        }
-        page+=1;
-      },{
+        return data;
+      }, {
         retries: 5,
         minTimeout: 5000
       });
-    } catch {
+    } catch(e) {
       break;
     }
+
+    $ = cheerio.load(await data.text());
+    list = $("div.repo-list")
+    if(list.length) { // it is an organization, else it is a user
+      list = list.find('a.d-inline-block:contains("'+item+'")').filter(
+        function(){return $(this).text().trim() === item;}).parent().parent().next();
+    } else {
+      list = $("#user-repositories-list").find('a:contains("'+item+'")').filter(
+        function(){return $(this).text().trim() === item;}).parent().parent().parent().next();
+    }
+    if(list.length){
+      let poll = list.find('poll-include-fragment').attr('src');
+      if(poll){
+        try {
+          data = await retry(async bail => {
+            const data = await fetch(`https://github.com/`+poll);
+            return data;
+          }, {
+            retries: 5,
+            minTimeout: 5000
+          });
+        } catch {
+          break;
+        }
+        $ = cheerio.load(await data.text());
+        list = $('body')
+      }
+    }
+    page+=1;
+        
   }
   let output;
   if(list.length) {
     console.log('Activity chart found.');
     output = list.html();
+    // console.log(list.html())
+    // console.log("\n\n")
   } else {
     output = '&nbsp;'
     console.log('Activity chart NOT found ! ! ! ! !')
