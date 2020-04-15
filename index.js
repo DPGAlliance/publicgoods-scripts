@@ -42,106 +42,10 @@ const sdgColors = ['#E5243B',
 
 path = '../publicgoods-candidates/nominees'
 pathHtml = '../publicgoods-website/explore/index.html';
+destHtml = './public/index.html';
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-async function fetchGithubActivity(link, item){
-  let page = 1;
-  let data, $, list=[];
-  console.log('Fetching '+link+' -> searching for '+item);
-  while(page==1 || (!list.length && page < 20)){
-    data = await fetch(link+'?tab=repositories&page='+page);
-    $ = cheerio.load(await data.text());
-    list = $("div.repo-list")
-    if(list.length) { // it is an organization, else it is a user
-      list = list.find('a.d-inline-block:contains("'+item+'")').filter(
-        function(){return $(this).text().trim() === item;}).parent().parent().next();
-    } else {
-      list = $("#user-repositories-list").find('a:contains("'+item+'")').filter(
-        function(){return $(this).text().trim() === item;}).parent().parent().parent().next();
-    }
-    if(list.length){
-      let poll = list.find('poll-include-fragment').attr('src');
-      if(poll){
-        data = await fetch(`https://github.com/`+poll);
-        $ = cheerio.load(await data.text());
-        list = $('body')
-      }
-    }
-    page+=1;
-    await sleep(5000);  // sleep for 1s to avoid being rate-limited by Github (in the CI)
-  }
-  let output;
-  if(list.length) {
-    console.log('Activity chart found.');
-    output = list.html();
-  } else {
-    output = '&nbsp;'
-    console.log('Activity chart NOT found ! ! ! ! !')
-  }
-  return output;
-}
-
-
-async function htmlTable(candidates){
-  var htmlOutput = '<table class="table">';
-  htmlOutput += '<tr><th>Nominee</th><th>Description</th><th>Type</th><th>SDGs</th><th>License</th><th>Past year of activity</th></tr>';
-
-  for (var i=0; i<candidates.length; i++) {
-    htmlOutput += '<tr>';
-    htmlOutput += '<td style="vertical-align: top;"><div class="anchor">';
-    htmlOutput += '<a id="'+candidates[i].name.replace(/ /g,'_')+'"></a></div>';
-    if(candidates[i].hasOwnProperty('website') && candidates[i].website != '') {
-      htmlOutput += '<a href="'+ candidates[i].website +'" target="_blank">' + candidates[i].name + '</a>';
-    } else if(candidates[i].hasOwnProperty('repositoryURL') && candidates[i].repositoryURL != '') {
-      htmlOutput += '<a href="'+ candidates[i].repositoryURL +'" target="_blank">' + candidates[i].name + '</a>';
-    } else {
-      htmlOutput += candidates[i].name;
-    }
-    htmlOutput += '</td>';
-    htmlOutput += '<td style="vertical-align: top;">' + candidates[i].description + '</td>';
-    htmlOutput += '<td style="vertical-align: top;">';
-    for (var j=0; j<candidates[i].type.length; j++) {
-      htmlOutput += candidates[i].type[j];
-      if (j < candidates[i].type.length-1) {
-        htmlOutput += ', ';
-      }
-    }
-    htmlOutput += '</td>';
-    htmlOutput += '<td style="vertical-align: top;">';
-    for (var j=0; j<candidates[i].SDGs.length; j++) {
-      htmlOutput += '<a href="https://sustainabledevelopment.un.org/sdg'+candidates[i].SDGs[j][0]+'" target="_blank">';
-      htmlOutput += '<img src="/wp-content/uploads/2019/02/SDG'+candidates[i].SDGs[j][0]+'.png" width="40" alt="'+SDGS[candidates[i].SDGs[j][0]]+'" class="sdgicon">';
-      htmlOutput += '</a>';
-    }
-    htmlOutput += '</td>';
-    htmlOutput += '<td style="vertical-align: top;">'
-    for (var j=0; j<candidates[i].license.length; j++) {
-      htmlOutput += '<a href="'+ candidates[i].license[j].licenseURL +'" target="_blank">' + candidates[i].license[j].spdx + '</a>'
-      if(j<candidates[i].license.length-1){
-        htmlOutput += ', ';
-      }
-    }
-    htmlOutput += '</td>';
-
-    htmlOutput += '<td style="vertical-align: top;">';
-    if(candidates[i].hasOwnProperty('repositoryURL')){
-      var matchGithub = candidates[i].repositoryURL.match(/https:\/\/github.com\/(.*)\/(.*)/);
-      if(matchGithub){
-        htmlOutput += await fetchGithubActivity('https://github.com/'+matchGithub[1], matchGithub[2]);
-      } else {
-        htmlOutput += '&nbsp;';
-      }
-    } else {
-      htmlOutput += '&nbsp;';
-    }
-    htmlOutput += '</td>';
-    htmlOutput += '</tr>';
-  }
-  htmlOutput += '</table>';
-  return htmlOutput;
 }
   
 let candidates=[];
@@ -369,8 +273,37 @@ htmlOutput += `
 
 </script>
 
-`
-  htmlOutput += await htmlTable(candidates);
+`;
+
+  htmlOutput += `
+    <div id="main-content" class="container clearfix" style="position: relative">
+      <div id="sidebar">
+        <div class="sidebar__inner" id="filters" style="position:relative">
+            
+        </div>
+      </div>
+      <div id="content" style="margin-left: 240px; min-height:700px">
+        <div id="mytable">
+                
+        </div>
+      </div>
+    </div>
+`;
+
+  const endHtml = `
+  <script type="text/javascript" src="./ResizeSensor.js"></script>
+    <script type='text/javascript' src="./sticky-sidebar.min.js"></script>
+
+    <script type='text/javascript'>
+       var sidebar = new StickySidebar('#sidebar', {
+           containerSelector: '#main-content',
+           innerWrapperSelector: '.sidebar__inner',
+           topSpacing: 60,
+           bottomSpacing: 0,
+       });
+    </script>
+  </body>
+  `
   
   replace({files: pathHtml, from: '<p>Placeholder</p>', to: htmlOutput}, (error, changedFiles) => {
     if (error) {
@@ -378,11 +311,20 @@ htmlOutput += `
     }
     console.log('Modified files:', changedFiles.join(', '));
 
-    replace({files: pathHtml, from: 'class="col-md-8 page-content-wrap  col-md-offset-2"', to: 'class="col-lg-10 page-content-wrap  col-lg-offset-1"'}, (error, changedFiles) => {
-    if (error) {
-      return console.error('Error occurred:', error);
-    }
-    console.log('Modified files:', changedFiles.join(', '));
-  });
+    replace({files: pathHtml, from: 'class="col-md-8 page-content-wrap  col-md-offset-2"', to: 'class="col-lg-12 page-content-wrap"'}, (error, changedFiles) => {
+      if (error) {
+        return console.error('Error occurred:', error);
+      }
+      console.log('Modified files:', changedFiles.join(', '));
+
+      replace({files: pathHtml, from: '</body>', to: endHtml}, (error, changedFiles) => {
+        if (error) {
+          return console.error('Error occurred:', error);
+        }
+
+        fs.copyFileSync(pathHtml, destHtml);
+
+      });
+    });
   });
 })
