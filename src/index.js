@@ -10,12 +10,10 @@ import nominees from './nominees.json';
 const sdg_labels = ["1. No Poverty","2. Zero Hunger","3. Good Health and Well-being","4. Quality Education","5. Gender Equality","6. Clean Water and Sanitation","7. Affordable and Clean Energy","8. Decent Work and Economic Growth","9. Industry, Innovation and Infrastructure","10. Reduced Inequality","11. Sustainable Cities and Communities","12. Responsible Consumption and Production","13. Climate Action","14. Life Below Water","15. Life on Land","16. Peace and Justice Strong Institutions","17. Partnerships to achieve the Goal"]
 const types = ["software", "data", "standard"];
 const sdgs = ["sdg1", "sdg2", "sdg3", "sdg4", "sdg5", "sdg6", "sdg7", "sdg8", "sdg9", "sdg10", "sdg11", "sdg12", "sdg13", "sdg14", "sdg15", "sdg16", "sdg17"];
-const filters = ["types", "sdg"];
 
-String.prototype.trunc = String.prototype.trunc ||
-      function(n){
-          return (this.length > n) ? this.substr(0, n-1) + '...' : this;
-      };
+function trunc(str, n){
+    return (str.length > n) ? str.substr(0, n-1) + '...' : str;
+};
 
 class Filters extends Component {
   constructor(props) {
@@ -167,7 +165,7 @@ class Filters extends Component {
 		              	key={index}
 		                type='checkbox'
 		                id={label}
-		                label={label.trunc(25)}
+		                label={trunc(label,25)}
 		                defaultChecked
 		                onChange = {this.handleChange}
 		              />
@@ -194,7 +192,7 @@ class Filters extends Component {
 		              	key={index}
 		                type='checkbox'
 		                id={`sdg${index+1}`}
-		                label={label.trunc(25)}
+		                label={trunc(label, 25)}
 		                defaultChecked
 		                onChange = {this.handleChange}
 		              />
@@ -213,7 +211,6 @@ function ListItem(props){
 	let item = props.item;
 	let index = props.index;
 
-  let visible = true;
 	let name;
 	if(item.hasOwnProperty('website') && item.website !== '') {
       name = <a href={item.website} target="_blank" rel="noopener noreferrer">{item.name}</a>;
