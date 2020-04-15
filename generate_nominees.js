@@ -1,8 +1,12 @@
-sublconst fs = require('fs');
+const fs = require('fs');
 const glob = require('glob');
 const path = require('path');
+const btoa = require('btoa');
 const fetch = require("node-fetch");
+const retry = require('async-retry');
 const cheerio = require("cheerio");
+
+require('dotenv').config()
 
 
 npath = '../publicgoods-candidates/nominees';
@@ -16,29 +20,57 @@ function sleep(ms) {
 
 async function fetchGithubActivity(link, item){
   let page = 1;
-  let data, $, list=[];
+  let $, list=[];
   console.log('Fetching '+link+' -> searching for '+item);
-  while(page==1 || (!list.length && page < 20)){
-    data = await fetch(link+'?tab=repositories&page='+page);
-    $ = cheerio.load(await data.text());
-    list = $("div.repo-list")
-    if(list.length) { // it is an organization, else it is a user
-      list = list.find('a.d-inline-block:contains("'+item+'")').filter(
-        function(){return $(this).text().trim() === item;}).parent().parent().next();
-    } else {
-      list = $("#user-repositories-list").find('a:contains("'+item+'")').filter(
-        function(){return $(this).text().trim() === item;}).parent().parent().parent().next();
-    }
-    if(list.length){
-      let poll = list.find('poll-include-fragment').attr('src');
-      if(poll){
-        data = await fetch(`https://github.com/`+poll);
+  while(page == 1 || (!list.length && page < 20)){
+
+    try {
+      await retry(async bail => {
+
+        const data = await fetch(link+'?tab=repositories&page='+page, {
+          method: 'GET',
+          credentials: 'same-origin',
+          redirect: 'follow',
+          agent: null,
+          headers: {
+            'Content-Type': 'text/plain',
+            'Authorization': 'Basic ' + btoa(process.env.CLIENTID+':'+process.env.CLIENTSECRET),
+          }
+        });
+
+        console.log(data.status);
+        if(data.status == 404){
+          console.log('Page not found for '+link+'. Aborting search for '+item);
+          bail()
+        } else if (data.status == 429) {
+          throw 'Rate limit hit. Retrying...';
+        }
+
         $ = cheerio.load(await data.text());
-        list = $('body')
-      }
+        list = $("div.repo-list")
+        if(list.length) { // it is an organization, else it is a user
+          list = list.find('a.d-inline-block:contains("'+item+'")').filter(
+            function(){return $(this).text().trim() === item;}).parent().parent().next();
+        } else {
+          list = $("#user-repositories-list").find('a:contains("'+item+'")').filter(
+            function(){return $(this).text().trim() === item;}).parent().parent().parent().next();
+        }
+        if(list.length){
+          let poll = list.find('poll-include-fragment').attr('src');
+          if(poll){
+            data = await fetch(`https://github.com/`+poll);
+            $ = cheerio.load(await data.text());
+            list = $('body')
+          }
+        }
+        page+=1;
+      },{
+        retries: 5,
+        minTimeout: 5000
+      });
+    } catch {
+      break;
     }
-    page+=1;
-    await sleep(3000);  // sleep for 2s to avoid being rate-limited by Github (in the CI)
   }
   let output;
   if(list.length) {
