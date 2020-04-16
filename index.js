@@ -56,17 +56,19 @@ glob(path + '/*.json', {}, async (err, files) => {
     candidates.push(JSON.parse(fs.readFileSync(files[i], 'utf8')));
   }
   console.log(candidates);
-  let combos = [0,0,0,0,0,0,0]
+  let combos = [0,0,0,0,0,0,0,0,0,0,0,0,0,0]
   // Initialize SDG array to count occurences in candidates
   let sdgs = new Array(17).fill(0);
   // Initialize type array to count occurences in candidates
   const TYPE1='software';
   const TYPE2='data';
   const TYPE3='standard';
+  const TYPE4='content';
   let types = {};
   types[TYPE1]=0;
   types[TYPE2]=0;
   types[TYPE3]=0;
+  types[TYPE4]=0;
   // Iterate over candidates, and over each nested array and count
   candidates.forEach(function(e) {
     e['SDGs'].forEach(function(d){
@@ -75,13 +77,20 @@ glob(path + '/*.json', {}, async (err, files) => {
     e['type'].forEach(function(d){
       types[d]++;
     })
-    if     (  e['type'].includes(TYPE1) && ! e['type'].includes(TYPE2) && ! e['type'].includes(TYPE3)){ combos[0]++;}
-    else if(! e['type'].includes(TYPE1) &&   e['type'].includes(TYPE2) && ! e['type'].includes(TYPE3)){ combos[1]++;}
-    else if(! e['type'].includes(TYPE1) && ! e['type'].includes(TYPE2) &&   e['type'].includes(TYPE3)){ combos[2]++;}
-    else if(  e['type'].includes(TYPE1) &&   e['type'].includes(TYPE2) && ! e['type'].includes(TYPE3)){ combos[3]++;}
-    else if(  e['type'].includes(TYPE1) && ! e['type'].includes(TYPE2) &&   e['type'].includes(TYPE3)){ combos[4]++;}
-    else if(! e['type'].includes(TYPE1) &&   e['type'].includes(TYPE2) &&   e['type'].includes(TYPE3)){ combos[5]++;}
-    else if(  e['type'].includes(TYPE1) &&   e['type'].includes(TYPE2) &&   e['type'].includes(TYPE3)){ combos[6]++;}
+    if     ( e['type'].includes(TYPE1) && !e['type'].includes(TYPE2) && !e['type'].includes(TYPE3) && !e['type'].includes(TYPE4)){ combos[0]++;}
+    else if(!e['type'].includes(TYPE1) &&  e['type'].includes(TYPE2) && !e['type'].includes(TYPE3) && !e['type'].includes(TYPE4)){ combos[1]++;}
+    else if(!e['type'].includes(TYPE1) && !e['type'].includes(TYPE2) &&  e['type'].includes(TYPE3) && !e['type'].includes(TYPE4)){ combos[2]++;}
+    else if( e['type'].includes(TYPE1) &&  e['type'].includes(TYPE2) && !e['type'].includes(TYPE3) && !e['type'].includes(TYPE4)){ combos[3]++;}
+    else if( e['type'].includes(TYPE1) && !e['type'].includes(TYPE2) &&  e['type'].includes(TYPE3) && !e['type'].includes(TYPE4)){ combos[4]++;}
+    else if(!e['type'].includes(TYPE1) &&  e['type'].includes(TYPE2) &&  e['type'].includes(TYPE3) && !e['type'].includes(TYPE4)){ combos[5]++;}
+    else if( e['type'].includes(TYPE1) &&  e['type'].includes(TYPE2) &&  e['type'].includes(TYPE3) && !e['type'].includes(TYPE4)){ combos[6]++;}
+    else if( e['type'].includes(TYPE1) && !e['type'].includes(TYPE2) && !e['type'].includes(TYPE3) &&  e['type'].includes(TYPE4)){ combos[7]++;}
+    else if(!e['type'].includes(TYPE1) &&  e['type'].includes(TYPE2) && !e['type'].includes(TYPE3) &&  e['type'].includes(TYPE4)){ combos[8]++;}
+    else if(!e['type'].includes(TYPE1) && !e['type'].includes(TYPE2) &&  e['type'].includes(TYPE3) &&  e['type'].includes(TYPE4)){ combos[9]++;}
+    else if( e['type'].includes(TYPE1) &&  e['type'].includes(TYPE2) && !e['type'].includes(TYPE3) &&  e['type'].includes(TYPE4)){ combos[10]++;}
+    else if( e['type'].includes(TYPE1) && !e['type'].includes(TYPE2) &&  e['type'].includes(TYPE3) &&  e['type'].includes(TYPE4)){ combos[11]++;}
+    else if(!e['type'].includes(TYPE1) &&  e['type'].includes(TYPE2) &&  e['type'].includes(TYPE3) &&  e['type'].includes(TYPE4)){ combos[12]++;}
+    else if( e['type'].includes(TYPE1) &&  e['type'].includes(TYPE2) &&  e['type'].includes(TYPE3) &&  e['type'].includes(TYPE4)){ combos[13]++;}
   })
 
   // Prepare data for chart
@@ -93,13 +102,21 @@ glob(path + '/*.json', {}, async (err, files) => {
   }
 
   var sets = [
-                {sets:[1], size:  types[TYPE1], value: types[TYPE1], label: TYPE1},
-                {sets:[2], size:  types[TYPE2], value: types[TYPE2], label: TYPE2},
-                {sets:[3], size:  types[TYPE3], value: types[TYPE3], label: TYPE3},
+                {sets: [1], size: types[TYPE1], value: types[TYPE1], label: TYPE1},
+                {sets: [2], size: types[TYPE2], value: types[TYPE2], label: TYPE2},
+                {sets: [3], size: types[TYPE3], value: types[TYPE3], label: TYPE3},
+                {sets: [4], size: types[TYPE4], value: types[TYPE4], label: TYPE4},
                 {sets: [1, 2], size: combos[3], value: combos[3]},
                 {sets: [1, 3], size: combos[4], value: combos[4]},
+                {sets: [1, 4], size: combos[7], value: combos[7]},
                 {sets: [2, 3], size: combos[5], value: combos[5]},
-                {sets: [1, 2, 3], size: combos[6], value: combos[6]}
+                {sets: [2, 4], size: combos[8], value: combos[8]},
+                {sets: [3, 4], size: combos[9], value: combos[9]},
+                {sets: [1, 2, 3], size: combos[6], value: combos[6]},
+                {sets: [1, 2, 4], size: combos[10], value: combos[10]},
+                {sets: [1, 3, 4], size: combos[11], value: combos[11]},
+                {sets: [2, 3 ,4], size: combos[12], value: combos[12]},
+                {sets: [1, 2, 3, 4], size: combos[13], value: combos[13]}
                 ];
 
   // Add total for types to get percentages below
@@ -210,10 +227,10 @@ htmlOutput += `
   }
 
   var color = d3.scaleOrdinal()
-      .range(['#48b8d0', '#e91e63', '#4b5c73']);
+      .range(['#48b8d0', '#e91e63', '#4b5c73', '#FCC30B']);
 
   var colort = d3.scaleOrdinal()
-      .range(['white', 'white', 'black']);
+      .range(['white', 'black', 'black', 'black']);
 
   var chart = venn.VennDiagram()
     .width(350)

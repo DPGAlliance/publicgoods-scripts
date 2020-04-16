@@ -8,9 +8,20 @@ const cheerio = require("cheerio");
 
 require('dotenv').config()
 
+const npath = '../publicgoods-candidates/nominees';
+const dpath = './src';
+const GITHUB_API = 'https://api.github.com';
 
-npath = '../publicgoods-candidates/nominees';
-dpath = './src';
+const params = {
+  method: 'GET',
+  credentials: 'same-origin',
+  redirect: 'follow',
+  agent: null,
+  headers: {
+    'Content-Type': 'text/plain',
+    'Authorization': 'Basic ' + btoa(process.env.CLIENTID+':'+process.env.CLIENTSECRET),
+  }
+}
 
 var candidates = [];
 
@@ -18,73 +29,78 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function fetchGithubActivity(link, item){
-  let page = 1;
+async function fetchGithubActivity(org, item){
+
   let $, list=[];
-  console.log('Fetching '+link+' -> searching for '+item);
-  while(page == 1 || (!list.length && page < 20)){
+  console.log('Fetching https://github.com/' + org + ' -> searching for '+item);
+  let isOrg = true;
+  let fetchLink = 'https://github.com/' + org + '?q=' + item;
 
-    try {
-      data = await retry(async bail => {
+  await retry(async bail => {
+    const data = await fetch(GITHUB_API+'/orgs/'+org, params);
 
-        const data = await fetch(link+'?tab=repositories&page='+page, {
-          method: 'GET',
-          credentials: 'same-origin',
-          redirect: 'follow',
-          agent: null,
-          headers: {
-            'Content-Type': 'text/plain',
-            'Authorization': 'Basic ' + btoa(process.env.CLIENTID+':'+process.env.CLIENTSECRET),
-          }
-        });
-
-        console.log(data.status);
-        if(data.status == 404){
-          console.log('Page not found for '+link+'. Aborting search for '+item);
-          bail()
-        } else if (data.status == 429) {
-          throw 'Rate limit hit. Retrying...';
-        }
-
-        return data;
-      }, {
-        retries: 5,
-        minTimeout: 5000
-      });
-    } catch(e) {
-      break;
+    if(data.status == 404) { // Assume handle is a personal account
+      isOrg = false;
+      fetchLink = 'https://github.com/' + org + '?tab=repositories&q=' + item;
     }
+    // otherwise we have an org
+    return
+  }, {
+    retries: 5,
+    minTimeout: 5000
+  });
 
-    $ = cheerio.load(await data.text());
-    list = $("div.repo-list")
-    if(list.length) { // it is an organization, else it is a user
-      list = list.find('a.d-inline-block:contains("'+item+'")').filter(
-        function(){return $(this).text().trim() === item;}).parent().parent().next();
-    } else {
-      list = $("#user-repositories-list").find('a:contains("'+item+'")').filter(
-        function(){return $(this).text().trim() === item;}).parent().parent().parent().next();
-    }
-    if(list.length){
-      let poll = list.find('poll-include-fragment').attr('src');
-      if(poll){
-        try {
-          data = await retry(async bail => {
-            const data = await fetch(`https://github.com/`+poll);
-            return data;
-          }, {
-            retries: 5,
-            minTimeout: 5000
-          });
-        } catch {
-          break;
-        }
-        $ = cheerio.load(await data.text());
-        list = $('body')
+  try {
+    data = await retry(async bail => {
+
+      const data = await fetch(fetchLink, params);
+
+      console.log(data.status);
+      if(data.status == 404){
+        console.log('Page not found for https://' + org + '. Aborting search for ' + item);
+        bail()
+      } else if (data.status == 429) {
+        throw 'Rate limit hit. Retrying...';
       }
-    }
-    page+=1;
-        
+
+      return data;
+    }, {
+      retries: 5,
+      minTimeout: 5000
+    });
+  } catch(e) {
+    return
   }
+
+  $ = cheerio.load(await data.text());
+
+  if(isOrg) { // it is an organization, else it is a user
+    list = $("div.repo-list").find('a.d-inline-block:contains("'+item+'")').filter(
+      function(){return $(this).text().trim() === item;}).parent().parent().next();
+  } else {
+    list = $("#user-repositories-list").find('a:contains("'+item+'")').filter(
+      function(){return $(this).text().trim() === item;}).parent().parent().parent().next();
+  }
+
+  if(list.length){
+    let poll = list.find('poll-include-fragment').attr('src');
+    if(poll){
+      try {
+        data = await retry(async bail => {
+          const data = await fetch(`https://github.com/`+poll, params);
+          return data;
+        }, {
+          retries: 5,
+          minTimeout: 5000
+        });
+      } catch {
+        // do nothing, it's fine
+      }
+      $ = cheerio.load(await data.text());
+      list = $('body')
+    }
+  }
+
   let output;
   if(list.length) {
     console.log('Activity chart found.');
@@ -107,7 +123,7 @@ glob(path.join(npath, '/*.json'), {}, async (err, files) => {
     if(n.hasOwnProperty('repositoryURL')){
       var matchGithub = n.repositoryURL.match(/https:\/\/github.com\/(.*)\/(.*)/);
       if(matchGithub){
-        html += await fetchGithubActivity('https://github.com/'+matchGithub[1], matchGithub[2]);
+        html += await fetchGithubActivity(matchGithub[1], matchGithub[2]);
       }
     }
     n['githubActivity'] = html;
