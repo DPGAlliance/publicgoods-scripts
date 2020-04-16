@@ -8,7 +8,7 @@ import Form from 'react-bootstrap/Form';
 import nominees from './nominees.json';
 
 const sdg_labels = ["1. No Poverty","2. Zero Hunger","3. Good Health and Well-being","4. Quality Education","5. Gender Equality","6. Clean Water and Sanitation","7. Affordable and Clean Energy","8. Decent Work and Economic Growth","9. Industry, Innovation and Infrastructure","10. Reduced Inequality","11. Sustainable Cities and Communities","12. Responsible Consumption and Production","13. Climate Action","14. Life Below Water","15. Life on Land","16. Peace and Justice Strong Institutions","17. Partnerships to achieve the Goal"]
-const types = ["software", "data", "standard"];
+const types = ["software", "data", "content", "standard"];
 const sdgs = ["sdg1", "sdg2", "sdg3", "sdg4", "sdg5", "sdg6", "sdg7", "sdg8", "sdg9", "sdg10", "sdg11", "sdg12", "sdg13", "sdg14", "sdg15", "sdg16", "sdg17"];
 
 function trunc(str, n){
@@ -25,30 +25,27 @@ class Filters extends Component {
   }
 
   handleChange(event) {
-    console.log(event.target.id);
-    console.log(event.target.checked);
-    var elems = document.getElementsByClassName(event.target.id);
+    const checkboxId = event.target.id.split('-')[0];
+    // console.log(checkboxId);
+    // console.log(event.target.checked);
+    var elems = document.getElementsByClassName(checkboxId);
 
     for(let i=0; i < elems.length; i++) {
       let display = event.target.checked;
-      console.log(elems[i])
-      let concurrentClasses = elems[i].className.trim().split(' ').filter(function(a){ return a !== event.target.id });
+      let concurrentClasses = elems[i].className.trim().split(' ').filter(function(a){ return a !== checkboxId });
 
       let intersection;
       if(display){
         let intersectionSet;
-        console.log(concurrentClasses)
-        console.log(sdgs[0].id)
-        if(types.includes(event.target.id)) {
+        if(types.includes(checkboxId)) {
           intersectionSet = concurrentClasses.filter(i => sdgs.includes(i));
         } else {
           intersectionSet = concurrentClasses.filter(i => types.includes(i));
         }
-        console.log(intersectionSet)
 
         intersection = false;
         for(let j=0; j < intersectionSet.length; j++) {
-          if(document.getElementById(intersectionSet[j]).checked){
+          if(document.getElementById(intersectionSet[j]+'-checkbox').checked){
             intersection = true; 
             break;
           }
@@ -59,44 +56,20 @@ class Filters extends Component {
         
         let intersection1 = false        
         for(let j=0; j < intersectionSet1.length; j++) {
-          if(document.getElementById(intersectionSet1[j]).checked){
+          if(document.getElementById(intersectionSet1[j]+'-checkbox').checked){
             intersection1 = true; 
             break;
           }
         }
         let intersection2 = false        
         for(let j=0; j < intersectionSet2.length; j++) {
-          if(document.getElementById(intersectionSet2[j]).checked){
+          if(document.getElementById(intersectionSet2[j]+'-checkbox').checked){
             intersection2 = true; 
             break;
           }
         }
         intersection = intersection1 && intersection2;
-
       }
-
-
-
-      //   let allDisplay = true;
-
-      //   for(let j=0; j < concurrentClasses.length; j++){
-      //     allDisplay = allDisplay && document.getElementById(concurrentClasses[j]).checked;
-      //   }
-      //   display = allDisplay;
-      // }
-
-      // if(types.includes(event.target.id)){
-      //   for(let j=0; j < concurrentClasses.length; j++){
-
-          
-      //      && document.getElementById(concurrentClasses[j]).checked){
-      //       display = true;
-      //       console.log(document.getElementById(concurrentClasses[j]))
-      //       console.log(document.getElementById(concurrentClasses[j]).checked)
-
-      //     }
-      //   }
-      // }
 
     	if (intersection) {
 	    	elems[i].style.display = 'table-row';
@@ -117,7 +90,6 @@ class Filters extends Component {
       parent = event.target;
     }
   	let splits = parent.id.split('-');
-  	console.log(splits[0]);
   	if(parent.style.transform === ''){
   		parent.style.transform = 'rotate(180deg)';
   		document.getElementById(splits[0]+'-options').style.display='none';
@@ -164,7 +136,7 @@ class Filters extends Component {
 		              <Form.Check 
 		              	key={index}
 		                type='checkbox'
-		                id={label}
+		                id={`${label}-checkbox`}
 		                label={trunc(label,25)}
 		                defaultChecked
 		                onChange = {this.handleChange}
@@ -191,7 +163,7 @@ class Filters extends Component {
 		              <Form.Check 
 		              	key={index}
 		                type='checkbox'
-		                id={`sdg${index+1}`}
+		                id={`sdg${index+1}-checkbox`}
 		                label={trunc(label, 25)}
 		                defaultChecked
 		                onChange = {this.handleChange}
