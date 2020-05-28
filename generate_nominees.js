@@ -35,6 +35,7 @@ async function fetchGithubActivity(org, item){
   console.log('Fetching https://github.com/' + org + ' -> searching for '+item);
   let isOrg = true;
   let fetchLink = 'https://github.com/' + org + '?q=' + item;
+  let output = '&nbsp;';
 
   await retry(async bail => {
     const data = await fetch(GITHUB_API+'/orgs/'+org, params);
@@ -69,7 +70,7 @@ async function fetchGithubActivity(org, item){
       minTimeout: 5000
     });
   } catch(e) {
-    return
+    return output
   }
 
   $ = cheerio.load(await data.text());
@@ -101,14 +102,12 @@ async function fetchGithubActivity(org, item){
     }
   }
 
-  let output;
   if(list.length) {
     console.log('Activity chart found.');
     output = list.html();
     // console.log(list.html())
     // console.log("\n\n")
   } else {
-    output = '&nbsp;'
     console.log('Activity chart NOT found ! ! ! ! !')
   }
   return output;
