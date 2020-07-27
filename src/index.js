@@ -206,10 +206,12 @@ function ListItem(props){
       license = <a href={item.license[j].licenseURL} target="_blank" rel="noopener noreferrer">{item.license[j].spdx} </a>
     }
 
+    let linkName = item.name.replace(/ /g,'_')
+
 	return(
 		<tr key={index} className={itemClass}>
 			<td>{name}</td>
-			<td>{item.description}</td>
+			<td><a id={linkName} className="anchor"></a>{item.description}</td>
 			<td>{license}</td>
 			<td><div dangerouslySetInnerHTML={{__html: item.githubActivity}} /></td>
 		</tr>
