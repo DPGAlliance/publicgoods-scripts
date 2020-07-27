@@ -71,120 +71,120 @@ class Filters extends Component {
         intersection = intersection1 && intersection2;
       }
 
-    	if (intersection) {
-	    	elems[i].style.display = 'table-row';
-    	} else {
-    		elems[i].style.display = 'none';
-    	}
+      if (intersection) {
+        elems[i].style.display = 'table-row';
+      } else {
+        elems[i].style.display = 'none';
+      }
     }
     this.countActive();
   }
 
   toggleVisible(event) {
-  	let parent;
-  	if(event.target.nodeName === 'path') {
-  		parent = event.target.parentNode.parentNode;
-  	} else if (event.target.nodeName === 'svg') {
-  		parent = event.target.parentNode;
-  	} else {
+    let parent;
+    if(event.target.nodeName === 'path') {
+      parent = event.target.parentNode.parentNode;
+    } else if (event.target.nodeName === 'svg') {
+      parent = event.target.parentNode;
+    } else {
       parent = event.target;
     }
-  	let splits = parent.id.split('-');
-  	if(parent.style.transform === ''){
-  		parent.style.transform = 'rotate(180deg)';
-  		document.getElementById(splits[0]+'-options').style.display='none';
-  	} else {
-  		parent.style.transform = '';
-  		document.getElementById(splits[0]+'-options').style.display='block';
-  	}
+    let splits = parent.id.split('-');
+    if(parent.style.transform === ''){
+      parent.style.transform = 'rotate(180deg)';
+      document.getElementById(splits[0]+'-options').style.display='none';
+    } else {
+      parent.style.transform = '';
+      document.getElementById(splits[0]+'-options').style.display='block';
+    }
   }
 
   componentDidMount() {
-  	this.countActive();
+    this.countActive();
   }
 
   countActive() {
-  	const elems = document.getElementById('mytable').getElementsByTagName('tr');
-  	let count = 0;
-  	for(let i=0; i<elems.length; i++) {
-  		if(elems[i].style.display !== 'none'){
-  			count++;
-  		}
-  	}
-  	this.setState({count: count-1});
+    const elems = document.getElementById('mytable').getElementsByTagName('tr');
+    let count = 0;
+    for(let i=0; i<elems.length; i++) {
+      if(elems[i].style.display !== 'none'){
+        count++;
+      }
+    }
+    this.setState({count: count-1});
   }
 
   render() {
       return (
         <div>
-        	<div className="filterSection">
-        		<p>Displaying {this.state.count} of <b>{nominees.length}</b> nominees</p>
-        	</div>
+          <div className="filterSection">
+            <p>Displaying {this.state.count} of <b>{nominees.length}</b> nominees</p>
+          </div>
 
-        	<div className="filterSection">
-		        <div className="filterSectionTitle">
-		           <p className="filter_header">type</p>
-		           <div className="icon" onClick={this.toggleVisible} id="type-toggle">
-		           	<svg viewBox="0 0 8 5" xmlns="http://www.w3.org/2000/svg" strokeLinejoin="round" strokeLinecap="round" strokeWidth="1.35">
-		           		<path d="M7 1.053L4.027 4 1 1" stroke="currentColor" fill="none"></path>
-		           	</svg>
-		           </div>
-		        </div>
-		        <div className="filteredContent" id="type-options">
-		            <Form>
-		              {types.map((label, index) => (
-		              <Form.Check 
-		              	key={index}
-		                type='checkbox'
-		                id={`${label}-checkbox`}
-		                label={trunc(label,25)}
-		                defaultChecked
-		                onChange = {this.handleChange}
-		              />
-		              ))}
-		            </Form>
-		        </div>
-		    </div>
+          <div className="filterSection">
+            <div className="filterSectionTitle">
+               <p className="filter_header">type</p>
+               <div className="icon" onClick={this.toggleVisible} id="type-toggle">
+                <svg viewBox="0 0 8 5" xmlns="http://www.w3.org/2000/svg" strokeLinejoin="round" strokeLinecap="round" strokeWidth="1.35">
+                  <path d="M7 1.053L4.027 4 1 1" stroke="currentColor" fill="none"></path>
+                </svg>
+               </div>
+            </div>
+            <div className="filteredContent" id="type-options">
+                <Form>
+                  {types.map((label, index) => (
+                  <Form.Check 
+                    key={index}
+                    type='checkbox'
+                    id={`${label}-checkbox`}
+                    label={trunc(label,25)}
+                    defaultChecked
+                    onChange = {this.handleChange}
+                  />
+                  ))}
+                </Form>
+            </div>
+        </div>
 
-        	<div className="filterSection">
-	        	<div className="filterHead">
-		          <div className="filterSectionTitle">
-		           <p className="filter_header">SDG</p>
-		           <div className="icon" onClick={this.toggleVisible} id="sdg-toggle">
-		           	<svg viewBox="0 0 8 5" xmlns="http://www.w3.org/2000/svg" strokeLinejoin="round" strokeLinecap="round" strokeWidth="1.35">
-		           		<path d="M7 1.053L4.027 4 1 1" stroke="currentColor" fill="none"></path>
-		           	</svg>
-		           </div>
-		          </div>
-		        </div>
-		        <div className="filteredContent" id="sdg-options">
-		            <Form>
-		              {sdg_labels.map((label, index) => (
-		              <Form.Check 
-		              	key={index}
-		                type='checkbox'
-		                id={`sdg${index+1}-checkbox`}
-		                label={trunc(label, 25)}
-		                defaultChecked
-		                onChange = {this.handleChange}
-		              />
-		              ))}
-		            </Form>
-		        </div>
-		    </div>
-		   
-	    </div>
+          <div className="filterSection">
+            <div className="filterHead">
+              <div className="filterSectionTitle">
+               <p className="filter_header">SDG</p>
+               <div className="icon" onClick={this.toggleVisible} id="sdg-toggle">
+                <svg viewBox="0 0 8 5" xmlns="http://www.w3.org/2000/svg" strokeLinejoin="round" strokeLinecap="round" strokeWidth="1.35">
+                  <path d="M7 1.053L4.027 4 1 1" stroke="currentColor" fill="none"></path>
+                </svg>
+               </div>
+              </div>
+            </div>
+            <div className="filteredContent" id="sdg-options">
+                <Form>
+                  {sdg_labels.map((label, index) => (
+                  <Form.Check 
+                    key={index}
+                    type='checkbox'
+                    id={`sdg${index+1}-checkbox`}
+                    label={trunc(label, 25)}
+                    defaultChecked
+                    onChange = {this.handleChange}
+                  />
+                  ))}
+                </Form>
+            </div>
+        </div>
+       
+      </div>
         ); 
   }
 }
 
 function ListItem(props){
 
-	let item = props.item;
-	let index = props.index;
+  let item = props.item;
+  let index = props.index;
 
-	let name;
-	if(item.hasOwnProperty('website') && item.website !== '') {
+  let name;
+  if(item.hasOwnProperty('website') && item.website !== '') {
       name = <a href={item.website} target="_blank" rel="noopener noreferrer">{item.name}</a>;
     } else if(item.hasOwnProperty('repositoryURL') && item.repositoryURL !== '') {
       name = <a href={item.repositoryURL} target="_blank" rel="noopener noreferrer">{item.name}</a>;
@@ -194,11 +194,11 @@ function ListItem(props){
 
     let itemClass='';
     for (var j=0; j<item.SDGs.length; j++) {
-     	itemClass += 'sdg'+item.SDGs[j][0]+' '
+      itemClass += 'sdg'+item.SDGs[j][0]+' '
     }
 
     for (var k=0; k<item.type.length; k++) {
-    	itemClass += item.type[k] + ' ';
+      itemClass += item.type[k] + ' ';
     }
 
     let license;
@@ -208,14 +208,15 @@ function ListItem(props){
 
     let linkName = item.name.replace(/ /g,'_')
 
-	return(
-		<tr key={index} className={itemClass}>
-			<td>{name}</td>
-			<td><a id={linkName} className="anchor"></a>{item.description}</td>
-			<td>{license}</td>
-			<td><div dangerouslySetInnerHTML={{__html: item.githubActivity}} /></td>
-		</tr>
-	)
+  return(
+    <tr key={index} className={itemClass}>
+      <td>{name}</td>
+      {/* eslint-disable-next-line */}
+      <td><a id={linkName} className="anchor"></a>{item.description}</td>
+      <td>{license}</td>
+      <td><div dangerouslySetInnerHTML={{__html: item.githubActivity}} /></td>
+    </tr>
+  )
 
 }
 
@@ -223,18 +224,18 @@ class List extends Component {
   render() {
     return(
         <table className="table"> 
-        	<thead>
-    				<tr>
-    					<th>Nominee</th>
-    					<th>Description</th>
-    					<th>License</th>
-    					<th>Past year of activity</th>
-    				</tr>
+          <thead>
+            <tr>
+              <th>Nominee</th>
+              <th>Description</th>
+              <th>License</th>
+              <th>Past year of activity</th>
+            </tr>
           </thead>
           <tbody>
-    				{nominees.map((item, index) => (
-    					<ListItem item={item} index={index} key={index}/>
-    				))}
+            {nominees.map((item, index) => (
+              <ListItem item={item} index={index} key={index}/>
+            ))}
           </tbody>
         </table>
       )
