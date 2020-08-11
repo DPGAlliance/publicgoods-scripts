@@ -7,7 +7,7 @@ wget --no-host-directories --recursive --page-requisites --no-parent --timestamp
 pushd static
 
 # remove unneeded files
-rm -rf comments feed wp-json xmlrpc.php\?rsd wp-login* wp-admin author index.html\?*
+rm -rf comments feed wp-json xmlrpc.php\?rsd wp-login* wp-admin index.html\?*
 
 for file in $(find . -name "*\?*")
 do
