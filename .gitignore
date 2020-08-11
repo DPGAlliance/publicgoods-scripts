@@ -65,3 +65,4 @@ src/nominees.json
 public/wp-content
 public/wp-includes
 public/index.html
+.DS_Store
