@@ -26,8 +26,7 @@ class Filters extends Component {
 
   handleChange(event) {
     const checkboxId = event.target.id.split('-')[0];
-    // console.log(checkboxId);
-    // console.log(event.target.checked);
+
     var elems = document.getElementsByClassName(checkboxId);
 
     for(let i=0; i < elems.length; i++) {
@@ -184,12 +183,20 @@ function ListItem(props){
   let index = props.index;
 
   let name;
+  let nameText;
+
+  if(item.hasOwnProperty('aliases') && item.aliases[0]) {
+    nameText = item.name + ' (' + item.aliases[0] + ')';
+  } else {
+    nameText = item.name;
+  }
+
   if(item.hasOwnProperty('website') && item.website !== '') {
-      name = <a href={item.website} target="_blank" rel="noopener noreferrer">{item.name}</a>;
+      name = <a href={item.website} target="_blank" rel="noopener noreferrer">{nameText}</a>;
     } else if(item.hasOwnProperty('repositoryURL') && item.repositoryURL !== '') {
-      name = <a href={item.repositoryURL} target="_blank" rel="noopener noreferrer">{item.name}</a>;
+      name = <a href={item.repositoryURL} target="_blank" rel="noopener noreferrer">{nameText}</a>;
     } else {
-      name = item.name
+      name = {nameText}
     }
 
     let itemClass='';
