@@ -142,7 +142,7 @@ glob(path + '/*.json', {}, async (err, files) => {
   }
 
 let htmlOutput = '<div class="row">';
-htmlOutput += '<div class="col-xs-2 col-xs-offset-1"><span class="big-details">'+candidates.length+'</span><span class="small-title">nominees</span></div>'
+htmlOutput += '<div class="col-xs-2 col-xs-offset-1"><span class="big-details">'+(candidates.length-vettedDPGs)+'</span><span class="small-title">nominees</span></div>'
 htmlOutput += '<div class="col-xs-1"><img src="https://dpg-website.s3.amazonaws.com/img/right-arrows.svg" style="height:50px; margin-top:20px; display:block"></div>'
 htmlOutput += '<div class="col-xs-2"><span class="big-details">'+vettedDPGs+'</span><span class="small-title">Digital<br/>Public<br/>Goods</span></div>'
 htmlOutput += '<div class="col-xs-4" id="venn"><span class="small-title">distribution by type</span></div></div>'
