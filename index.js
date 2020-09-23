@@ -69,6 +69,7 @@ glob(path + '/*.json', {}, async (err, files) => {
   types[TYPE2]=0;
   types[TYPE3]=0;
   types[TYPE4]=0;
+  let vettedDPGs = 0;
   // Iterate over candidates, and over each nested array and count
   candidates.forEach(function(e) {
     e['SDGs'].forEach(function(d){
@@ -91,6 +92,10 @@ glob(path + '/*.json', {}, async (err, files) => {
     else if( e['type'].includes(TYPE1) && !e['type'].includes(TYPE2) &&  e['type'].includes(TYPE3) &&  e['type'].includes(TYPE4)){ combos[11]++;}
     else if(!e['type'].includes(TYPE1) &&  e['type'].includes(TYPE2) &&  e['type'].includes(TYPE3) &&  e['type'].includes(TYPE4)){ combos[12]++;}
     else if( e['type'].includes(TYPE1) &&  e['type'].includes(TYPE2) &&  e['type'].includes(TYPE3) &&  e['type'].includes(TYPE4)){ combos[13]++;}
+
+    if(e['stage']=='DPG') {
+      vettedDPGs++;
+    }
   })
 
   // Prepare data for chart
@@ -138,6 +143,8 @@ glob(path + '/*.json', {}, async (err, files) => {
 
 let htmlOutput = '<div class="row">';
 htmlOutput += '<div class="col-xs-2 col-xs-offset-1"><span class="big-details">'+candidates.length+'</span><span class="small-title">nominees</span></div>'
+htmlOutput += '<div class="col-xs-1"><img src="https://dpg-website.s3.amazonaws.com/img/right-arrows.svg" style="height:50px; margin-top:20px; display:block"></div>'
+htmlOutput += '<div class="col-xs-2"><span class="big-details">'+vettedDPGs+'</span><span class="small-title">Digital<br/>Public<br/>Goods</span></div>'
 htmlOutput += '<div class="col-xs-4" id="venn"><span class="small-title">distribution by type</span></div></div>'
 htmlOutput += '<div class="row" style="margin-bottom:5em"><div class="col-xs-10 col-xs-offset-1" id="treemap"><span class="small-title">distribution by SDG</span><div id="treemap"></div></div>';
 htmlOutput += '</div>';
