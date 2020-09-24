@@ -9,6 +9,7 @@ import nominees from './nominees.json';
 
 const sdg_labels = ["1. No Poverty","2. Zero Hunger","3. Good Health and Well-being","4. Quality Education","5. Gender Equality","6. Clean Water and Sanitation","7. Affordable and Clean Energy","8. Decent Work and Economic Growth","9. Industry, Innovation and Infrastructure","10. Reduced Inequality","11. Sustainable Cities and Communities","12. Responsible Consumption and Production","13. Climate Action","14. Life Below Water","15. Life on Land","16. Peace and Justice Strong Institutions","17. Partnerships to achieve the Goal"]
 const types = ["software", "data", "content", "standard"];
+const stage = ["nominee", "candidate", "DPG"];
 const sdgs = ["sdg1", "sdg2", "sdg3", "sdg4", "sdg5", "sdg6", "sdg7", "sdg8", "sdg9", "sdg10", "sdg11", "sdg12", "sdg13", "sdg14", "sdg15", "sdg16", "sdg17"];
 
 function trunc(str, n){
@@ -31,46 +32,41 @@ class Filters extends Component {
 
     for(let i=0; i < elems.length; i++) {
       let display = event.target.checked;
-      let concurrentClasses = elems[i].className.trim().split(' ').filter(function(a){ return a !== checkboxId });
 
-      let intersection;
-      if(display){
-        let intersectionSet;
-        if(types.includes(checkboxId)) {
-          intersectionSet = concurrentClasses.filter(i => sdgs.includes(i));
-        } else {
-          intersectionSet = concurrentClasses.filter(i => types.includes(i));
-        }
-
-        intersection = false;
-        for(let j=0; j < intersectionSet.length; j++) {
-          if(document.getElementById(intersectionSet[j]+'-checkbox').checked){
-            intersection = true; 
-            break;
-          }
-        }
+      let concurrentClasses;
+      if(display) {
+        concurrentClasses = elems[i].className.trim().split(' ');
       } else {
-        let intersectionSet1 = concurrentClasses.filter(i => types.includes(i));
-        let intersectionSet2 = concurrentClasses.filter(i => sdgs.includes(i));
-        
-        let intersection1 = false        
-        for(let j=0; j < intersectionSet1.length; j++) {
-          if(document.getElementById(intersectionSet1[j]+'-checkbox').checked){
-            intersection1 = true; 
-            break;
-          }
-        }
-        let intersection2 = false        
-        for(let j=0; j < intersectionSet2.length; j++) {
-          if(document.getElementById(intersectionSet2[j]+'-checkbox').checked){
-            intersection2 = true; 
-            break;
-          }
-        }
-        intersection = intersection1 && intersection2;
+        concurrentClasses = elems[i].className.trim().split(' ').filter(function(a){ return a !== checkboxId });
       }
 
-      if (intersection) {
+      let intersectionSet1 = concurrentClasses.filter(i => types.includes(i));
+      let intersectionSet2 = concurrentClasses.filter(i => sdgs.includes(i));
+      let intersectionSet3 = concurrentClasses.filter(i => stage.includes(i));
+
+      let intersection1 = false;
+      for(let j=0; j < intersectionSet1.length; j++) {
+        if(document.getElementById(intersectionSet1[j]+'-checkbox').checked){
+          intersection1 = true;
+          break;
+        }
+      }
+      let intersection2 = false;
+      for(let j=0; j < intersectionSet2.length; j++) {
+        if(document.getElementById(intersectionSet2[j]+'-checkbox').checked){
+          intersection2 = true;
+          break;
+        }
+      }
+      let intersection3 = false;
+      for(let j=0; j < intersectionSet3.length; j++) {
+        if(document.getElementById(intersectionSet3[j]+'-checkbox').checked){
+          intersection3 = true;
+          break;
+        }
+      }
+
+      if (intersection1 && intersection2 && intersection3) {
         elems[i].style.display = 'table-row';
       } else {
         elems[i].style.display = 'none';
@@ -117,7 +113,32 @@ class Filters extends Component {
       return (
         <div>
           <div className="filterSection">
-            <p>Displaying {this.state.count} of <b>{nominees.length}</b> nominees</p>
+            <p>Displaying {this.state.count} of <b>{nominees.length}</b> items</p>
+          </div>
+
+          <div className="filterSection">
+            <div className="filterSectionTitle">
+               <p className="filter_header">stage</p>
+               <div className="icon" onClick={this.toggleVisible} id="type-toggle">
+                <svg viewBox="0 0 8 5" xmlns="http://www.w3.org/2000/svg" strokeLinejoin="round" strokeLinecap="round" strokeWidth="1.35">
+                  <path d="M7 1.053L4.027 4 1 1" stroke="currentColor" fill="none"></path>
+                </svg>
+               </div>
+            </div>
+            <div className="filteredContent" id="type-options">
+                <Form>
+                  {stage.map((label, index) => (
+                  <Form.Check 
+                    key={index}
+                    type='checkbox'
+                    id={`${label}-checkbox`}
+                    label={trunc(label,25)}
+                    defaultChecked
+                    onChange = {this.handleChange}
+                  />
+                  ))}
+                </Form>
+            </div>
           </div>
 
           <div className="filterSection">
@@ -143,7 +164,7 @@ class Filters extends Component {
                   ))}
                 </Form>
             </div>
-        </div>
+          </div>
 
           <div className="filterSection">
             <div className="filterHead">
@@ -207,6 +228,8 @@ function ListItem(props){
     for (var k=0; k<item.type.length; k++) {
       itemClass += item.type[k] + ' ';
     }
+
+    itemClass += item.stage;
 
     let license;
     for (let j=0; j<item.license.length; j++) {
