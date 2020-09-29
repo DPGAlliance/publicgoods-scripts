@@ -17,12 +17,16 @@ done
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
 	echo 'Detected OSX...'
+	find . -name '*.html' -exec sed -i '' -e 's_http://dpgwebsite.herokuapp.com/_/_g' {} \;
 	find . -name '*.html' -exec sed -i '' -e 's_https://dpgwebsite.herokuapp.com/_/_g' {} \;
+	find . -name '*.html' -exec sed -i '' -e 's_http:\\/\\/dpgwebsite.herokuapp.com\\/_\\/_g' {} \;
 	find . -name '*.html' -exec sed -i '' -e 's_https:\\/\\/dpgwebsite.herokuapp.com\\/_\\/_g' {} \;
 else
 	echo 'Detected non-OSX...'
+	find . -name '*.html' -exec sed -i -e 's_http://dpgwebsite.herokuapp.com/_/_g' {} \;
 	find . -name '*.html' -exec sed -i -e 's_https://dpgwebsite.herokuapp.com/_/_g' {} \;
 	find . -name '*.html' -exec sed -i -e 's_http:\\/\\/dpgwebsite.herokuapp.com\\/_\\/_g' {} \;
+	find . -name '*.html' -exec sed -i -e 's_https:\\/\\/dpgwebsite.herokuapp.com\\/_\\/_g' {} \;
 fi
 popd
 cp -a static/* ../publicgoods-website
