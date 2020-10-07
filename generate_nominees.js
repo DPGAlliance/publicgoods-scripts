@@ -16,7 +16,7 @@ const params = {
   method: 'GET',
   credentials: 'same-origin',
   redirect: 'follow',
-  agent: null,
+  agent: 'unicef/publicgoods-scripts',
   headers: {
     'Content-Type': 'text/plain',
     'Authorization': 'Basic ' + btoa(process.env.CLIENTID+':'+process.env.CLIENTSECRET),
