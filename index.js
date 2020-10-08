@@ -73,7 +73,7 @@ glob(path + '/*.json', {}, async (err, files) => {
   // Iterate over candidates, and over each nested array and count
   candidates.forEach(function(e) {
     e['SDGs'].forEach(function(d){
-      sdgs[d[0]]++;
+      sdgs[d['SDGNumber']]++;
     })
     e['type'].forEach(function(d){
       types[d]++;
