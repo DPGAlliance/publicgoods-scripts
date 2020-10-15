@@ -41,7 +41,7 @@ const sdgColors = ['#E5243B',
                    '#19486A']
 
 path = '../publicgoods-candidates/nominees'
-pathHtml = '../publicgoods-website/platform/index.html';
+pathHtml = '../publicgoods-website/registry/index.html';
 destHtml = './public/index.html';
 
 function sleep(ms) {

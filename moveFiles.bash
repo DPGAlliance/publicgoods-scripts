@@ -1,5 +1,5 @@
 #/bin/bash
-pushd ../publicgoods-website/platform && \
+pushd ../publicgoods-website/registry && \
 	git rm -rf static/* || true && \
     mkdir static && \
     cp -a ../../publicgoods-scripts/build/static/* static && \
