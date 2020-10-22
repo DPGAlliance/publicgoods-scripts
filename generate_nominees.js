@@ -105,9 +105,7 @@ async function fetchGithubActivity(org, item){
 
   if(list.length) {
     console.log('Activity chart found.');
-    output = list.html();
-    // console.log(list.html())
-    // console.log("\n\n")
+    output = '<a href="https://github.com/'+org+'/'+item+'" target="_blank">' + list.html() + '</a>';
   } else {
     console.log('Activity chart NOT found ! ! ! ! !')
   }

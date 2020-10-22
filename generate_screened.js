@@ -51,7 +51,6 @@ function addElements(object, schema, level, html) {
 	html += '<div style="padding-left:'+level*INDENT+'px">';
 	for(const key in object){
 		if(key != 'name') {
-			console.log(key, typeof object[key])
 			if(schema.properties.hasOwnProperty(key)) {
 				html += `<p><b>${schema.properties[key].description}</b></p>`
 			} else {
@@ -153,5 +152,6 @@ glob("*.json", { cwd: screeningPath }, async (err, productFiles) => {
 		html += '</div>'
 
 		generateNewPage(html, path.join(htmlPath, productFiles[i].replace(/.json/g, ".html")));
+		console.log('HTML page generated for registry/' + productFiles[i].replace(/.json/g, ".html"));
 	}
 })
