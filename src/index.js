@@ -9,7 +9,7 @@ import nominees from './nominees.json';
 
 const sdg_labels = ["1. No Poverty","2. Zero Hunger","3. Good Health and Well-being","4. Quality Education","5. Gender Equality","6. Clean Water and Sanitation","7. Affordable and Clean Energy","8. Decent Work and Economic Growth","9. Industry, Innovation and Infrastructure","10. Reduced Inequality","11. Sustainable Cities and Communities","12. Responsible Consumption and Production","13. Climate Action","14. Life Below Water","15. Life on Land","16. Peace and Justice Strong Institutions","17. Partnerships to achieve the Goal"]
 const types = ["software", "data", "content", "standard"];
-const stage = ["nominee", "candidate", "DPG"];
+const stage = ["nominee", "DPG"];
 const sdgs = ["sdg1", "sdg2", "sdg3", "sdg4", "sdg5", "sdg6", "sdg7", "sdg8", "sdg9", "sdg10", "sdg11", "sdg12", "sdg13", "sdg14", "sdg15", "sdg16", "sdg17"];
 
 function trunc(str, n){
@@ -131,10 +131,12 @@ class Filters extends Component {
                     key={index}
                     type='checkbox'
                     id={`${label}-checkbox`}
-                    label={trunc(label,25)}
-                    defaultChecked
-                    onChange = {this.handleChange}
-                  />
+                  >
+                    <Form.Check.Input type='checkbox' defaultChecked onChange = {this.handleChange}/>
+                    <Form.Check.Label>
+                      {(label=='DPG')?<span>digital public good <span className='dpglabel'>DPG</span></span>:trunc(label,25)}
+                      </Form.Check.Label>
+                  </Form.Check>
                   ))}
                 </Form>
             </div>
@@ -213,29 +215,33 @@ function ListItem(props){
 
   if(item.hasOwnProperty('website') && item.website !== '') {
       name = <a href={item.website} target="_blank" rel="noopener noreferrer">{nameText}</a>;
-    } else if(item.hasOwnProperty('repositoryURL') && item.repositoryURL !== '') {
+  } else if(item.hasOwnProperty('repositoryURL') && item.repositoryURL !== '') {
       name = <a href={item.repositoryURL} target="_blank" rel="noopener noreferrer">{nameText}</a>;
-    } else {
+  } else {
       name = {nameText}
-    }
+  }
 
-    let itemClass='';
-    for (var j=0; j<item.SDGs.length; j++) {
-      itemClass += 'sdg'+item.SDGs[j].SDGNumber+' '
-    }
+  if(item.stage == 'DPG') {
+    name = <span>{name} <span class="dpglabel">DPG</span></span>;
+  }
 
-    for (var k=0; k<item.type.length; k++) {
-      itemClass += item.type[k] + ' ';
-    }
+  let itemClass='';
+  for (var j=0; j<item.SDGs.length; j++) {
+    itemClass += 'sdg'+item.SDGs[j].SDGNumber+' '
+  }
 
-    itemClass += item.stage;
+  for (var k=0; k<item.type.length; k++) {
+    itemClass += item.type[k] + ' ';
+  }
 
-    let license;
-    for (let j=0; j<item.license.length; j++) {
-      license = <a href={item.license[j].licenseURL} target="_blank" rel="noopener noreferrer">{item.license[j].spdx} </a>
-    }
+  itemClass += item.stage;
 
-    let linkName = item.name.replace(/ /g,'_')
+  let license;
+  for (let j=0; j<item.license.length; j++) {
+    license = <a href={item.license[j].licenseURL} target="_blank" rel="noopener noreferrer">{item.license[j].spdx} </a>
+  }
+
+  let linkName = item.name.replace(/ /g,'_')
 
   return(
     <tr key={index} className={itemClass}>
@@ -255,7 +261,7 @@ class List extends Component {
         <table className="table"> 
           <thead>
             <tr>
-              <th>Nominee</th>
+              <th>Name</th>
               <th>Description</th>
               <th>License</th>
               <th>Past year of activity</th>
