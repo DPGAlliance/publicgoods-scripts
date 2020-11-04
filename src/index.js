@@ -134,7 +134,7 @@ class Filters extends Component {
                   >
                     <Form.Check.Input type='checkbox' defaultChecked onChange = {this.handleChange}/>
                     <Form.Check.Label>
-                      {(label=='DPG')?<span>digital public good <span className='dpglabel'>DPG</span></span>:trunc(label,25)}
+                      {(label==='DPG')?<span>digital public good <span className='dpglabel'>DPG</span></span>:trunc(label,25)}
                       </Form.Check.Label>
                   </Form.Check>
                   ))}
@@ -221,7 +221,7 @@ function ListItem(props){
       name = {nameText}
   }
 
-  if(item.stage == 'DPG') {
+  if(item.stage === 'DPG') {
     name = <span>{name} <span class="dpglabel">DPG</span></span>;
   }
 
