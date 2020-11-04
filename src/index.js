@@ -27,12 +27,11 @@ class Filters extends Component {
 
   handleChange(event) {
     const checkboxId = event.target.id.split('-')[0];
+    const display = event.target.checked;
 
     var elems = document.getElementsByClassName(checkboxId);
 
     for(let i=0; i < elems.length; i++) {
-      let display = event.target.checked;
-
       let concurrentClasses;
       if(display) {
         concurrentClasses = elems[i].className.trim().split(' ');
@@ -118,7 +117,7 @@ class Filters extends Component {
 
           <div className="filterSection">
             <div className="filterSectionTitle">
-               <p className="filter_header">stage</p>
+               <p className="filter_header">status</p>
                <div className="icon" onClick={this.toggleVisible} id="type-toggle">
                 <svg viewBox="0 0 8 5" xmlns="http://www.w3.org/2000/svg" strokeLinejoin="round" strokeLinecap="round" strokeWidth="1.35">
                   <path d="M7 1.053L4.027 4 1 1" stroke="currentColor" fill="none"></path>
@@ -222,7 +221,7 @@ function ListItem(props){
 
     let itemClass='';
     for (var j=0; j<item.SDGs.length; j++) {
-      itemClass += 'sdg'+item.SDGs[j][0]+' '
+      itemClass += 'sdg'+item.SDGs[j].SDGNumber+' '
     }
 
     for (var k=0; k<item.type.length; k++) {
