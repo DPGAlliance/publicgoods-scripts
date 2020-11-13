@@ -222,7 +222,11 @@ function ListItem(props){
   }
 
   if(item.stage === 'DPG') {
-    name = <span>{name} <span class="dpglabel">DPG</span></span>;
+    if(item.dpgLink){
+      name = <span>{name} <a href={'/registry/'+item.name.toLowerCase().replace(/ /g,'-')+'.html'}><span class="dpglabel">DPG</span></a></span>
+    } else {
+      name = <span>{name} <a href="/blog/announcing-the-first-vetted-digital-public-goods-for-foundational-literacy-and-early-grade-reading/"><span class="dpglabelother">DPG</span></a></span>;
+    }
   }
 
   let itemClass='';

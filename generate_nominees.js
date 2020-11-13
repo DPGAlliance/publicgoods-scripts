@@ -9,6 +9,7 @@ const cheerio = require("cheerio");
 require('dotenv').config()
 
 const npath = '../publicgoods-candidates/nominees';
+const spath = '../publicgoods-candidates/screening';
 const dpath = './src';
 const GITHUB_API = 'https://api.github.com';
 
@@ -125,6 +126,12 @@ glob(path.join(npath, '/*.json'), {}, async (err, files) => {
       }
     }
     n['githubActivity'] = html;
+    if(n['stage'] === 'DPG' && fs.existsSync(path.join(spath, path.basename(files[i])))) {
+      n['dpgLink'] = true;
+    } else {
+      n['dpgLink'] = false;
+    }
+    console.log(n)
     candidates.push(n);
   }
 
