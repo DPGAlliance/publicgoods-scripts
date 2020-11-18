@@ -51,11 +51,9 @@ function sleep(ms) {
 let candidates=[];
 
 glob(path + '/*.json', {}, async (err, files) => {
-  console.log(files);
   for (var i=0; i<files.length; i++) {
     candidates.push(JSON.parse(fs.readFileSync(files[i], 'utf8')));
   }
-  console.log(candidates);
   let combos = [0,0,0,0,0,0,0,0,0,0,0,0,0,0]
   // Initialize SDG array to count occurences in candidates
   let sdgs = new Array(17).fill(0);
