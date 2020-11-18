@@ -131,7 +131,6 @@ glob(path.join(npath, '/*.json'), {}, async (err, files) => {
     } else {
       n['dpgLink'] = false;
     }
-    console.log(n)
     candidates.push(n);
   }
 
