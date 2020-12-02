@@ -120,7 +120,7 @@ glob(path.join(npath, '/*.json'), {}, async (err, files) => {
 
     let html = '';
     if(n.hasOwnProperty('repositoryURL')){
-      var matchGithub = n.repositoryURL.match(/https:\/\/github.com\/(.*)\/(.*)/);
+      var matchGithub = n.repositoryURL.match(/https:\/\/github.com\/([^\/]*)\/([^\/]*)/);
       if(matchGithub){
         html += await fetchGithubActivity(matchGithub[1], matchGithub[2]);
       }
