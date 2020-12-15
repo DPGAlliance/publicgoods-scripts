@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # source a static version of the site
-wget --no-host-directories --recursive --page-requisites --no-parent --timestamping -e robots=off -w 1 --random-wait --retry-on-http-error=503 -P static https://dpgwebsite.herokuapp.com
+wget --no-host-directories --recursive --page-requisites --no-parent --timestamping -e robots=off -w 1 --random-wait --retry-on-http-error=503 -P static http://dpgwebsite.herokuapp.com http://dpgwebsite.herokuapp.com/submission-guide/
 
 # cd into the folder
 pushd static
