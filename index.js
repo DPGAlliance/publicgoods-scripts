@@ -161,7 +161,7 @@ var width = 960, height = 500;
 var svg = d3.select("#treemap")
 .append("svg")
   .attr("preserveAspectRatio", "xMinYMin meet")
-  .attr("viewBox", "0 0 1000 300")
+  .attr("viewBox", "0 0 " + width + " " + height)
 `
 htmlOutput += 'var data_sdg = '+JSON.stringify(sdgData)+';';
 htmlOutput += 'var data_type = '+JSON.stringify(typeData)+';';
