@@ -176,6 +176,13 @@ htmlOutput += `
 
   var tool = d3.select("body").append("div").attr("class", "toolTip");
 
+  const isTextSmaller = (node, string, compareWidth, offset) => {
+    let prevText = node.textContent;
+    node.textContent = string;
+    let textWidth = node.getComputedTextLength();
+    node.textContent = prevText;
+    return compareWidth - offset > textWidth;
+  };
   // Then d3.treemap computes the position of each element of the hierarchy
   d3.treemap()
     .size([width, height])
@@ -199,16 +206,83 @@ htmlOutput += `
       .on("mouseout", handleMouseOut);
 
   // and to add the text labels
-  svg
+  var textLine = svg
     .selectAll("text")
     .data(root.leaves())
     .enter()
     .append("text")
-      .attr("x", function(d){ return d.x0+10})    // +10 to adjust position (more right)
-      .attr("y", function(d){ return d.y0+30})    // +20 to adjust position (lower)
-      .text(function(d){ return d.data.name })
-      .attr("font-size", "30px")
-      .attr("fill", "white")
+    .attr("x", function (e) {
+      return e.x0 + 10;
+    })
+    .attr("y", function (e) {
+      return e.y0 + 20;
+    })
+    .attr("font-size", "16px")
+    .attr("font-weight", "bold")
+    .text(function (e) {
+      return e.data.name;
+    })
+    .attr("fill", "white");
+
+textLine.each(function (d) {
+  var fullText = sdg_labels[d.data.name - 1] + ": " + d.data.value;
+  // add label of values to the first element
+  d.data.name == 1 ? (fullText += " nominees") : null;
+
+  var rectWidth = d.x1 - d.x0;
+  var offset = 25;
+
+  var textLines = [];
+  // try to fit full text into 1 line
+  if (isTextSmaller(this, fullText, rectWidth, offset)) {
+    textLines.push(fullText);
+  } else {
+    // try to fit text without value
+    fullText = fullText.substring(0, fullText.lastIndexOf(" "));
+    if (isTextSmaller(this, fullText, rectWidth, offset)) {
+      textLines.push(fullText);
+    } else {
+      var fullTextArr = fullText.split(" ");
+      // iterate over text to split it into 2 perfect lines
+      for (let i = fullTextArr.length - 1; i > 0; i--) {
+        var firstText = fullText.substring(
+          0,
+          fullText.lastIndexOf(fullTextArr[i])
+        );
+        var secondText = fullText.substring(
+          fullText.lastIndexOf(fullTextArr[i])
+        );
+        if (
+          isTextSmaller(this, firstText, rectWidth, offset) &&
+          isTextSmaller(this, secondText, rectWidth, offset)
+        ) {
+          textLines.push(firstText, secondText);
+          break;
+        }
+      }
+    }
+    // push value to last line
+    textLines.length == 0
+      ? textLines.push(":", d.data.value)
+      : textLines.push(d.data.value);
+  }
+
+  // add lines of text to the chart
+  textLines.map((text, i) => {
+    d3.select(this)
+      .append("tspan")
+      .attr("x", (e) =>
+        textLines[i - 1] == ":"
+          ? e.x0 + 10
+          : e.x0 + (e.data.name > 9 ? offset + 10 : offset)
+      )
+      .attr("y", function (e) {
+        return e.y0 + (i + 1) * 20;
+      })
+      .attr("font-weight", "normal")
+      .text(text);
+  });
+});
 
   function handleMouseOver(d) {  // Add interactivity
     // Use D3 to select element, change color and size
