@@ -176,12 +176,12 @@ htmlOutput += `
 
   var tool = d3.select("body").append("div").attr("class", "toolTip");
 
-  const isTextSmaller = (node, string, compareWidth, offset) => {
+  const textLenght = (node, string) => {
     let prevText = node.textContent;
     node.textContent = string;
     let textWidth = node.getComputedTextLength();
     node.textContent = prevText;
-    return compareWidth - offset > textWidth;
+    return textWidth;
   };
   // Then d3.treemap computes the position of each element of the hierarchy
   d3.treemap()
@@ -207,22 +207,22 @@ htmlOutput += `
 
   // and to add the text labels
   var textLine = svg
-    .selectAll("text")
-    .data(root.leaves())
-    .enter()
-    .append("text")
-    .attr("x", function (e) {
-      return e.x0 + 10;
-    })
-    .attr("y", function (e) {
-      return e.y0 + 20;
-    })
-    .attr("font-size", "16px")
-    .attr("font-weight", "bold")
-    .text(function (e) {
-      return e.data.name;
-    })
-    .attr("fill", "white");
+  .selectAll("text")
+  .data(root.leaves())
+  .enter()
+  .append("text")
+  .attr("x", function (e) {
+    return e.x0 + 10;
+  })
+  .attr("y", function (e) {
+    return e.y0 + 20;
+  })
+  .attr("font-size", "16px")
+  .attr("font-weight", "bold")
+  .text(function (e) {
+    return e.data.name;
+  })
+  .attr("fill", "white");
 
 textLine.each(function (d) {
   var fullText = sdg_labels[d.data.name - 1] + ": " + d.data.value;
@@ -230,41 +230,61 @@ textLine.each(function (d) {
   d.data.name == 1 ? (fullText += " nominees") : null;
 
   var rectWidth = d.x1 - d.x0;
-  var offset = 25;
+  var rectHeight = d.y1 - d.y0;
+  var offset = d.data.name > 9 ? 30 : 25
+  var lineHeight = this.getBoundingClientRect().height * 2;
+  var textWidth = textLenght(this, fullText);
+  var maxLines = 3;
 
   var textLines = [];
   // try to fit full text into 1 line
-  if (isTextSmaller(this, fullText, rectWidth, offset)) {
+  if (rectWidth - offset - 10 > textWidth && rectHeight > lineHeight) {
     textLines.push(fullText);
   } else {
     // try to fit text without value
     fullText = fullText.substring(0, fullText.lastIndexOf(" "));
-    if (isTextSmaller(this, fullText, rectWidth, offset)) {
+    textWidth = textLenght(this, fullText);
+    if (
+      (rectWidth - offset - 10 > textWidth && rectHeight > lineHeight * 2)
+    ) {
       textLines.push(fullText);
     } else {
-      var fullTextArr = fullText.split(" ");
-      // iterate over text to split it into 2 perfect lines
-      for (let i = fullTextArr.length - 1; i > 0; i--) {
-        var firstText = fullText.substring(
-          0,
-          fullText.lastIndexOf(fullTextArr[i])
-        );
-        var secondText = fullText.substring(
-          fullText.lastIndexOf(fullTextArr[i])
-        );
-        if (
-          isTextSmaller(this, firstText, rectWidth, offset) &&
-          isTextSmaller(this, secondText, rectWidth, offset)
-        ) {
-          textLines.push(firstText, secondText);
+      var countLines = Math.ceil(textWidth / rectWidth) + 1;
+      countLines = countLines > maxLines ? -1 : countLines;
+      countLines = rectHeight > countLines * lineHeight ? countLines: -1;
+      // iterate over text to split it into lines
+      for (var j = 0; j < countLines; j++) {
+        var fullTextArr = fullText.split(" ");
+        if (fullTextArr.length == 1) {
+          textLines.push(fullText);
           break;
+        }
+        for (let i = fullTextArr.length - 1; i > 0; i--) {
+          
+          var firstText = fullText.substring(
+            0,
+            fullText.lastIndexOf(fullTextArr[i])
+          );
+          
+          var nextText = fullText.substring(
+            fullText.lastIndexOf(fullTextArr[i])
+          );
+          textWidth = textLenght(this, firstText);
+          if (rectWidth - offset - 10 > textWidth) {
+            textLines.push(firstText);
+            fullText = nextText;
+            break;
+          }
         }
       }
     }
     // push value to last line
-    textLines.length == 0
-      ? textLines.push(":", d.data.value)
+    textLines.length == 0 
+      ? rectHeight < lineHeight && textLines.push(": " + d.data.value)
       : textLines.push(d.data.value);
+    textLines.length == 0 
+      ? rectHeight > lineHeight && textLines.push(":", d.data.value)
+      : null;
   }
 
   // add lines of text to the chart
@@ -274,7 +294,7 @@ textLine.each(function (d) {
       .attr("x", (e) =>
         textLines[i - 1] == ":"
           ? e.x0 + 10
-          : e.x0 + (e.data.name > 9 ? offset + 10 : offset)
+          : e.x0 + offset
       )
       .attr("y", function (e) {
         return e.y0 + (i + 1) * 20;
