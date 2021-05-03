@@ -176,6 +176,13 @@ htmlOutput += `
 
   var tool = d3.select("body").append("div").attr("class", "toolTip");
 
+  const textLenght = (node, string) => {
+    let prevText = node.textContent;
+    node.textContent = string;
+    let textWidth = node.getComputedTextLength();
+    node.textContent = prevText;
+    return textWidth;
+  };
   // Then d3.treemap computes the position of each element of the hierarchy
   d3.treemap()
     .size([width, height])
@@ -199,16 +206,103 @@ htmlOutput += `
       .on("mouseout", handleMouseOut);
 
   // and to add the text labels
-  svg
-    .selectAll("text")
-    .data(root.leaves())
-    .enter()
-    .append("text")
-      .attr("x", function(d){ return d.x0+10})    // +10 to adjust position (more right)
-      .attr("y", function(d){ return d.y0+30})    // +20 to adjust position (lower)
-      .text(function(d){ return d.data.name })
-      .attr("font-size", "30px")
-      .attr("fill", "white")
+  var textLine = svg
+  .selectAll("text")
+  .data(root.leaves())
+  .enter()
+  .append("text")
+  .attr("x", function (e) {
+    return e.x0 + 10;
+  })
+  .attr("y", function (e) {
+    return e.y0 + 20;
+  })
+  .attr("font-size", "16px")
+  .attr("font-weight", "bold")
+  .text(function (e) {
+    return e.data.name;
+  })
+  .attr("fill", "white");
+
+textLine.each(function (d) {
+  var fullText = sdg_labels[d.data.name - 1] + ": " + d.data.value;
+  // add label of values to the first element
+  d.data.name == 1 ? (fullText += " nominees") : null;
+
+  var rectWidth = d.x1 - d.x0;
+  var rectHeight = d.y1 - d.y0;
+  var offset = d.data.name > 9 ? 30 : 25
+  var lineHeight = this.getBoundingClientRect().height * 2;
+  var textWidth = textLenght(this, fullText);
+  var maxLines = 3;
+
+  var textLines = [];
+  // try to fit full text into 1 line
+  if (rectWidth - offset - 10 > textWidth && rectHeight > lineHeight) {
+    textLines.push(fullText);
+  } else {
+    // try to fit text without value
+    fullText = fullText.substring(0, fullText.lastIndexOf(" "));
+    textWidth = textLenght(this, fullText);
+    if (
+      (rectWidth - offset - 10 > textWidth && rectHeight > lineHeight * 2)
+    ) {
+      textLines.push(fullText);
+    } else {
+      var countLines = Math.ceil(textWidth / rectWidth) + 1;
+      countLines = countLines > maxLines ? -1 : countLines;
+      countLines = rectHeight > countLines * lineHeight ? countLines: -1;
+      // iterate over text to split it into lines
+      for (var j = 0; j < countLines; j++) {
+        var fullTextArr = fullText.split(" ");
+        if (fullTextArr.length == 1) {
+          textLines.push(fullText);
+          break;
+        }
+        for (let i = fullTextArr.length - 1; i > 0; i--) {
+          
+          var firstText = fullText.substring(
+            0,
+            fullText.lastIndexOf(fullTextArr[i])
+          );
+          
+          var nextText = fullText.substring(
+            fullText.lastIndexOf(fullTextArr[i])
+          );
+          textWidth = textLenght(this, firstText);
+          if (rectWidth - offset - 10 > textWidth) {
+            textLines.push(firstText);
+            fullText = nextText;
+            break;
+          }
+        }
+      }
+    }
+    // push value to last line
+    textLines.length == 0 
+      ? rectHeight < lineHeight && textLines.push(": " + d.data.value)
+      : textLines.push(d.data.value);
+    textLines.length == 0 
+      ? rectHeight > lineHeight && textLines.push(":", d.data.value)
+      : null;
+  }
+
+  // add lines of text to the chart
+  textLines.map((text, i) => {
+    d3.select(this)
+      .append("tspan")
+      .attr("x", (e) =>
+        textLines[i - 1] == ":"
+          ? e.x0 + 10
+          : e.x0 + offset
+      )
+      .attr("y", function (e) {
+        return e.y0 + (i + 1) * 20;
+      })
+      .attr("font-weight", "normal")
+      .text(text);
+  });
+});
 
   function handleMouseOver(d) {  // Add interactivity
     // Use D3 to select element, change color and size
