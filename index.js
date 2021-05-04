@@ -71,7 +71,7 @@ glob(path + '/*.json', {}, async (err, files) => {
   // Iterate over candidates, and over each nested array and count
   candidates.forEach(function(e) {
     e['SDGs'].forEach(function(d){
-      sdgs[d['SDGNumber']]++;
+      sdgs[d['SDGNumber']-1]++;
     })
     e['type'].forEach(function(d){
       types[d]++;
@@ -100,7 +100,7 @@ glob(path + '/*.json', {}, async (err, files) => {
   let sdgData = { name: 'SDGs', children: []};
   for(let i=0; i < sdgs.length; i++) {
     if (sdgs[i]) {
-      sdgData['children'].push({name: i, value: sdgs[i]});
+      sdgData['children'].push({name: i+1, value: sdgs[i]});
     }
   }
 
@@ -280,7 +280,7 @@ textLine.each(function (d) {
     }
     // push value to last line
     textLines.length == 0 
-      ? rectHeight < lineHeight && textLines.push(": " + d.data.value)
+      ? rectHeight < lineHeight && rectWidth - offset - 10 > textLenght(this, ": " + d.data.value) && textLines.push(": " + d.data.value)
       : textLines.push(d.data.value);
     textLines.length == 0 
       ? rectHeight > lineHeight && textLines.push(":", d.data.value)
