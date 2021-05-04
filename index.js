@@ -56,7 +56,7 @@ glob(path + '/*.json', {}, async (err, files) => {
   }
   let combos = [0,0,0,0,0,0,0,0,0,0,0,0,0,0]
   // Initialize SDG array to count occurences in candidates
-  let sdgs = new Array(18).fill(0);
+  let sdgs = new Array(17).fill(0);
   // Initialize type array to count occurences in candidates
   const TYPE1='software';
   const TYPE2='data';
@@ -71,7 +71,7 @@ glob(path + '/*.json', {}, async (err, files) => {
   // Iterate over candidates, and over each nested array and count
   candidates.forEach(function(e) {
     e['SDGs'].forEach(function(d){
-      sdgs[d['SDGNumber']]++;
+      sdgs[d['SDGNumber']-1]++;
     })
     e['type'].forEach(function(d){
       types[d]++;
@@ -100,7 +100,7 @@ glob(path + '/*.json', {}, async (err, files) => {
   let sdgData = { name: 'SDGs', children: []};
   for(let i=0; i < sdgs.length; i++) {
     if (sdgs[i]) {
-      sdgData['children'].push({name: i, value: sdgs[i]});
+      sdgData['children'].push({name: i+1, value: sdgs[i]});
     }
   }
 
