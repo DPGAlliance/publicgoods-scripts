@@ -56,7 +56,7 @@ glob(path + '/*.json', {}, async (err, files) => {
   }
   let combos = [0,0,0,0,0,0,0,0,0,0,0,0,0,0]
   // Initialize SDG array to count occurences in candidates
-  let sdgs = new Array(17).fill(0);
+  let sdgs = new Array(18).fill(0);
   // Initialize type array to count occurences in candidates
   const TYPE1='software';
   const TYPE2='data';
@@ -280,7 +280,7 @@ textLine.each(function (d) {
     }
     // push value to last line
     textLines.length == 0 
-      ? rectHeight < lineHeight && textLines.push(": " + d.data.value)
+      ? rectHeight < lineHeight && rectWidth - offset - 10 > textLenght(this, ": " + d.data.value) && textLines.push(": " + d.data.value)
       : textLines.push(d.data.value);
     textLines.length == 0 
       ? rectHeight > lineHeight && textLines.push(":", d.data.value)
