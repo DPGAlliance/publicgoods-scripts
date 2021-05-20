@@ -9,7 +9,7 @@ const cheerio = require("cheerio");
 require('dotenv').config()
 
 const npath = '../publicgoods-candidates/nominees';
-const spath = '../publicgoods-candidates/screening';
+const spath = '../publicgoods-candidates/digitalpublicgoods';
 const dpath = './src';
 const GITHUB_API = 'https://api.github.com';
 

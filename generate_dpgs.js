@@ -156,7 +156,7 @@ const licenses = {
 
 const htmlPath = '../publicgoods-website/registry/'
 const templateHtml = path.join(htmlPath, 'index.html')
-const screeningPath = '../publicgoods-candidates/screening/'
+const dpgsPath = '../publicgoods-candidates/digitalpublicgoods/'
 const nomineesPath = '../publicgoods-candidates/nominees/'
 
 function generateNewPage(html, filename) {
@@ -214,15 +214,15 @@ function addElements(object, schema, level, html) {
 const dataScreeningSchema = fs.readFileSync('../publicgoods-candidates/screening-schema.json', {encoding:'utf8', flag:'r'}); 
 const screeningSchema = JSON.parse(dataScreeningSchema);
 
-glob("*.json", { cwd: screeningPath }, async (err, productFiles) => {
+glob("*.json", { cwd: dpgsPath }, async (err, productFiles) => {
 	for (let i = 0; i < productFiles.length; i++) {
 		const dataNominee = fs.readFileSync(
 			path.join(nomineesPath, productFiles[i]), {encoding:'utf8', flag:'r'}); 
 		const nominee = JSON.parse(dataNominee);
 
-		const dataScreening = fs.readFileSync(
-			path.join(screeningPath, productFiles[i]), {encoding:'utf8', flag:'r'}); 
-		const screening = JSON.parse(dataScreening);
+		const dataDPG = fs.readFileSync(
+			path.join(dpgsPath, productFiles[i]), {encoding:'utf8', flag:'r'}); 
+		const dpgs = JSON.parse(dataDPG);
 
 		let html = `<div class="col-md-8 page-content-wrap  col-md-offset-2">
 		<h2>${nominee.name}</h2>
@@ -273,7 +273,7 @@ glob("*.json", { cwd: screeningPath }, async (err, productFiles) => {
 
 		html += `</ul></div>`
 
-		html = addElements(screening, screeningSchema, 0, html);
+		html = addElements(dpgs, screeningSchema, 0, html);
 
 		html += '</div>'
 
