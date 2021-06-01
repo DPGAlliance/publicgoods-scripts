@@ -113,3 +113,45 @@ label {
   --color-calendar-graph-day-L3-bg: #30a14e;
   --color-calendar-graph-day-L4-bg: #216e39;
 }
+
+.big-details {
+    display: block;
+    font-weight: 200;
+    font-size: 75px;
+    line-height: 80px;
+    letter-spacing: -2px;
+    color: #e91e63;
+}
+
+.small-title {
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #aaa;
+}
+
+.col-xs-1 {
+  flex: 0 0 auto;
+  width: 8.3333333333%;
+}
+
+.col-xs-2 {
+  flex: 0 0 auto;
+  width: 16.6666666667%;
+}
+
+.col-xs-4 {
+  flex: 0 0 auto;
+  width: 33.3333333333%;
+}
+
+.col-xs-10 {
+  flex: 0 0 auto;
+  width: 83.3333333333%;
+}
+
+#mytable td, #mytable td a{
+  font-size: 100%;
+}

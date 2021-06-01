@@ -139,12 +139,12 @@ glob(path + '/*.json', {}, async (err, files) => {
     typeData.push({name: key, value: Math.round(types[key]/t*100) });
   }
 
-let htmlOutput = '<div class="row">';
+let htmlOutput = '<div class="row wp-block-buttons is-content-justification-center">';
 htmlOutput += '<div class="col-xs-2 col-xs-offset-1"><span class="big-details">'+candidates.length+'</span><span class="small-title">nominees</span></div>'
 htmlOutput += '<div class="col-xs-1"><img src="https://dpg-website.s3.amazonaws.com/img/right-arrows.svg" style="height:50px; margin-top:20px; display:block"></div>'
 htmlOutput += '<div class="col-xs-2"><span class="big-details">'+vettedDPGs+'</span><span class="small-title">Digital<br/>Public<br/>Goods</span></div>'
 htmlOutput += '<div class="col-xs-4" id="venn"><span class="small-title">distribution by type</span></div></div>'
-htmlOutput += '<div class="row" style="margin-bottom:5em"><div class="col-xs-10 col-xs-offset-1" id="treemap"><span class="small-title">distribution by SDG</span><div id="treemap"></div></div>';
+htmlOutput += '<div class="row wp-block-buttons is-content-justification-center" style="margin-bottom:5em"><div class="col-xs-10" id="treemap"><span class="small-title">distribution by SDG</span><div id="treemap"></div></div>';
 htmlOutput += '</div>';
 
 htmlOutput += `
