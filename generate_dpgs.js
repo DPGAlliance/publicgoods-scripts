@@ -224,7 +224,8 @@ glob("*.json", { cwd: dpgsPath }, async (err, productFiles) => {
 			path.join(dpgsPath, productFiles[i]), {encoding:'utf8', flag:'r'}); 
 		const dpgs = JSON.parse(dataDPG);
 
-		let html = `<div class="col-md-8 page-content-wrap  col-md-offset-2">
+		let html = `<div class="wp-block-buttons is-content-justification-center">
+		<div class="col-md-8 page-content-wrap col-md-offset-2">
 		<h2>${nominee.name}</h2>
 			<p>${nominee.description}</p>
 			<p><b>Website: </b><a href="${nominee.website}">${nominee.website}</a></p>
@@ -275,7 +276,7 @@ glob("*.json", { cwd: dpgsPath }, async (err, productFiles) => {
 
 		html = addElements(dpgs, screeningSchema, 0, html);
 
-		html += '</div>'
+		html += '</div></div>'
 
 		generateNewPage(html, path.join(htmlPath, productFiles[i].replace(/.json/g, ".html")));
 		console.log('HTML page generated for registry/' + productFiles[i].replace(/.json/g, ".html"));
