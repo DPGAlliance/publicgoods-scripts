@@ -81,32 +81,6 @@ label {
     margin-top: -80px
 }
 
-.dpglabel {
-    display: inline-block;
-    padding: 0 7px;
-    font-size: 12px;
-    font-weight: 500;
-    line-height: 18px;
-    border-radius: 2em;
-    background-color: initial!important;
-    border: 1px solid transparent;
-    border-color: green;
-    color: green;
-}
-
-.dpglabelother {
-    display: inline-block;
-    padding: 0 7px;
-    font-size: 12px;
-    font-weight: 500;
-    line-height: 18px;
-    border-radius: 2em;
-    background-color: initial!important;
-    border: 1px solid transparent;
-    border-color: #e5aa70;
-    color: #e5aa70;
-}
-
 :root {
   --color-calendar-graph-day-L1-bg: #9be9a8;
   --color-calendar-graph-day-L2-bg: #40c463;

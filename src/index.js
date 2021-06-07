@@ -134,7 +134,7 @@ class Filters extends Component {
                   >
                     <Form.Check.Input type='checkbox' defaultChecked onChange = {this.handleChange}/>
                     <Form.Check.Label>
-                      {(label==='DPG')?<span>digital public good <span className='dpglabel'>DPG</span></span>:trunc(label,25)}
+                      {(label==='DPG')?<span>digital public good <img src="dpgicon.png" /></span>:trunc(label,25)}
                       </Form.Check.Label>
                   </Form.Check>
                   ))}
@@ -223,9 +223,9 @@ function ListItem(props){
 
   if(item.stage === 'DPG') {
     if(item.dpgLink){
-      name = <span>{name} <a href={'/registry/'+item.name.toLowerCase().replace(/ /g,'-')+'.html'}><span class="dpglabel">DPG</span></a></span>
+      name = <span>{name} <a href={'/registry/'+item.name.toLowerCase().replace(/ /g,'-')+'.html'}><img src="dpgicon.png" /></a></span>
     } else {
-      name = <span>{name} <a href="/blog/announcing-the-first-vetted-digital-public-goods-for-foundational-literacy-and-early-grade-reading/"><span class="dpglabelother">DPG</span></a></span>;
+      name = <span>{name} <a href="/blog/announcing-the-first-vetted-digital-public-goods-for-foundational-literacy-and-early-grade-reading/"><img src="dpgicon.png" /></a></span>;
     }
   }
 
