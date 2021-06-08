@@ -109,11 +109,7 @@ function Test() {
   }
 
     return (
-      <>
-      <div className="header">
-        <h2>Eligibility Test</h2>
-      </div>
-      
+      <>      
       <div>
       {counter < quizQuestions.length && (        
         <>
