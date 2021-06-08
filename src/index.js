@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import Test from './Test';
 import * as serviceWorker from './serviceWorker';
 
 import Form from 'react-bootstrap/Form';
@@ -283,6 +284,7 @@ class List extends Component {
 
 ReactDOM.render(<List />, document.querySelector('#mytable'));
 ReactDOM.render(<Filters />, document.querySelector('#filters'));
+ReactDOM.render(<Test />, document.querySelector('#form-content'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
