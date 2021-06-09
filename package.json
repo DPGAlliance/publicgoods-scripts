@@ -15,7 +15,8 @@
     "react-bootstrap": "^1.0.0-beta.17",
     "react-dom": "^16.13.0",
     "react-scripts": "^3.4.0",
-    "replace-in-file": "^3.4.3"
+    "replace-in-file": "^3.4.3",
+    "web-vitals": "^2.0.1"
   },
   "devDependencies": {},
   "scripts": {
