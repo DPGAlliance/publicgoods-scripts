@@ -216,6 +216,7 @@ label {
   margin: 0 auto;
   background: #fff;
   border-radius: 3px;
+  font-family: 'Jost-Regular';
 }
 
 /* AnswerOption Component */
