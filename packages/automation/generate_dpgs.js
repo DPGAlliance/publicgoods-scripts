@@ -154,10 +154,10 @@ const licenses = {
 	'ZPL-2.0': 'Zope Public License 2.0'
 }
 
-const htmlPath = '../publicgoods-website/registry/'
+const htmlPath = '../../../publicgoods-website/registry/'
 const templateHtml = path.join(htmlPath, 'index.html')
-const dpgsPath = '../publicgoods-candidates/digitalpublicgoods/'
-const nomineesPath = '../publicgoods-candidates/nominees/'
+const dpgsPath = '../../../publicgoods-candidates/digitalpublicgoods/'
+const nomineesPath = '../../../publicgoods-candidates/nominees/'
 
 function generateNewPage(html, filename) {
 	const data = fs.readFileSync(templateHtml, {encoding:'utf8', flag:'r'});
@@ -211,7 +211,7 @@ function addElements(object, schema, level, html) {
 	return html;
 }
 
-const dataScreeningSchema = fs.readFileSync('../publicgoods-candidates/screening-schema.json', {encoding:'utf8', flag:'r'}); 
+const dataScreeningSchema = fs.readFileSync('../../../publicgoods-candidates/screening-schema.json', {encoding:'utf8', flag:'r'}); 
 const screeningSchema = JSON.parse(dataScreeningSchema);
 
 glob("*.json", { cwd: dpgsPath }, async (err, productFiles) => {
