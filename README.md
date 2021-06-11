@@ -3,6 +3,10 @@ Bash and Javascript scripts to generate the static site for the [Digital Public 
 
 This is one of four interconnected repositories; refer to the [publicgoods-website](https://github.com/unicef/publicgoods-website) for an overview. 
 
+## Configuration
+
+This repository is managed with NPM version 7 **workspaces** which requires Node version 15 or higher. Read the [workspaces documentation](https://docs.npmjs.com/cli/v7/using-npm/workspaces) to know how to install and manage dependencies across packages in this repository.
+
 ## 🛠 Development
 
 To test the functionality of these scripts, you can run the following commands in sequence:
@@ -13,12 +17,12 @@ To test the functionality of these scripts, you can run the following commands i
     git clone https://github.com/unicef/publicgoods-website.git ../publicgoods-website
     git clone https://github.com/unicef/publicgoods-candidates.git ../publicgoods-candidates
     ```
-3. `./static.bash`: crawls a private instance of the WordPress website and saves a copy in `../publicgoods-website`
-4. `node generate_dpgs.js`: generates the individual website pages for each vetted digital public good
-5. `node generate_nominees.js`: queries the GitHub API for activity data for each linked repo
-6. `node index.js`: generates the registry page
-7. `npm run build`: builds the React components associated with the registry
-8. `./moveFiles.bash`: moves the React components generated above and the registry page into the website folder
+3. `./scripts/static.bash`: crawls a private instance of the WordPress website and saves a copy in `../publicgoods-website`
+4. `pushd packages/automation && node generate_dpgs.js && popd`: generates the individual website pages for each vetted digital public good
+5. `pushd packages/automation && node generate_nominees.js && popd`: queries the GitHub API for activity data for each linked repo
+6. `pushd packages/automation && node index.js && popd`: generates the registry page
+7. `pushd packages/registry && npm run build && popd`: builds the React components associated with the registry
+8. `./scripts/moveFiles.bash`: moves the React components generated above and the registry page into the website folder
 
 To test the result:
 1. Change folders into the website repo: `cd ../publicgoods-website`
