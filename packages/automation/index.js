@@ -40,10 +40,16 @@ const sdgColors = ['#E5243B',
                    '#00689D',
                    '#19486A']
 
+<<<<<<< HEAD:index.js
 path = '../publicgoods-candidates/nominees'
 pathHtml = '../publicgoods-website/registry/index.html';
 pathFormHtml = '../publicgoods-website/eligibility/index.html';
 destHtml = './public/index.html';
+=======
+path = '../../../publicgoods-candidates/nominees'
+pathHtml = '../../../publicgoods-website/registry/index.html';
+destHtml = '../registry/public/index.html';
+>>>>>>> origin/master:packages/automation/index.js
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));

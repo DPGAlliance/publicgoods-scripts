@@ -60,9 +60,9 @@ typings/
 # next.js build output
 .next
 
-build/
-src/nominees.json
-public/wp-content
-public/wp-includes
-public/index.html
+**/build/
+**/src/nominees.*
+**/public/wp-content
+**/public/wp-includes
+**/public/index.html
 .DS_Store
