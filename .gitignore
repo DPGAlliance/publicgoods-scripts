@@ -66,3 +66,5 @@ typings/
 **/public/wp-includes
 **/public/index.html
 .DS_Store
+
+static/
