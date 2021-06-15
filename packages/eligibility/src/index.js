@@ -7,7 +7,7 @@ import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <Eligibility />,
-  document.getElementById('root')
+  document.querySelector('#form-content')
 );
 
 // If you want to start measuring performance in your app, pass a function
