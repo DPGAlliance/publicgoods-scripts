@@ -3,7 +3,7 @@ import React from 'react';
 function Summary(props) {
   return (
     <>
-    <div className="pl-5 pr-5 pb-3">
+    <div className="pl-5 pr-5 pb-3 text-left">
         <br></br>
         <strong> {props.index + 1}. {props.statement} </strong>
         <div style={{color:"grey", marginTop:20}}>

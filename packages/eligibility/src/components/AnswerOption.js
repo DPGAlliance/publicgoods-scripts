@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 function AnswerOption(props) {
 
   return (
-    <li className="answerOption">
+    <div className="answerOption" style={{marginTop:0}}>
       <label className="radioCustomLabel" htmlFor={props.answerContent}>
       <input
         id={props.answerContent}
@@ -16,7 +16,7 @@ function AnswerOption(props) {
       />
       <span className="optionContent"> {props.answerContent} </span>
       </label>
-    </li>
+    </div>
   );
 }
 
