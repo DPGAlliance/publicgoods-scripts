@@ -14,7 +14,7 @@ code {
 
 @font-face {
   font-family: 'Now Alt';
-  src: local('Now Alt'), url(./fonts/NowAlt/NowAlt-Regular.otf) format('truetype');
+  src: local('Now Alt'), url(/wp-content/themes/dpga/font/NowAlt-Regular.woff) format('truetype');
 }
 
 @font-face {
