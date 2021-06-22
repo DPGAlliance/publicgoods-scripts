@@ -7,7 +7,7 @@ import {Button} from "react-bootstrap";
 import reportWebVitals from './reportWebVitals';
 import './index.css';
 
-function Test() {
+function Eligibility() {
   const [counter, setCounter] = useState(0);
   const [prev, setPrev] = useState(false);
   const [next, setNext] = useState(false);
@@ -179,7 +179,7 @@ function Test() {
       );
   }
   
-  export default Test;
+  export default Eligibility;
 
   reportWebVitals();
 
