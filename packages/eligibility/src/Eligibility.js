@@ -58,6 +58,8 @@ function Test() {
       setScore(0);
       setButtonName('');
       setWrongQuestions([]);         
+    } else if (param) {
+      window.open("https://submission-digitalpublicgoods.vercel.app/");
     }
   }
 
@@ -156,9 +158,9 @@ function Test() {
               className="mr-4 ml-2"
               style={{width: "200px", marginBottom:80, borderRadius:0, borderColor:"#4D29BA", backgroundColor:"white", color:"#4D29BA", fontFamily:'Jost-Light'}}
               variant="secondary"
-              onClick={(e) => handleClick(false)}
+              onClick={(e) => window.open("https://digitalpublicgoods.net/", "_self")}
               disabled={!prev}>
-              Back
+              Back to home
             </Button>
             <Button
               className="ml-4 mr-2"
