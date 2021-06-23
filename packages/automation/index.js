@@ -43,6 +43,8 @@ const sdgColors = ['#E5243B',
 path = '../../../publicgoods-candidates/nominees'
 pathHtml = '../../../publicgoods-website/registry/index.html';
 destHtml = '../registry/public/index.html';
+pathFormHtml = '../../../publicgoods-website/eligibility/index.html';
+destFormHtml = '../eligibility/public/index.html';
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -419,7 +421,8 @@ textLine.each(function (d) {
     </script>
   </body>
   `
-  
+  let formHtmlOutput = '<div id="form-content"> </div>';
+
   replace({files: pathHtml, from: '<p>Placeholder</p>', to: htmlOutput}, (error, changedFiles) => {
     if (error) {
       return console.error('Error occurred:', error);
@@ -442,4 +445,13 @@ textLine.each(function (d) {
       });
     });
   });
+
+  replace({files: pathFormHtml, from: '<p>Placeholder</p>', to: formHtmlOutput}, (error, changedFiles) => {
+    if (error) {
+      return console.error('Error occurred:', error);
+    }
+    console.log('Modified files:', changedFiles.join(', '));
+    fs.copyFileSync(pathFormHtml, destFormHtml);
+  });
+
 })
