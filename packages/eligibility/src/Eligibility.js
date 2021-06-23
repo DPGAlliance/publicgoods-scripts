@@ -127,7 +127,7 @@ function Eligibility() {
         <div className="text-center">
           <Button 
             className="mr-4 ml-2"
-            style={{width: "200px", marginBottom:80, borderRadius:0, borderColor:"#4D29BA", backgroundColor:"white", color:"#4D29BA", fontFamily:'Jost-Light'}}
+            style={{width: "200px", marginBottom:80, borderRadius:0, borderColor:"#4D29BA", backgroundColor:"white", color:"#4D29BA", fontFamily:'NowAlt-Light'}}
             variant="secondary"
             onClick={(e) => handleClick(false)}
             disabled={!prev}>
@@ -135,7 +135,7 @@ function Eligibility() {
           </Button>
           <Button
             className="ml-4 mr-2"
-            style={{width: "200px", marginBottom:80, borderRadius:0, backgroundColor:"#4D29BA", fontFamily:'Jost-Light'}}
+            style={{width: "200px", marginBottom:80, borderRadius:0, backgroundColor:"#4D29BA", fontFamily:'NowAlt-Light'}}
             variant="secondary"
             onClick={(e) => handleClick(true)}
             disabled={!next}>
@@ -155,7 +155,7 @@ function Eligibility() {
           <div className="text-center">
             <Button 
               className="mr-4 ml-2"
-              style={{width: "200px", marginBottom:80, borderRadius:0, borderColor:"#4D29BA", backgroundColor:"white", color:"#4D29BA", fontFamily:'Jost-Light'}}
+              style={{width: "200px", marginBottom:80, borderRadius:0, borderColor:"#4D29BA", backgroundColor:"white", color:"#4D29BA", fontFamily:'NowAlt-Light'}}
               variant="secondary"
               onClick={(e) => window.open("https://digitalpublicgoods.net/", "_self")}
               disabled={!prev}>
@@ -163,7 +163,7 @@ function Eligibility() {
             </Button>
             <Button
               className="ml-4 mr-2"
-              style={{width: "200px", marginBottom:80, borderRadius:0, backgroundColor:"#4D29BA", fontFamily:'Jost-Light'}}
+              style={{width: "200px", marginBottom:80, borderRadius:0, backgroundColor:"#4D29BA", fontFamily:'NowAlt-Light'}}
               variant="secondary"
               onClick={(e) => handleResultClick(resultClick)}
               disabled={!next}>

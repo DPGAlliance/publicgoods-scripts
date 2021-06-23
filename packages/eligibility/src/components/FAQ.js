@@ -4,7 +4,7 @@ function FAQ(props) {
   return (
     <>
     <div className="faq p-5">
-      <h3 style={{fontFamily:'Now Alt', color:'#4D29BA'}}>Frequently Asked Questions</h3>
+      <h3 style={{fontFamily:'NowAlt-Regular', color:'#4D29BA'}}>Frequently Asked Questions</h3>
       <br></br>
       {props.content.copy && props.content.copy.map((copy, index) =>
                       <>
