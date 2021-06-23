@@ -22,16 +22,6 @@ code {
   src: local('NowAlt-Light'), url(/wp-content/themes/dpga/font/NowAlt-Light.woff) format('truetype');
 }
 
-@font-face {
-  font-family: 'Jost-Regular';
-  src: local('Jost-Regular'), url(./fonts/Jost/Jost-Regular.ttf) format('truetype');
-}
-
-@font-face {
-  font-family: 'Jost-Light';
-  src: local('Jost-Light'), url(./fonts/Jost/Jost-Light.ttf) format('truetype');
-}
-
 body {
   margin: 0;
   padding: 0;
@@ -55,7 +45,6 @@ body {
   padding-top: 40px;
   border-radius: 3px;
   background-color: #F4F4F4;
-  font-family: 'Jost-Regular';
 }
 
 @media (min-width: 769px) {
@@ -75,14 +64,12 @@ body {
 .questionCount {
   padding: 1.5rem 2.5rem 1rem;
   font-size: 1.1rem;
-  font-family: 'Jost-Light', sans-serif;
 }
 
 /* Question Component */
 .question {
   margin: 0;
   padding: 0.5rem 2.5rem 1.5rem 2.5rem;
-  font-family: 'Jost-Regular', sans-serif;
 }
 
 /* Result Component */
@@ -93,7 +80,6 @@ body {
   margin: 0 auto;
   background: #fff;
   border-radius: 3px;
-  font-family: 'Jost-Regular';
 }
 
 .summary {
@@ -110,7 +96,6 @@ body {
 /* AnswerOption Component */
 .answerOption {
   border-top: 1px solid #eee;
-  font-family: 'Jost-light';
 }
 
 .answerOption:hover {

@@ -9,7 +9,7 @@ function FAQ(props) {
       {props.content.copy && props.content.copy.map((copy, index) =>
                       <>
                         <h5> {copy.subHeading} </h5>
-                        <p style={{fontFamily:'Jost-Light', marginBottom:30}}>
+                        <p style={{marginBottom:30}}>
                           {copy.text}
                         </p>
                       </>
