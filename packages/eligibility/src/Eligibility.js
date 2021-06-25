@@ -19,6 +19,20 @@ function Eligibility() {
   const [wrongQuestions, setWrongQuestions] = useState([]);
   const [resultClick, setResultClick] = useState(null);
 
+  React.useEffect(() => {
+    document.addEventListener('keydown', handleKeys);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeys);
+    };
+  }, []);
+
+  function handleKeys(e){ 
+    console.log("Enter handle keys : " + e.keyCode);
+    e.keyCode === 37 && document.querySelector('#backButton') && document.querySelector('#backButton').click() && e.preventDefault();
+    e.keyCode === 39 && document.querySelector('#nextButton') && document.querySelector('#nextButton').click() && e.preventDefault();
+  }
+
   function setUserAnswer(ans) {
     setAnswer(ans);
     answersList[counter] = ans;
@@ -130,7 +144,8 @@ function Eligibility() {
             style={{width: "200px", marginBottom:80, borderRadius:0, borderColor:"#4D29BA", backgroundColor:"white", color:"#4D29BA", fontFamily:'NowAlt-Light'}}
             variant="secondary"
             onClick={(e) => handleClick(false)}
-            disabled={!prev}>
+            disabled={!prev}
+            id="backButton">
             Back
           </Button>
           <Button
@@ -138,7 +153,8 @@ function Eligibility() {
             style={{width: "200px", marginBottom:80, borderRadius:0, backgroundColor:"#4D29BA", fontFamily:'NowAlt-Light'}}
             variant="secondary"
             onClick={(e) => handleClick(true)}
-            disabled={!next}>
+            disabled={!next}
+            id="nextButton">
             Next
           </Button>
         </div>
