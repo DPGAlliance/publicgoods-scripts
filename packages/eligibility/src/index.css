@@ -53,6 +53,19 @@ body {
   }
 }
 
+@media (max-width: 680px) {
+  .question {
+      height: 118px;
+      font-size: 25px;
+  }
+}
+
+@media (min-width: 680px) {
+  .question {
+      height: 100px;
+  }
+}
+
 /* Quiz Component */
 .answerOptions {
   margin: 0;
