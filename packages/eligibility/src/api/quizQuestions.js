@@ -63,7 +63,7 @@ var quizQuestions = [
       }
   },
   {
-      question: "Does the license of libraries/dependencies undermine the openess of the project?",
+      question: "Does the license of libraries / dependencies undermine the openess of the project?",
       statement: "Documentation must exist of the source code, use cases, and/or functional requirements for projects",
       faq: {
         copy: [
