@@ -224,7 +224,10 @@ htmlOutput += `
   .text(function (e) {
     return e.data.name;
   })
-  .attr("fill", "white");
+  .attr("fill", "white")
+  .attr("display", function (e) {
+    return this.getBoundingClientRect().height * 0.9 < e.y1 - e.y0 ? 'inline' : "none";
+  };
 
 textLine.each(function (d) {
   var fullText = sdg_labels[d.data.name - 1] + ": " + d.data.value;

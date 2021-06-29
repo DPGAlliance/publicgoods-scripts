@@ -129,3 +129,13 @@ label {
 #mytable td, #mytable td a{
   font-size: 100%;
 }
+
+.toolTip {
+  opacity: 1;
+  background-color: #fff;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 3px 3px 1px rgba(0, 0, 0, .11);
+  box-shadow: 0 3px 3px 1px rgba(0, 0, 0, .11);
+  border: 1px solid #d0cccc;
+  padding: 0.5rem;
+}
