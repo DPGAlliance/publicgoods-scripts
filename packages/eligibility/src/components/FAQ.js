@@ -15,11 +15,13 @@ function FAQ(props) {
                       </>
                       )}
 
-      <div style={{marginTop:40, textAlign:"left"}}>
-          <h5 class="text-uppercase"> {props.content.name} RESOURCES </h5>
-          <p>For additional resources about {props.content.name}, please review the link below : <br></br>
-          <a href={props.content.link} rel="noopener noreferrer" target="_blank" style={{color:'black'}}>{props.content.link}</a> </p>
-      </div>
+      {props.content.link != "" && (
+        <div style={{marginTop:40, textAlign:"left"}}>
+            <h5 class="text-uppercase"> {props.content.name} RESOURCES </h5>
+            <p>For additional resources about {props.content.name}, please review the link below : <br></br>
+            <a href={props.content.link} rel="noopener noreferrer" target="_blank" style={{color:'black'}}>{props.content.link}</a> </p>
+        </div>
+      )}
     </div>
     </>
   );
