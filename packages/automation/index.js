@@ -226,7 +226,7 @@ htmlOutput += `
   })
   .attr("fill", "white")
   .attr("display", function (e) {
-    return this.getBoundingClientRect().height * 0.9 < e.y1 - e.y0 ? 'inline' : "none";
+    return this.getBoundingClientRect().height * 0.9 < e.y1 - e.y0 ? "inline" : "none";
   });
 
 textLine.each(function (d) {
