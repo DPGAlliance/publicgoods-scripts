@@ -19,6 +19,19 @@ function Eligibility() {
   const [wrongQuestions, setWrongQuestions] = useState([]);
   const [resultClick, setResultClick] = useState(null);
 
+  React.useEffect(() => {
+    document.addEventListener('keydown', handleKeys);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeys);
+    };
+  }, []);
+
+  function handleKeys(e){ 
+    e.keyCode === 37 && document.querySelector('#backButton') && document.querySelector('#backButton').click() && e.preventDefault();
+    e.keyCode === 39 && document.querySelector('#nextButton') && document.querySelector('#nextButton').click() && e.preventDefault();
+  }
+
   function setUserAnswer(ans) {
     setAnswer(ans);
     answersList[counter] = ans;
@@ -105,8 +118,6 @@ function Eligibility() {
       setButtonName("Start Again")
       setResultClick(false);
     }
-    console.log(questionsList);
-    console.log(wrongQuestions);
   }
 
     return (
@@ -126,19 +137,19 @@ function Eligibility() {
 
         <div className="text-center">
           <Button 
-            className="mr-4 ml-2"
-            style={{width: "200px", marginBottom:80, borderRadius:0, borderColor:"#4D29BA", backgroundColor:"white", color:"#4D29BA", fontFamily:'NowAlt-Light'}}
+            className="ml-2"
             variant="secondary"
             onClick={(e) => handleClick(false)}
-            disabled={!prev}>
+            disabled={!prev}
+            id="backButton">
             Back
           </Button>
           <Button
-            className="ml-4 mr-2"
-            style={{width: "200px", marginBottom:80, borderRadius:0, backgroundColor:"#4D29BA", fontFamily:'NowAlt-Light'}}
+            className="mr-2"
             variant="secondary"
             onClick={(e) => handleClick(true)}
-            disabled={!next}>
+            disabled={!next}
+            id="nextButton">
             Next
           </Button>
         </div>
@@ -154,19 +165,19 @@ function Eligibility() {
           <Result quizScore={score} result={answersList} questions={wrongQuestions} />
           <div className="text-center">
             <Button 
-              className="mr-4 ml-2"
-              style={{width: "200px", marginBottom:80, borderRadius:0, borderColor:"#4D29BA", backgroundColor:"white", color:"#4D29BA", fontFamily:'NowAlt-Light'}}
+              className="ml-2"
               variant="secondary"
               onClick={(e) => window.open("https://digitalpublicgoods.net/", "_self")}
-              disabled={!prev}>
+              disabled={!prev}
+              id="backButton">
               Back to home
             </Button>
             <Button
-              className="ml-4 mr-2"
-              style={{width: "200px", marginBottom:80, borderRadius:0, backgroundColor:"#4D29BA", fontFamily:'NowAlt-Light'}}
+              className="mr-2"
               variant="secondary"
               onClick={(e) => handleResultClick(resultClick)}
-              disabled={!next}>
+              disabled={!next}
+              id="nextButton">
               {buttonName}
             </Button>
           </div>

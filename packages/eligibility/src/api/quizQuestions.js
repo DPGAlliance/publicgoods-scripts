@@ -3,7 +3,7 @@ import React from 'react';
 var quizQuestions = [
   {
       question: "Is the project relevant to one of the Sustainable Development Goals?",
-      statement: "Projects must demonstrate relevance to SDG",
+      statement: "Projects must demonstrate relevance to SDGs",
       faq: {
               copy: [
                         {
@@ -21,12 +21,12 @@ var quizQuestions = [
   },
   {
       question: "Does it use an appropriate open license?",
-      statement: "Projects must be open source",
+      statement: "Projects must demonstrate the use of an approved open license.",
       faq: {
           copy: [
                   {
                     subHeading: "What is open source?",
-                    text: "Open source commonly refers to software that uses an open development process and is licensed to include the source code."
+                    text: <p>Open source commonly refers to software that uses an open development process and is licensed to include the source code. <a href="http://opensource.com/" style={{color:"#4D29BA"}}>(Source)</a></p>
                   },
                   {
                     subHeading: "What licenses are accepted?",
@@ -50,7 +50,7 @@ var quizQuestions = [
   },
   {
       question: "Is ownership clearly defined?",
-      statement: "Ownership must be clearly defined.",
+      statement: "Ownership of everything the project produces must be clearly defined and documented.",
       faq: {
         copy: [
                 {
@@ -59,17 +59,17 @@ var quizQuestions = [
                 }
               ],
         name: "clear ownership",
-        link: "https://sdgs.un.org/goals"
+        link: ""
       }
   },
   {
-      question: "Does the license of libraries/dependencies undermine the openess of the project?",
-      statement: "Documentation must exist of the source code, use cases, and/or functional requirements for projects",
+      question: "Does the license of libraries/ dependencies undermine the openess of the project?",
+      statement: "If the project has mandatory dependencies that create more restrictions than the original license, the project(s) must be able to demonstrate independence from the closed component(s) and/or indicate the existence of functional, open alternatives.",
       faq: {
         copy: [
           {
             subHeading: "What does it mean to be platform independent?",
-            text: "Platform-independent software can be used in many different environments, hardware, or operating systems."
+            text: <p>Platform-independent software can be used in many different environments, hardware, or operating systems. <a href="https://www.gartner.com/en/information-technology/glossary/platform-independent" style={{color:"#4D29BA"}}>(Source)</a></p>
           },
           {
             subHeading: "If the project was forked from another project, is it platform independent?",
@@ -77,12 +77,12 @@ var quizQuestions = [
           }
         ],
         name: "platform independence",
-        link: "https://sdgs.un.org/goals"
+        link: ""
       }
   },
   {
       question: "Is there documentation?",
-      statement: "Documentation must exist of the source code, use cases, and/or functional requirements for projects",
+      statement: "The project must have documentation of the source code, use cases, and/or functional requirements.",
       faq: {
         copy: [
                 {
@@ -91,12 +91,12 @@ var quizQuestions = [
                 }
               ],
         name: "documentation",
-        link: "https://sdgs.un.org/goals"
+        link: ""
       }
   },
   {
     question: "Does this project collect or use non-personally identifiable information (non-PII) data?",
-    statement: "Documentation must exist of the source code, use cases, and/or functional requirements for projects",
+    statement: "If the project has non personally identifiable information (PII) there must be a mechanism for extracting or importing non-PII data from the system in a non-proprietary format.",
     faq: {
       copy: [
               {
@@ -109,12 +109,12 @@ var quizQuestions = [
               }
             ],
       name: "mechanism of extracting data",
-      link: "https://sdgs.un.org/goals"
+      link: ""
     }
   },
   {
     question: "Does the project adhere to privacy and other applicable international and domestic laws?",
-    statement: "Documentation must exist of the source code, use cases, and/or functional requirements for projects",
+    statement: "The project must state to the best of its knowledge that it complies with relevant privacy laws, and all applicable international and domestic laws.",
     faq: {
       copy: [
               {
@@ -123,12 +123,12 @@ var quizQuestions = [
               }
             ],
       name: "adherence to privacy and other applicable laws",
-      link: "https://sdgs.un.org/goals"
+      link: ""
     }
   },
   {
     question: "Does the project adhere to standards and best practices?",
-    statement: "Documentation must exist of the source code, use cases, and/or functional requirements for projects",
+    statement: "Projects must demonstrate adherence to standards, best practices, and/or principles.",
     faq: {
       copy: [
               {
@@ -138,12 +138,12 @@ var quizQuestions = [
               }
             ],
       name: "adherence to standards & best practices",
-      link: "https://sdgs.un.org/goals"
+      link: ""
     }
   },
   {
     question: "Does the project do no harm?",
-    statement: "Documentation must exist of the source code, use cases, and/or functional requirements for projects",
+    statement: "All projects must demonstrate that they have taken steps to ensure the project anticipates, prevents, and does no harm.",
     faq: {
       copy: [
               {
@@ -160,7 +160,7 @@ var quizQuestions = [
               }
             ],
       name: "do no harm",
-      link: "https://sdgs.un.org/goals"
+      link: ""
     }
   }
 ];

@@ -9,7 +9,10 @@
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "bootstrap": "^4.6.0",
-    "prop-types": "^15.7.2"
+    "prop-types": "^15.7.2",
+    "react-icons": "^4.2.0",
+    "react-step-progress-bar": "^1.0.3",
+    "react-tooltip": "^4.2.21"
   },
   "scripts": {
     "start": "react-scripts start",
