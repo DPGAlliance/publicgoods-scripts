@@ -28,7 +28,6 @@ function Eligibility() {
   }, []);
 
   function handleKeys(e){ 
-    console.log("Enter handle keys : " + e.keyCode);
     e.keyCode === 37 && document.querySelector('#backButton') && document.querySelector('#backButton').click() && e.preventDefault();
     e.keyCode === 39 && document.querySelector('#nextButton') && document.querySelector('#nextButton').click() && e.preventDefault();
   }
@@ -119,8 +118,6 @@ function Eligibility() {
       setButtonName("Start Again")
       setResultClick(false);
     }
-    console.log(questionsList);
-    console.log(wrongQuestions);
   }
 
     return (
