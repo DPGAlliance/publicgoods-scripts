@@ -9,7 +9,7 @@ function AnswerOption(props) {
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
+  }); 
 
   function handleKeyDown(e){ 
 
