@@ -121,10 +121,10 @@ function Eligibility() {
     setWrongQuestions(questionsList);
     setMaybeQuestions(maybeList); 
 
-    if(scoreValue === quizQuestions.length) {
+    if(scoreValue === quizQuestions.length || scoreValue + maybeList.length === quizQuestions.length) {
       setButtonName("Proceed");
       setResultClick(true);
-    } else if (scoreValue < 9) {
+    } else {
       setButtonName("Start Again")
       setResultClick(false);
     }
