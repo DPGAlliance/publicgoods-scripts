@@ -105,12 +105,10 @@ function Eligibility() {
     let maybeList = [];
 
     while (i < 9) {
-      if((i===3 || i===5) && answersList[i] === "No") {
+      if(answersList[i] === quizQuestions[i].answer) {
         scoreValue += 1;
-      } else if ((i===3 || i===5) && answersList[i] === "Yes") {
+      } else if (answersList[i] !== quizQuestions[i].answer && quizQuestions[i].maybe) {
         maybeList.push(quizQuestions[i]);
-      } else if(i!==3 && i!==5 && answersList[i] === "Yes") {
-        scoreValue += 1;
       } else {
         questionsList.push(quizQuestions[i]);
       }
