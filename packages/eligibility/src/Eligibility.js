@@ -17,6 +17,7 @@ function Eligibility() {
   const [score, setScore] = useState(0);
   const [buttonName, setButtonName] = useState('');
   const [wrongQuestions, setWrongQuestions] = useState([]);
+  const [maybeQuestions, setMaybeQuestions] = useState([]);
   const [resultClick, setResultClick] = useState(null);
 
   React.useEffect(() => {
@@ -101,16 +102,25 @@ function Eligibility() {
     let i = 0;
     let scoreValue = 0;
     let questionsList = [];
+    let maybeList = [];
+
     while (i < 9) {
-      if(answersList[i] === "Yes") {
+      if((i===3 || i===5) && answersList[i] === "No") {
         scoreValue += 1;
-      } else if(answersList[i] === "No") {
+      } else if ((i===3 || i===5) && answersList[i] === "Yes") {
+        maybeList.push(quizQuestions[i]);
+      } else if(i!==3 && i!==5 && answersList[i] === "Yes") {
+        scoreValue += 1;
+      } else {
         questionsList.push(quizQuestions[i]);
       }
       i += 1;
     }
+
     setScore(scoreValue);
     setWrongQuestions(questionsList);
+    setMaybeQuestions(maybeList); 
+
     if(scoreValue === quizQuestions.length) {
       setButtonName("Proceed");
       setResultClick(true);
@@ -162,7 +172,7 @@ function Eligibility() {
 
         {counter === quizQuestions.length && (
           <>
-          <Result quizScore={score} result={answersList} questions={wrongQuestions} />
+          <Result quizScore={score} result={answersList} questions={wrongQuestions} maybeQuestions={maybeQuestions} />
           <div className="text-center">
             <Button 
               className="ml-2"

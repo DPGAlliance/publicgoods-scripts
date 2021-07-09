@@ -142,7 +142,7 @@ var quizQuestions = [
     }
   },
   {
-    question: "Does the project do no harm?",
+    question: "Does the project take steps to anticipate, prevent and do no harm?",
     statement: "All projects must demonstrate that they have taken steps to ensure the project anticipates, prevents, and does no harm.",
     faq: {
       copy: [
