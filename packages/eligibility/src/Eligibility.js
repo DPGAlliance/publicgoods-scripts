@@ -1,4 +1,6 @@
-import React, {useState} from "react";
+import React, {useState, useCallback} from "react";
+import {useCookies} from "react-cookie";
+import {v4 as uuidv4} from "uuid";
 import Quiz from './components/Quiz';
 import Result from './components/Result';
 import FAQ from './components/FAQ';
@@ -19,14 +21,55 @@ function Eligibility() {
   const [wrongQuestions, setWrongQuestions] = useState([]);
   const [maybeQuestions, setMaybeQuestions] = useState([]);
   const [resultClick, setResultClick] = useState(null);
+  const [cookies, setCookie] = useCookies(["uuid"]);
+  const [values, setValues] = useState({});
 
   React.useEffect(() => {
     document.addEventListener('keydown', handleKeys);
+
+    // Initialize cookie if not present
+    const userId = uuidv4();
+    if (!cookies.uuid) {
+      setCookie("uuid", userId, {path: "/", maxAge: 2592000}); // maxAge: 30 days
+    } 
 
     return () => {
       document.removeEventListener('keydown', handleKeys);
     };
   }, []);
+
+  const debounce = (func, wait) => {
+    let timeout;
+    return function (...args) {
+      const context = this;
+      if (timeout) clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        timeout = null;
+        func.apply(context, args);
+      }, wait);
+    };
+  };
+
+  const debouncedSave = useCallback(
+    debounce((vals) => saveToDb(vals), 1000),
+    [cookies.uuid]
+  );
+
+  async function saveToDb(vals) {
+    if (cookies.uuid) {
+      console.log("Enters saveToDb");
+      await fetch(`https://submission-digitalpublicgoods.vercel.app/api/saveDB/${cookies.uuid}`, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          accept: "application/json",
+        },
+        body: JSON.stringify({
+          values: vals,
+        }),
+      });
+    }
+  }
 
   function handleKeys(e){ 
     e.keyCode === 37 && document.querySelector('#backButton') && document.querySelector('#backButton').click() && e.preventDefault();
@@ -103,8 +146,19 @@ function Eligibility() {
     let scoreValue = 0;
     let questionsList = [];
     let maybeList = [];
+    let valueList = {};
 
     while (i < 9) {
+      if(i > 1) {
+        if(answersList[i] === quizQuestions[i].answer)
+          valueList[quizQuestions[i].fieldName] = quizQuestions[i].answer;
+        else {
+          if(quizQuestions[i].answer === "Yes")
+            valueList[quizQuestions[i].fieldName] = "No";
+          else
+            valueList[quizQuestions[i].fieldName] = "Yes";
+        }
+      }
       if(answersList[i] === quizQuestions[i].answer) {
         scoreValue += 1;
       } else if (answersList[i] !== quizQuestions[i].answer && quizQuestions[i].maybe) {
@@ -118,7 +172,8 @@ function Eligibility() {
     setScore(scoreValue);
     setWrongQuestions(questionsList);
     setMaybeQuestions(maybeList); 
-
+    setValues(valueList);
+    
     if(scoreValue === quizQuestions.length || scoreValue + maybeList.length === quizQuestions.length) {
       setButtonName("Proceed");
       setResultClick(true);
