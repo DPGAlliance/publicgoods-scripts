@@ -57,7 +57,6 @@ function Eligibility() {
 
   async function saveToDb(vals) {
     if (cookies.uuid) {
-      console.log("Enters saveToDb");
       await fetch(`https://submission-digitalpublicgoods.vercel.app/api/saveDB/${cookies.uuid}`, {
         method: "POST",
         headers: {
