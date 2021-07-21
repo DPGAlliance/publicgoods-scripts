@@ -36,7 +36,7 @@ function Eligibility() {
     return () => {
       document.removeEventListener('keydown', handleKeys);
     };
-  }, []);
+  });
 
   const debounce = (func, wait) => {
     let timeout;

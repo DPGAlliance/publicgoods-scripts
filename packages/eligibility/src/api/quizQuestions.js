@@ -30,21 +30,21 @@ var quizQuestions = [
           copy: [
                   {
                     subHeading: "What is open source?",
-                    text: <p>Open source commonly refers to software that uses an open development process and is licensed to include the source code. <a href="http://opensource.com/" style={{color:"#4D29BA"}}>(Source)</a></p>
+                    text: <p>Open source commonly refers to software that uses an open development process and is licensed to include the source code. <a href="http://opensource.com/" rel="noopener noreferrer" target="_blank" style={{color:"#4D29BA"}}>(Source)</a></p>
                   },
                   {
                     subHeading: "What licenses are accepted?",
-                    text: <p>For open source software, only <a href="https://opensource.org/licenses" style={{color:"#4D29BA"}}>OSI approved licenses</a> are accepted. 
-                             For open content, the use of a <a href="https://creativecommons.org/licenses/" style={{color:"#4D29BA"}}>Creative Commons license</a> is required. 
-                             For open data, an <a href="https://opendefinition.org/licenses/" style={{color:"#4D29BA"}}>Open Data Commons</a> approved license is required. 
-                             See the <a href="https://github.com/unicef/publicgoods-candidates/blob/master/docs/licenses.md" style={{color:"#4D29BA"}}>full license list here</a> for reference.
+                    text: <p>For open source software, only <a href="https://opensource.org/licenses" rel="noopener noreferrer" target="_blank" style={{color:"#4D29BA"}}>OSI approved licenses</a> are accepted. 
+                             For open content, the use of a <a href="https://creativecommons.org/licenses/" rel="noopener noreferrer" target="_blank" style={{color:"#4D29BA"}}>Creative Commons license</a> is required. 
+                             For open data, an <a href="https://opendefinition.org/licenses/" rel="noopener noreferrer" target="_blank" style={{color:"#4D29BA"}}>Open Data Commons</a> approved license is required. 
+                             See the <a href="https://github.com/unicef/publicgoods-candidates/blob/master/docs/licenses.md" rel="noopener noreferrer" target="_blank" style={{color:"#4D29BA"}}>full license list here</a> for reference.
                           </p>
                   },
                   {
                     subHeading: "If a product is open content, must all content have the same license?",
                     text: <p>While we encourage products to use a license that allows for both derivatives and commercial 
-                             reuse (CC-BY and CC-BY-SA) or dedicates content to the public domain (<a href="https://creativecommons.org/choose/zero/" style={{color:"#4D29BA"}}>CC0</a>); 
-                             licenses that do not allow for commercial reuse (<a href="https://creativecommons.org/licenses/by-nc/4.0/" style={{color:"#4D29BA"}}>CC-BY-NC</a> and <a href="https://github.com/unicef/publicgoods-candidates/blob/master/docs/licenses.md" style={{color:"#4D29BA"}}>CC-BY-NC-SA</a>) are also accepted.
+                             reuse (CC-BY and CC-BY-SA) or dedicates content to the public domain (<a href="https://creativecommons.org/choose/zero/" rel="noopener noreferrer" target="_blank" style={{color:"#4D29BA"}}>CC0</a>); 
+                             licenses that do not allow for commercial reuse (<a href="https://creativecommons.org/licenses/by-nc/4.0/" rel="noopener noreferrer" target="_blank" style={{color:"#4D29BA"}}>CC-BY-NC</a> and <a href="https://github.com/unicef/publicgoods-candidates/blob/master/docs/licenses.md" rel="noopener noreferrer" target="_blank" style={{color:"#4D29BA"}}>CC-BY-NC-SA</a>) are also accepted.
                           </p>
                   }
                 ],
@@ -79,7 +79,7 @@ var quizQuestions = [
         copy: [
           {
             subHeading: "What does it mean to be platform independent?",
-            text: <p>Platform-independent software can be used in many different environments, hardware, or operating systems. <a href="https://www.gartner.com/en/information-technology/glossary/platform-independent" style={{color:"#4D29BA"}}>(Source)</a></p>
+            text: <p>Platform-independent software can be used in many different environments, hardware, or operating systems. <a href="https://www.gartner.com/en/information-technology/glossary/platform-independent" rel="noopener noreferrer" target="_blank" style={{color:"#4D29BA"}}>(Source)</a></p>
           },
           {
             subHeading: "If the product was forked from another product, is it platform independent?",
@@ -155,7 +155,7 @@ var quizQuestions = [
       copy: [
               {
                 subHeading: "Is there a list of examples of applicable standards or best practices to refer to?",
-                text: <p>Supported standards may include HTML, CSS, HTTP, JSON, REST, WCAG et al. Best practices may include <a href="https://digitalprinciples.org/principles/" style={{color:"#4D29BA"}}>Principles for Digital Development</a> or other industry/sector specific best practices. 
+                text: <p>Supported standards may include HTML, CSS, HTTP, JSON, REST, WCAG et al. Best practices may include <a href="https://digitalprinciples.org/principles/" rel="noopener noreferrer" target="_blank" style={{color:"#4D29BA"}}>Principles for Digital Development</a> or other industry/sector specific best practices. 
                       </p>
               }
             ],
