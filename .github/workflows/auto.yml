@@ -1,0 +1,35 @@
+name: Automatic Build
+
+on:
+  push:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - name: Clone publicgoods-website
+        run: git clone https://github.com/unicef/publicgoods-website.git ../publicgoods-website
+      - name: Clone publicgoods-candidates
+        run: git clone https://github.com/unicef/publicgoods-candidates.git ../publicgoods-candidates
+      - name: Run static.bash
+        run: bash scripts/static.bash
+      - name: Generating DPG's
+        run: cd packages/automation && npm install && node generate_dpgs.js
+      - name: Generating Nominees
+        env:
+            CLIENTID: ${{ secrets.CLIENTID}}
+            CLIENTSECRET: ${{ secrets.CLIENTSECRET}}
+        run: cd packages/automation && node generate_nominees.js
+      - name: Generating registry page
+        run: cd packages/automation && node index.js
+      - name: Build packages/registry
+        run: cd packages/registry && npm install && npm run build
+      - name: Run moveFiles.bash
+        run: bash scripts/moveFiles.bash
+      
