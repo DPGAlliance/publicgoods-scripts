@@ -43,8 +43,8 @@ function Result(props) {
       <>
       <h2 className="text-center"> Sorry! You are not eligible. </h2>
       <div className="pt-3 pl-4 pr-4 pb-4">
-        You correctly answered <strong>{props.quizScore}/9</strong> in the Eligibility Test. You must correctly answer <strong>9/9</strong> in order to be eligible.
-        Therefore, you currently do not qualify to nominate your product as a DPG. Let's take a deeper look:
+        You correctly answered <strong>{props.quizScore}/9</strong> in the Eligibility Test. The product you are considering to nominate is not currently eligible to become a DPG since you must correctly answer <strong>9/9</strong> in order to be eligible. 
+        Take a look at the responses you provided and a summary of the changes required before becoming a DPG.
       </div>
       <div className="summary">    
 
