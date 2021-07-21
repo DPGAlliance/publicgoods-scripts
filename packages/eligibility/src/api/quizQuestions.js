@@ -9,8 +9,8 @@ var quizQuestions = [
       faq: {
               copy: [
                         {
-                          subHeading: "What are the Sustainable Development Goals?",
-                          text: "The 17 Sustainable Development Goals are the blueprint to achieve a better and more sustainable future for all. They address the global challenges we face, including poverty, inequality, climate change, environmental degradation, peace and justice."
+                          subHeading: "What are the Sustainable Development Goals (SDGs)?",
+                          text: "The 17 Sustainable Development Goals  (SDGs) are a collection of 17 interlinked global goals designed as blueprint to achieve a better and more sustainable future for all.The SDGs were set up in 2015 by the United Nations General Assembly and are intended to be achieved by the year 2030. They address the global challenges we face, including poverty, inequality, climate change, environmental degradation, peace and justice."
                         },
                         {
                           subHeading: "What does it mean to demonstrate relevance to the sustainable development goals?",
@@ -30,7 +30,7 @@ var quizQuestions = [
           copy: [
                   {
                     subHeading: "What is open source?",
-                    text: <p>Open source commonly refers to software that uses an open development process and is licensed to include the source code. <a href="http://opensource.com/" rel="noopener noreferrer" target="_blank" style={{color:"#4D29BA"}}>(Source)</a></p>
+                    text: <p>Open source <a href="http://opensource.com/" rel="noopener noreferrer" target="_blank" style={{color:"#4D29BA"}}>commonly refers to</a> software that uses an open development process and is licensed to include the source code. Though originally referencing software, the open source model for software development inspired the use of the term to refer to other forms of open collaboration, such as open content and open data.</p>
                   },
                   {
                     subHeading: "What licenses are accepted?",
@@ -42,9 +42,9 @@ var quizQuestions = [
                   },
                   {
                     subHeading: "If a product is open content, must all content have the same license?",
-                    text: <p>While we encourage products to use a license that allows for both derivatives and commercial 
-                             reuse (CC-BY and CC-BY-SA) or dedicates content to the public domain (<a href="https://creativecommons.org/choose/zero/" rel="noopener noreferrer" target="_blank" style={{color:"#4D29BA"}}>CC0</a>); 
-                             licenses that do not allow for commercial reuse (<a href="https://creativecommons.org/licenses/by-nc/4.0/" rel="noopener noreferrer" target="_blank" style={{color:"#4D29BA"}}>CC-BY-NC</a> and <a href="https://github.com/unicef/publicgoods-candidates/blob/master/docs/licenses.md" rel="noopener noreferrer" target="_blank" style={{color:"#4D29BA"}}>CC-BY-NC-SA</a>) are also accepted.
+                    text: <p>
+                            If a project is being submitted as an open content DPG, then all of the content does not have to use the same license. 
+                            However, all of the content contained in the collection must use one of the <a href="https://opendefinition.org/licenses/" rel="noopener noreferrer" target="_blank" style={{color:"#4D29BA"}}>approved creative commons licenses</a>. 
                           </p>
                   }
                 ],
@@ -70,8 +70,8 @@ var quizQuestions = [
       }
   },
   {
-      question: "Does the license of libraries/ dependencies undermine the openess of the product?",
-      answer: "No",
+      question: "Is the product platform-independent?",
+      answer: "Yes",
       maybe: true,
       fieldName: "platformIndependence[mandatoryDepsCreateMoreRestrictions]",
       statement: "If the product has mandatory dependencies that create more restrictions than the original license, the product(s) must be able to demonstrate independence from the closed component(s) and/or indicate the existence of functional, open alternatives.",
@@ -79,7 +79,10 @@ var quizQuestions = [
         copy: [
           {
             subHeading: "What does it mean to be platform independent?",
-            text: <p>Platform-independent software can be used in many different environments, hardware, or operating systems. <a href="https://www.gartner.com/en/information-technology/glossary/platform-independent" rel="noopener noreferrer" target="_blank" style={{color:"#4D29BA"}}>(Source)</a></p>
+            text: <p>Platform-independent products can be used in many <a href="https://www.gartner.com/en/information-technology/glossary/platform-independent" rel="noopener noreferrer" target="_blank" style={{color:"#4D29BA"}}>different environments, hardware, or operating systems.</a> In this context, 
+              platform independence means that the accessibility or functionality of a product is not limited or dependent upon a closed component.  
+              In order to ensure this, products must be able to show that they can function without the closed component.
+              </p>
           },
           {
             subHeading: "If the product was forked from another product, is it platform independent?",
@@ -91,7 +94,7 @@ var quizQuestions = [
       }
   },
   {
-      question: "Is there documentation?",
+      question: "Is there documentation of the source code, use cases, and/or functional requirements for this product?",
       answer: "Yes",
       maybe: false,
       fieldName: "documentation[isDocumentationAvailable]",
@@ -116,8 +119,8 @@ var quizQuestions = [
     faq: {
       copy: [
               {
-                subHeading: "What is “non personally identifiable data”?",
-                text: "“Non personally identifiable data” refers to data that is anonymous. More specifically, this data cannot be used to identify an individual (eg. name, social security number, birth date, biometric data etc). Being able to extract or import non-PII data in a non-proprietary format is a measurement of openness – if data collected remains proprietary, there is limited utility of the data for other products, use cases or attainment of the SDGs."
+                subHeading: "What is “non-personally identifiable data”?",
+                text: "“Non-personally identifiable data” refers to data that is anonymous. More specifically, this data cannot be used to identify an individual (e.g. name, social security number, birth date, biometric data etc). Being able to extract or import non-PII data in a non-proprietary format is a measurement of openness – if data collected remains proprietary, there is limited utility of the data for other projects, use cases or attainment of the SDGs."
               },
               {
                 subHeading: "What is the best practice when providing documentation on data extraction?",
@@ -178,10 +181,6 @@ var quizQuestions = [
               {
                 subHeading: "What if my product collects or stores personally identifiable information (PII) data?",
                 text: "Products collecting data must identify the types of data collected and stored. Products must also demonstrate how they ensure the privacy and security of this data in addition to the steps taken to prevent adverse impacts resulting from its collection, storage, and distribution."
-              },
-              {
-                subHeading: "What is considered interaction between users?",
-                text: "Interaction between users could be via direct messaging or message boards, meeting platforms or collaborative mechanisms."
               }
             ],
       name: "do no harm",
