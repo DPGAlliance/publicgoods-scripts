@@ -6,10 +6,12 @@ pushd ../publicgoods-website/registry && \
     git add static/* && \
     cp ../../publicgoods-scripts/packages/registry/build/index.html . && \
 popd
-pushd ../publicgoods-website/eligibility && \
-    cp -R ../../publicgoods-website/wp-content/themes/dpga/font/. ../../publicgoods-scripts/packages/eligibility/src/font/ && \
+pushd packages/eligibility && \
+  ln -s ../../../../publicgoods-website/wp-includes/
+  ln -s ../../../../publicgoods-website/wp-content/
+  npm install && npm run build && \
 popd
-pushd packages/eligibility && npm install && npm run build && popd
+
 pushd ../publicgoods-website/eligibility && \
 	git rm -rf static/* || true && \
     mkdir static && \
