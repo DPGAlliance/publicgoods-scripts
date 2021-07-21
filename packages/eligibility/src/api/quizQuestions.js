@@ -56,6 +56,7 @@ var quizQuestions = [
       question: "Is ownership clearly defined?",
       answer: "Yes",
       maybe: false,
+      fieldName: "clearOwnership[isOwnershipExplicit]",
       statement: "Ownership of everything the project produces must be clearly defined and documented.",
       faq: {
         copy: [
@@ -72,6 +73,7 @@ var quizQuestions = [
       question: "Does the license of libraries/ dependencies undermine the openess of the project?",
       answer: "No",
       maybe: true,
+      fieldName: "platformIndependence[mandatoryDepsCreateMoreRestrictions]",
       statement: "If the project has mandatory dependencies that create more restrictions than the original license, the project(s) must be able to demonstrate independence from the closed component(s) and/or indicate the existence of functional, open alternatives.",
       faq: {
         copy: [
@@ -92,6 +94,7 @@ var quizQuestions = [
       question: "Is there documentation?",
       answer: "Yes",
       maybe: false,
+      fieldName: "documentation[isDocumentationAvailable]",
       statement: "The project must have documentation of the source code, use cases, and/or functional requirements.",
       faq: {
         copy: [
@@ -108,6 +111,7 @@ var quizQuestions = [
     question: "Does this project collect or use non-personally identifiable information (non-PII) data?",
     answer: "No",
     maybe: true,
+    fieldName: "NonPII[collectsNonPII]",
     statement: "If the project has non personally identifiable information (PII) there must be a mechanism for extracting or importing non-PII data from the system in a non-proprietary format.",
     faq: {
       copy: [
@@ -128,6 +132,7 @@ var quizQuestions = [
     question: "Does the project adhere to privacy and other applicable international and domestic laws?",
     answer: "Yes",
     maybe: false,
+    fieldName: "privacy[isPrivacyCompliant]",
     statement: "The project must state to the best of its knowledge that it complies with relevant privacy laws, and all applicable international and domestic laws.",
     faq: {
       copy: [
@@ -144,6 +149,7 @@ var quizQuestions = [
     question: "Does the project adhere to standards and best practices?",
     answer: "Yes",
     maybe: false,
+    fieldName: "standards[supportStandards]",
     statement: "Projects must demonstrate adherence to standards, best practices, and/or principles.",
     faq: {
       copy: [
@@ -161,6 +167,7 @@ var quizQuestions = [
     question: "Does the project take steps to anticipate, prevent and do no harm?",
     answer: "Yes",
     maybe: false,
+    fieldName: "doNoHarm[preventHarm[stepsToPreventHarm]]",
     statement: "All projects must demonstrate that they have taken steps to ensure the project anticipates, prevents, and does no harm.",
     faq: {
       copy: [
