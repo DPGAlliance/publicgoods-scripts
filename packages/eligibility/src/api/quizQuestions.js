@@ -14,7 +14,7 @@ var quizQuestions = [
                         },
                         {
                           subHeading: "What does it mean to demonstrate relevance to the sustainable development goals?",
-                          text: "A product as a whole, or its subcomponents must contribute to the attainment of the Sustainable Development Goals. For example, a product with a goal, mission or vision relevant to an SDG, or a product that produces a data set relevant to an SDG could qualify. In either case, there must be clear intentions to further the SDG in question through your work."
+                          text: "A product as a whole, or its subcomponents must contribute to the attainment of the Sustainable Development Goals. For example, a product with a goal, mission or vision relevant to an SDG, or a product that produces a data set relevant to an SDG would qualify. In either case, there must be clear intentions to further the SDG in question through your work."
                         }
                     ],
               name: "SDG",
@@ -62,7 +62,7 @@ var quizQuestions = [
         copy: [
                 {
                   subHeading: "What is meant by ‘clear ownership’ and how is it demonstrated? ",
-                  text: "Clear ownership can be demonstrated through copyright, trademark or other publicly available information. A link to, or a pdf of this documentation can be shared in order to qualify.  "
+                  text: "Clear ownership can be demonstrated through copyright, trademark or other publicly available information. A link to, or a pdf of this documentation should be shared in order to qualify.  "
                 }
               ],
         name: "clear ownership",
