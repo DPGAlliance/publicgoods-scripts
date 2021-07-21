@@ -14,12 +14,12 @@ code {
 
 @font-face {
   font-family: 'NowAlt-Regular';
-  src: local('NowAlt-Regular'), url(/wp-content/themes/dpga/font/NowAlt-Regular.woff) format('truetype');
+  src: local('NowAlt-Regular'), url(font/NowAlt-Regular.woff) format('truetype');
 }
 
 @font-face {
   font-family: 'NowAlt-Light';
-  src: local('NowAlt-Light'), url(/wp-content/themes/dpga/font/NowAlt-Light.woff) format('truetype');
+  src: local('NowAlt-Light'), url(font/NowAlt-Light.woff) format('truetype');
 }
 
 body {
