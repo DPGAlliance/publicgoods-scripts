@@ -31,6 +31,12 @@ jobs:
         run: cd packages/automation && node index.js
       - name: Run npm i at root for needed react-scripts package below
         run: npm install
+      - name: Softlink required dependencies
+        run:  |
+          ln -s ../../../../publicgoods-website/wp-includes/ packages/eligibility/public/wp-includes;
+          ln -s ../../../../publicgoods-website/wp-content/ packages/eligibility/public/wp-content;
+          ln -s ../../../../publicgoods-website/wp-includes/ packages/registry/public/wp-includes;
+          ln -s ../../../../publicgoods-website/wp-content/ packages/registry/public/wp-content;
       - name: Build packages/eligibility
         run: cd packages/eligibility && npm install && npm run build
       - name: Build packages/registry
