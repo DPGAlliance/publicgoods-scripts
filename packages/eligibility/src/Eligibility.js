@@ -22,7 +22,7 @@ function Eligibility() {
   const [maybeQuestions, setMaybeQuestions] = useState([]);
   const [resultClick, setResultClick] = useState(null);
   const [cookies, setCookie] = useCookies(["uuid"]);
-  // const [values, setValues] = useState({});
+  const [values, setValues] = useState({});
 
   React.useEffect(() => {
     document.addEventListener('keydown', handleKeys);
@@ -36,9 +36,9 @@ function Eligibility() {
     return () => {
       document.removeEventListener('keydown', handleKeys);
     };
-  });
+  }, []);
 
-/*   const debounce = (func, wait) => {
+  const debounce = (func, wait) => {
     let timeout;
     return function (...args) {
       const context = this;
@@ -53,7 +53,7 @@ function Eligibility() {
   const debouncedSave = useCallback(
     debounce((vals) => saveToDb(vals), 1000),
     [cookies.uuid]
-  ); */
+  );
 
   async function saveToDb(vals) {
     if (cookies.uuid) {
