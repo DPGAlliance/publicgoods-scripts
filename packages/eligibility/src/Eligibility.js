@@ -36,7 +36,7 @@ function Eligibility() {
     return () => {
       document.removeEventListener('keydown', handleKeys);
     };
-  }, []);
+  });
 
   const debounce = (func, wait) => {
     let timeout;
@@ -114,6 +114,7 @@ function Eligibility() {
       setButtonName('');
       setWrongQuestions([]);         
     } else if (param) {
+      debouncedSave(values);
       window.open("https://submission-digitalpublicgoods.vercel.app/");
     }
   }
