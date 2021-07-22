@@ -26,7 +26,7 @@ jobs:
       #       CLIENTSECRET: ${{ secrets.CLIENTSECRET}}
       #   run: cd packages/automation && node generate_nominees.js
       - name: Downloading nominees.json file into packages/registry/src
-        run:  curl --location --request GET 'https://api.digitalpublicgoods.net/nominees/' -o nominees.json 
+        run:  curl --location --request GET 'https://api.digitalpublicgoods.net/nominees/' -o packages/registry/src/nominees.json 
       - name: Generating registry page
         run: cd packages/automation && node index.js
       - name: Build packages/eligibility
