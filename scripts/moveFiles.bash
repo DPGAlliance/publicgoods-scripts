@@ -6,6 +6,7 @@ pushd ../publicgoods-website/registry && \
     git add static/* && \
     cp ../../publicgoods-scripts/packages/registry/build/index.html . && \
 popd
+
 pushd ../publicgoods-website/eligibility && \
 	git rm -rf static/* || true && \
     mkdir static && \
