@@ -10,7 +10,7 @@ function Result(props) {
       <h2 className="text-center"> You are eligible! </h2>
       <div className="pt-3 pl-4 pr-4 pb-4">
         You correctly answered <strong>{props.quizScore}/9</strong> in the Eligibility Test. Therefore, you qualify
-        to nominate your project to DPG. Click <strong>Proceed</strong> to complete the Nomination Form! <br></br>
+        to nominate your product to DPG. Click <strong>Proceed</strong> to complete the Nomination Form! <br></br>
         Have questions? Contact us <a href="mailto:%20hello@digitalpublicgoods.net">here</a>.
       </div>
       </>
@@ -21,7 +21,7 @@ function Result(props) {
       <h2 className="text-center"> You may be eligible! </h2>
       <div className="pt-3 pl-5 pr-4 pb-4" style={{fontFamily:'Jost-light'}}>
         You correctly answered <strong>{props.quizScore}/9</strong> in the Eligibility Test. You may be eligible to nominate
-        your project to DPG based on the conditions given below. 
+        your product to DPG based on the conditions given below. 
       </div>
       <div className="summary">    
           
@@ -43,8 +43,8 @@ function Result(props) {
       <>
       <h2 className="text-center"> Sorry! You are not eligible. </h2>
       <div className="pt-3 pl-4 pr-4 pb-4">
-        You correctly answered <strong>{props.quizScore}/9</strong> in the Eligibility Test. You must correctly answer <strong>9/9</strong> in order to be eligible.
-        Therefore, you currently do not qualify to nominate your project as a DPG. Let's take a deeper look:
+        You correctly answered <strong>{props.quizScore}/9</strong> in the Eligibility Test. The product you are considering to nominate is not currently eligible to become a DPG since you must correctly answer <strong>9/9</strong> in order to be eligible. 
+        Take a look at the responses you provided and a summary of the changes required before becoming a DPG.
       </div>
       <div className="summary">    
 
