@@ -28,8 +28,8 @@ jobs:
       #   run: cd packages/automation && node generate_nominees.js
       - name: Generating registry page
         run: cd packages/automation && node index.js
-      - name: Generating eligibility page
-        run: cd packages/eligibility && node index.js
+      - name: Build packages/eligibility
+        run: ccd packages/registry && npm install && npm run build
       - name: Build packages/registry
         run: cd packages/registry && npm install && npm run build
       - name: Run moveFiles.bash
