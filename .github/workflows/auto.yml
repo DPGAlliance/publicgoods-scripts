@@ -29,6 +29,8 @@ jobs:
         run:  curl --location --request GET 'https://api.digitalpublicgoods.net/nominees/' -o packages/registry/src/nominees.json 
       - name: Generating registry page
         run: cd packages/automation && node index.js
+      - name: Run npm i at root for needed react-scripts package below
+        run: npm install
       - name: Build packages/eligibility
         run: cd packages/eligibility && npm install && npm run build
       - name: Build packages/registry
