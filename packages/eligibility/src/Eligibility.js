@@ -6,6 +6,9 @@ import Result from './components/Result';
 import FAQ from './components/FAQ';
 import quizQuestions from './api/quizQuestions';
 import {Button} from "react-bootstrap";
+import "react-step-progress-bar/styles.css";
+import { ProgressBar } from "react-step-progress-bar";
+import Paper from '@material-ui/core/Paper';
 import './index.css';
 
 function Eligibility() {
@@ -183,69 +186,80 @@ function Eligibility() {
   }
 
     return (
-      <>      
-      <div>
-      {counter < quizQuestions.length && (        
-        <>
-        <div className="App" style={{paddingBottom:40, textAlign: "left"}}>                
-          <Quiz
-          answer={answer}
-          questionId={questionId}
-          question={question}
-          questionTotal={quizQuestions.length}
-          onAnswerSelected={handleAnswerSelected}
+      <>  
+      <center>
+        <div className="pt-2 pb-3" style={{width:"60%"}}>
+          <ProgressBar
+            filledBackground="linear-gradient(to right, #cdbdff, #4d29ba)"
+            percent={(questionId/9)*100}
           />
         </div>
 
-        <div className="text-center">
-          <Button 
-            className="ml-2"
-            variant="secondary"
-            onClick={(e) => handleClick(false)}
-            disabled={!prev}
-            id="backButton">
-            Back
-          </Button>
-          <Button
-            className="mr-2"
-            variant="secondary"
-            onClick={(e) => handleClick(true)}
-            disabled={!next}
-            id="nextButton">
-            Next
-          </Button>
-        </div>
-
-        <div style={{backgroundColor:"#F4F4F4"}}>
-        <FAQ content={quizQuestions[counter].faq} /> 
-        </div>
-        </>
-        )}
-
-        {counter === quizQuestions.length && (
+      <Paper className="pt-4 m-4 card" variant="outlined" elevation={5}>  
+        <div>
+        {counter < quizQuestions.length && (        
           <>
-          <Result quizScore={score} result={answersList} questions={wrongQuestions} maybeQuestions={maybeQuestions} />
+          <div className="App" style={{paddingBottom:20, textAlign: "left"}}>                
+            <Quiz
+            answer={answer}
+            questionId={questionId}
+            question={question}
+            questionTotal={quizQuestions.length}
+            onAnswerSelected={handleAnswerSelected}
+            />
+          </div>
+
           <div className="text-center">
             <Button 
               className="ml-2"
               variant="secondary"
-              onClick={(e) => window.open("https://digitalpublicgoods.net/", "_self")}
+              onClick={(e) => handleClick(false)}
               disabled={!prev}
               id="backButton">
-              Back to home
+              Back
             </Button>
             <Button
               className="mr-2"
               variant="secondary"
-              onClick={(e) => handleResultClick(resultClick)}
+              onClick={(e) => handleClick(true)}
               disabled={!next}
               id="nextButton">
-              {buttonName}
+              Next
             </Button>
           </div>
+
+          <div style={{backgroundColor:"#F4F4F4"}}>
+          <FAQ content={quizQuestions[counter].faq} /> 
+          </div>
           </>
-        )}
-        </div> 
+          )}
+
+          {counter === quizQuestions.length && (
+            <>
+            <Result quizScore={score} result={answersList} questions={wrongQuestions} maybeQuestions={maybeQuestions} />
+            <div className="text-center">
+              <Button 
+                className="ml-2"
+                variant="secondary"
+                onClick={(e) => window.open("https://digitalpublicgoods.net/", "_self")}
+                disabled={!prev}
+                id="backButton">
+                Back to home
+              </Button>
+              <Button
+                className="mr-2"
+                variant="secondary"
+                onClick={(e) => handleResultClick(resultClick)}
+                disabled={!next}
+                id="nextButton">
+                {buttonName}
+              </Button>
+            </div>
+            </>
+          )}
+          </div>
+      </Paper>
+      </center>
 
         </>
       );
