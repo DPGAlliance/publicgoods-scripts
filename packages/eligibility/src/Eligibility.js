@@ -117,6 +117,7 @@ function Eligibility() {
       setButtonName('');
       setWrongQuestions([]);         
     } else if (param) {
+      debouncedSave(values);
       window.open("https://submission-digitalpublicgoods.vercel.app/");
     }
   }
