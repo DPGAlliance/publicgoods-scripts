@@ -201,6 +201,7 @@ function Eligibility() {
         <div>
         {counter < quizQuestions.length && (        
           <>
+          <div className="pb-3">
           <div className="quiz pt-0 pl-3 pr-3 text-left">
             <QuestionCount
               counter={questionId}
@@ -222,6 +223,7 @@ function Eligibility() {
                   onAnswerSelected={handleAnswerSelected}
               />             
             </ul>
+          </div>
           </div>
 
           <div className="text-center">
