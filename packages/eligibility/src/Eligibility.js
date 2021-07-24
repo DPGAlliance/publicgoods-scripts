@@ -1,7 +1,6 @@
 import React, {useState, useCallback} from "react";
 import {useCookies} from "react-cookie";
 import {v4 as uuidv4} from "uuid";
-import Quiz from './components/Quiz';
 import Result from './components/Result';
 import FAQ from './components/FAQ';
 import AnswerOption from './components/AnswerOption';
@@ -245,7 +244,7 @@ function Eligibility() {
           </div>
 
           <div style={{backgroundColor:"#F4F4F4"}}>
-            <a name="FAQ"><FAQ content={quizQuestions[counter].faq} /></a> 
+            <a href="/#" name="FAQ" style={{fontSize:1, textDecoration:"none", color:"#F4F4F4"}}>.</a><FAQ content={quizQuestions[counter].faq} />
           </div>
           </>
           )}
