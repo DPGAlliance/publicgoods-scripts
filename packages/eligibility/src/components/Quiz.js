@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from 'prop-types';
 import AnswerOption from './AnswerOption';
 import QuestionCount from './QuestionCount';
-import Question from './Question';
 
 function Quiz(props) {
 
@@ -12,7 +11,7 @@ function Quiz(props) {
             counter={props.questionId}
             total={props.questionTotal}
           />
-          <Question content={props.question} />
+          <h4 className="question pl-4">{props.question} <a href="#FAQ" style={{fontSize:13, textDecoration:"underline", color:"#4D29BA"}}> Not sure? </a></h4>
           <ul className="answerOptions">            
             <AnswerOption
                 answerContent="Yes"

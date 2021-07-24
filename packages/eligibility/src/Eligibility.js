@@ -4,6 +4,8 @@ import {v4 as uuidv4} from "uuid";
 import Quiz from './components/Quiz';
 import Result from './components/Result';
 import FAQ from './components/FAQ';
+import AnswerOption from './components/AnswerOption';
+import QuestionCount from './components/QuestionCount';
 import quizQuestions from './api/quizQuestions';
 import {Button} from "react-bootstrap";
 import "react-step-progress-bar/styles.css";
@@ -200,14 +202,27 @@ function Eligibility() {
         <div>
         {counter < quizQuestions.length && (        
           <>
-          <div className="App" style={{paddingBottom:20, textAlign: "left"}}>                
-            <Quiz
-            answer={answer}
-            questionId={questionId}
-            question={question}
-            questionTotal={quizQuestions.length}
-            onAnswerSelected={handleAnswerSelected}
+          <div className="quiz pt-0 pl-3 pr-3 text-left">
+            <QuestionCount
+              counter={questionId}
+              total={quizQuestions.length}
             />
+
+            <h4 className="question pl-4">{question} <a href="#FAQ" style={{fontSize:13, textDecoration:"underline", color:"#4D29BA"}}> Not sure? </a></h4>
+
+            <ul className="answerOptions">            
+              <AnswerOption
+                  answerContent="Yes"
+                  answer={answer}
+                  onAnswerSelected={handleAnswerSelected}
+              />            
+              
+              <AnswerOption
+                  answerContent="No"
+                  answer={answer}
+                  onAnswerSelected={handleAnswerSelected}
+              />             
+            </ul>
           </div>
 
           <div className="text-center">
@@ -230,7 +245,7 @@ function Eligibility() {
           </div>
 
           <div style={{backgroundColor:"#F4F4F4"}}>
-          <FAQ content={quizQuestions[counter].faq} /> 
+            <a name="FAQ"><FAQ content={quizQuestions[counter].faq} /></a> 
           </div>
           </>
           )}
