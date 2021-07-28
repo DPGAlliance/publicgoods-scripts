@@ -29,7 +29,7 @@ function AnswerOption(props) {
   }
 
   return (
-    <div className="answerOption" style={{marginTop:0}}>
+    <div className="answerOption" style={{marginTop:0, padding:5}}>
       <label className="radioCustomLabel" htmlFor={props.answerContent}>
       <input
         id={props.answerContent}

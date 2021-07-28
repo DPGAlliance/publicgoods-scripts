@@ -1,11 +1,15 @@
 import React, {useState, useCallback} from "react";
 import {useCookies} from "react-cookie";
 import {v4 as uuidv4} from "uuid";
-import Quiz from './components/Quiz';
 import Result from './components/Result';
 import FAQ from './components/FAQ';
+import AnswerOption from './components/AnswerOption';
+import QuestionCount from './components/QuestionCount';
 import quizQuestions from './api/quizQuestions';
 import {Button} from "react-bootstrap";
+import "react-step-progress-bar/styles.css";
+import { ProgressBar } from "react-step-progress-bar";
+import Paper from '@material-ui/core/Paper';
 import './index.css';
 
 function Eligibility() {
@@ -184,69 +188,95 @@ function Eligibility() {
   }
 
     return (
-      <>      
-      <div>
-      {counter < quizQuestions.length && (        
-        <>
-        <div className="App" style={{paddingBottom:40, textAlign: "left"}}>                
-          <Quiz
-          answer={answer}
-          questionId={questionId}
-          question={question}
-          questionTotal={quizQuestions.length}
-          onAnswerSelected={handleAnswerSelected}
+      <>  
+      <center>
+        <div className="pt-2 pb-3" style={{width:"60%"}}>
+          <ProgressBar
+            filledBackground="linear-gradient(to right, #cdbdff, #4d29ba)"
+            percent={(questionId/9)*100}
           />
         </div>
 
-        <div className="text-center">
-          <Button 
-            className="ml-2"
-            variant="secondary"
-            onClick={(e) => handleClick(false)}
-            disabled={!prev}
-            id="backButton">
-            Back
-          </Button>
-          <Button
-            className="mr-2"
-            variant="secondary"
-            onClick={(e) => handleClick(true)}
-            disabled={!next}
-            id="nextButton">
-            Next
-          </Button>
-        </div>
-
-        <div style={{backgroundColor:"#F4F4F4"}}>
-        <FAQ content={quizQuestions[counter].faq} /> 
-        </div>
-        </>
-        )}
-
-        {counter === quizQuestions.length && (
+      <Paper className="pt-4 m-4 card" variant="outlined" elevation={5}>  
+        <div>
+        {counter < quizQuestions.length && (        
           <>
-          <Result quizScore={score} result={answersList} questions={wrongQuestions} maybeQuestions={maybeQuestions} />
+          <div className="pb-3">
+          <div className="quiz pt-0 pl-3 pr-3 text-left">
+            <QuestionCount
+              counter={questionId}
+              total={quizQuestions.length}
+            />
+
+            <h4 className="question pl-4">{question} <a href="#FAQ" style={{fontSize:13, textDecoration:"underline", color:"#4D29BA"}}> Not sure? </a></h4>
+
+            <ul className="answerOptions">            
+              <AnswerOption
+                  answerContent="Yes"
+                  answer={answer}
+                  onAnswerSelected={handleAnswerSelected}
+              />            
+              
+              <AnswerOption
+                  answerContent="No"
+                  answer={answer}
+                  onAnswerSelected={handleAnswerSelected}
+              />             
+            </ul>
+          </div>
+          </div>
+
           <div className="text-center">
             <Button 
               className="ml-2"
               variant="secondary"
-              onClick={(e) => window.open("https://digitalpublicgoods.net/", "_self")}
+              onClick={(e) => handleClick(false)}
               disabled={!prev}
               id="backButton">
-              Back to home
+              Back
             </Button>
             <Button
               className="mr-2"
               variant="secondary"
-              onClick={(e) => handleResultClick(resultClick)}
+              onClick={(e) => handleClick(true)}
               disabled={!next}
               id="nextButton">
-              {buttonName}
+              Next
             </Button>
           </div>
+
+          <div style={{backgroundColor:"#F4F4F4"}}>
+            <a href="/#" name="FAQ" style={{fontSize:1, textDecoration:"none", color:"#F4F4F4"}}>.</a><FAQ content={quizQuestions[counter].faq} />
+          </div>
           </>
-        )}
-        </div> 
+          )}
+
+          {counter === quizQuestions.length && (
+            <>
+            <Result quizScore={score} result={answersList} questions={wrongQuestions} maybeQuestions={maybeQuestions} />
+            <div className="text-center">
+              <Button 
+                className="ml-2"
+                variant="secondary"
+                onClick={(e) => window.open("https://digitalpublicgoods.net/", "_self")}
+                disabled={!prev}
+                id="backButton">
+                Back to home
+              </Button>
+              <Button
+                className="mr-2"
+                variant="secondary"
+                onClick={(e) => handleResultClick(resultClick)}
+                disabled={!next}
+                id="nextButton">
+                {buttonName}
+              </Button>
+            </div>
+            </>
+          )}
+          </div>
+      </Paper>
+      </center>
 
         </>
       );
