@@ -16,7 +16,7 @@ function Eligibility() {
   const [counter, setCounter] = useState(0);
   const [prev, setPrev] = useState(false);
   const [next, setNext] = useState(false);
-  const [questionId, setQuestionId] = useState(1);
+  const [questionId, setQuestionId] = useState(0);
   const [question, setQuestion] = useState(quizQuestions[0].question);
   const [answer, setAnswer] = useState('');
   const [answersList, setAnswerList] = useState({});
@@ -27,6 +27,7 @@ function Eligibility() {
   const [resultClick, setResultClick] = useState(null);
   const [cookies, setCookie] = useCookies(["uuid"]);
   const [values, setValues] = useState({});
+  const [startQuiz, setStartQuiz] = useState(false);
 
   React.useEffect(() => {
     document.addEventListener('keydown', handleKeys);
@@ -199,7 +200,28 @@ function Eligibility() {
 
       <Paper className="pt-4 m-4 card" variant="outlined" elevation={5}>  
         <div>
-        {counter < quizQuestions.length && (        
+        {!startQuiz && (
+        <>
+          <div className="p-3">
+            <h3 className="pl-3 pr-3 text-center" style={{fontFamily:"NowAlt-Regular", color:"#2b209a"}}> Is your digital solution ready to be a Digital Public Good? </h3>
+            <div className="text-left p-4"> 
+            This submission form requests information that will be used to assess whether a project meets the minimum requirements to be considered a Digital Public Good according to the DPG Alliance. This process is being regularly updated and improved so additional information may be requested in addition to what is collected through this form.
+            <br />Please check the submission guide in advance to know what information will be requested of you. If you do not have all of the information about a project you may still submit it. Please provide as much information as possible. Projects with more complete information will move more quickly through the vetting process.
+            <br />Problems? nominations@digitalpublicgoods.net
+            </div>
+          </div>
+
+          <Button
+            className="mr-2"
+            style={{width: "200px", marginLeft:25, marginBottom:30, borderRadius:0, backgroundColor:"#4D29BA"}}
+            variant="secondary"
+            onClick={(e) => {setStartQuiz(true); setQuestionId(1);}}
+            id="nextButton">
+            Start Assessment
+          </Button>
+        </>
+        )}
+        {startQuiz && counter < quizQuestions.length && (        
           <>
           <div className="pb-3">
           <div className="quiz pt-0 pl-3 pr-3 text-left">
@@ -251,7 +273,7 @@ function Eligibility() {
           </>
           )}
 
-          {counter === quizQuestions.length && (
+          {startQuiz && counter === quizQuestions.length && (
             <>
             <Result quizScore={score} result={answersList} questions={wrongQuestions} maybeQuestions={maybeQuestions} />
             <div className="text-center">
