@@ -205,9 +205,8 @@ function Eligibility() {
           <div className="p-3">
             <h3 className="pl-3 pr-3 text-center" style={{fontFamily:"NowAlt-Regular", color:"#2b209a"}}> Is your digital solution ready to be a Digital Public Good? </h3>
             <div className="text-left p-4"> 
-            This submission form requests information that will be used to assess whether a project meets the minimum requirements to be considered a Digital Public Good according to the DPG Alliance. This process is being regularly updated and improved so additional information may be requested in addition to what is collected through this form.
-            <br />Please check the submission guide in advance to know what information will be requested of you. If you do not have all of the information about a project you may still submit it. Please provide as much information as possible. Projects with more complete information will move more quickly through the vetting process.
-            <br />Problems? nominations@digitalpublicgoods.net
+            The Eligibility Form consists of 9 questions that will help you quickly determine if your digital solution can be nominated as a Digital Public Good (DPG) at this time. If you are eligible, you may continue with your nomination submission via the submission form. If you are not currently eligible, you will be given pointers on how you can improve in order to be eligible. 
+            <br /><br />If you are a developer or owner of a digital solution that does good and is open to all, we welcome you to fill out this quick and easy form. Want to know whether your favorite open, social impact project can become a DPG? Fill out this form and find out for yourself!
             </div>
           </div>
 
@@ -217,7 +216,7 @@ function Eligibility() {
             variant="secondary"
             onClick={(e) => {setStartQuiz(true); setQuestionId(1);}}
             id="nextButton">
-            Start Assessment
+            Get Started
           </Button>
         </>
         )}
