@@ -16,7 +16,7 @@ function Eligibility() {
   const [counter, setCounter] = useState(0);
   const [prev, setPrev] = useState(false);
   const [next, setNext] = useState(false);
-  const [questionId, setQuestionId] = useState(1);
+  const [questionId, setQuestionId] = useState(0);
   const [question, setQuestion] = useState(quizQuestions[0].question);
   const [answer, setAnswer] = useState('');
   const [answersList, setAnswerList] = useState({});
@@ -27,6 +27,7 @@ function Eligibility() {
   const [resultClick, setResultClick] = useState(null);
   const [cookies, setCookie] = useCookies(["uuid"]);
   const [values, setValues] = useState({});
+  const [startQuiz, setStartQuiz] = useState(false);
 
   React.useEffect(() => {
     document.addEventListener('keydown', handleKeys);
@@ -199,7 +200,27 @@ function Eligibility() {
 
       <Paper className="pt-4 m-4 card" variant="outlined" elevation={5}>  
         <div>
-        {counter < quizQuestions.length && (        
+        {!startQuiz && (
+        <>
+          <div className="p-3">
+            <h3 className="pl-3 pr-3 text-center" style={{fontFamily:"NowAlt-Regular", color:"#2b209a"}}> Is your digital solution ready to be a Digital Public Good? </h3>
+            <div className="text-left p-4"> 
+            The Eligibility Form consists of 9 questions that will help you quickly determine if your digital solution can be nominated as a Digital Public Good (DPG) at this time. If you are eligible, you may continue with your nomination submission via the submission form. If you are not currently eligible, you will be given pointers on how you can improve in order to be eligible. 
+            <br /><br />If you are a developer or owner of a digital solution that does good and is open to all, we welcome you to fill out this quick and easy form. Want to know whether your favorite open, social impact project can become a DPG? Fill out this form and find out for yourself!
+            </div>
+          </div>
+
+          <Button
+            className="mr-2"
+            style={{width: "200px", marginLeft:25, marginBottom:30, borderRadius:0, backgroundColor:"#4D29BA"}}
+            variant="secondary"
+            onClick={(e) => {setStartQuiz(true); setQuestionId(1);}}
+            id="nextButton">
+            Get Started
+          </Button>
+        </>
+        )}
+        {startQuiz && counter < quizQuestions.length && (        
           <>
           <div className="pb-3">
           <div className="quiz pt-0 pl-3 pr-3 text-left">
@@ -251,7 +272,7 @@ function Eligibility() {
           </>
           )}
 
-          {counter === quizQuestions.length && (
+          {startQuiz && counter === quizQuestions.length && (
             <>
             <Result quizScore={score} result={answersList} questions={wrongQuestions} maybeQuestions={maybeQuestions} />
             <div className="text-center">

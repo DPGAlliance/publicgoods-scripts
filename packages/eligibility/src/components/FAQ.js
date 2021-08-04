@@ -8,7 +8,7 @@ function FAQ(props) {
       {props.content.copy && props.content.copy.map((copy, index) =>
         <>
           <h5 style={{fontSize:"1.1rem"}}> {copy.subHeading} </h5>
-          <p style={{fontSize:"1rem", marginBottom:25}}>
+          <p style={{fontSize:"1rem", fontWeight:100, marginBottom:25}}>
             {copy.text}
           </p>
         </>
@@ -18,7 +18,7 @@ function FAQ(props) {
         <div style={{marginTop:20, textAlign:"left"}}>
             <h5 style={{fontSize:"1.1rem"}} class="text-uppercase"> {props.content.name} RESOURCES </h5>
             <p style={{fontSize:"1rem"}}>For additional resources about {props.content.name}, please review the link below : <br></br>
-            <a href={props.content.link} rel="noopener noreferrer" target="_blank" style={{color:'black'}}>{props.content.link}</a> 
+            <a href={props.content.link} rel="noopener noreferrer" target="_blank">{props.content.link}</a> 
             </p>
         </div>
       )}
