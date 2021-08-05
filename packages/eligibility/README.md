@@ -1,6 +1,6 @@
 # Eligibility Form
 
-The Eligibility Form consists of nine questions that will help users quickly determine if their digital solution can be nominated as a Digital Public Good (DPG) at this time. If the digital solution is eligible, the user may continue with their nomination submission via the [submission form](https://submission-digitalpublicgoods.vercel.app/). If the digital solution is not currently eligible, the user will be given pointers on how they can improve the product in order to make it eligible. 
+The [Eligibility Form](https://digitalpublicgoods.net/eligibility/) consists of nine questions that will help users quickly determine if their digital solution can be nominated as a Digital Public Good (DPG) at this time. If the digital solution is eligible, the user may continue with their nomination submission via the [submission form](https://submission-digitalpublicgoods.vercel.app/). If the digital solution is not currently eligible, the user will be given pointers on how they can improve the product in order to make it eligible. 
 
 If you are a developer or owner of a digital solution that does good and is open to all, we welcome you to fill out this quick and easy form. 
 
@@ -21,23 +21,17 @@ This `api` directory in the `src` folder contains the `quizQuestions.js` file wh
 
 The `components` directory in the `src` folder contains all the React components used in developing the Eligibility Form. Detailed information about each components is given below:
 
-- **QuestionCount**
-  This component displays the question number the user is at and the keyboard shortcuts tooltip. 
+- **QuestionCount** - This component displays the question number the user is at and the keyboard shortcuts tooltip. 
 
-- **AnswerOption**
-  This component displays the `Yes` and `No` answer options and records the selected answer for each question.
+- **AnswerOption** - This component displays the `Yes` and `No` answer options and records the selected answer for each question.
 
-- **FAQ**
-  This component renders the entire FAQ section for each question. It fetches the data from `api/quizQuestions.js` and uses `map` to display all the respective questions and answers. It also renders a URL which directs users additional resources if a link is given.
+- **FAQ** - This component renders the entire FAQ section for each question. It fetches the data from `api/quizQuestions.js` and uses `map` to display all the respective questions and answers. It also renders a URL which directs users additional resources if a link is given.
 
-- **Summary**
-  All questions in which the user does not select the correct answer are added to a list and passed to the `Summary` component one at a time. This component then displays a statement on the Result page to let users know why they may not be eligible.
+- **Summary** - All questions in which the user does not select the correct answer are added to a list and passed to the `Summary` component one at a time. This component then displays a statement on the Result page to let users know why they may not be eligible.
 
-- **Result**
-  This component displays the score of the user and a corresponding message to let users know if they are eligible or not. It then uses `map` and the `Summary` component to display what steps the user can take in order to ensure that their digital solution becomes eligible.
+- **Result** - This component displays the score of the user and a corresponding message to let users know if they are eligible or not. It then uses `map` and the `Summary` component to display what steps the user can take in order to ensure that their digital solution becomes eligible.
 
-- **Eligibility**
-  This component defines most of the functionality. It conditionally renders the Introductory page, Quiz pages or the Result page. It stores the user's answers, implements the `Next` and `Back` functionality and calculates the result based on the collected answers.
+- **Eligibility** - This component defines most of the functionality. It conditionally renders the Introductory page, Quiz pages or the Result page. It stores the user's answers, implements the `Next` and `Back` functionality and calculates the result based on the collected answers.
 
 ## 🛠 Development
 
