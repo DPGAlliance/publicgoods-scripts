@@ -2,11 +2,11 @@
 
 The [Eligibility Form](https://digitalpublicgoods.net/eligibility/) consists of nine questions that will help users quickly determine if their digital solution can be nominated as a Digital Public Good (DPG) at this time. If the digital solution is eligible, the user may continue with their nomination submission via the [submission form](https://submission-digitalpublicgoods.vercel.app/). If the digital solution is not currently eligible, the user will be given pointers on how they can improve the product in order to make it eligible. 
 
-If you are a developer or owner of a digital solution that does good and is open to all, we welcome you to fill out this quick and easy form. 
+If you want to know whether your favorite open, social impact project can become a DPG, we welcome you to fill out this quick and easy form. 
 
 ## 📝 Data
 
-This `api` directory in the `src` folder contains the `quizQuestions.js` file which uses a list to store all the data being used in the form. Each question is defined as a dictionary in the list and it stores the following information:
+The `api` directory in the `src` folder contains the `quizQuestions.js` file which uses a list to store all the data being used in the form. If you want to update the language of a particular question, FAQ or want to add more questions or FAQs, this is where you need to go. Each question is defined as a dictionary in the list and it stores the following information:
    
 - `question` - This consists of a string which refers to the question statement to be displayed.
 - `answer` - This consists of a string which says either `Yes` or `No` to refer to the correct answer for this question.
