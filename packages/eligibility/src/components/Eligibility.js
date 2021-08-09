@@ -1,16 +1,15 @@
 import React, {useState, useCallback} from "react";
 import {useCookies} from "react-cookie";
 import {v4 as uuidv4} from "uuid";
-import Result from './components/Result';
-import FAQ from './components/FAQ';
-import AnswerOption from './components/AnswerOption';
-import QuestionCount from './components/QuestionCount';
-import quizQuestions from './api/quizQuestions';
+import Result from './Result';
+import FAQ from './FAQ';
+import AnswerOption from './AnswerOption';
+import QuestionCount from './QuestionCount';
+import quizQuestions from '../api/quizQuestions';
 import {Button} from "react-bootstrap";
 import "react-step-progress-bar/styles.css";
 import { ProgressBar } from "react-step-progress-bar";
 import Paper from '@material-ui/core/Paper';
-import './index.css';
 
 function Eligibility() {
   const [counter, setCounter] = useState(0);
