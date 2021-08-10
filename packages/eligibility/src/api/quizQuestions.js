@@ -22,7 +22,7 @@ var quizQuestions = [
           }
   },
   {
-      question: "Does it use an appropriate open license?",
+      question: "Does it use an approved open source license?",
       answer: "Yes",
       maybe: false,
       statement: "Digital solutions must demonstrate the use of an approved open license.",
@@ -33,7 +33,7 @@ var quizQuestions = [
                     text: <p style={{fontSize:"1rem"}}>Open source <a href="http://opensource.com/" rel="noopener noreferrer" target="_blank">commonly refers to</a> software that uses an open development process and is licensed to include the source code. Though originally referencing software, the open source model for software development inspired the use of the term to refer to other forms of open collaboration, such as open content and open data.</p>
                   },
                   {
-                    subHeading: "What licenses are accepted?",
+                    subHeading: "What licenses are approved?",
                     text: <p style={{fontSize:"1rem"}}>For open source software, only <a href="https://opensource.org/licenses" rel="noopener noreferrer" target="_blank">OSI approved licenses</a> are accepted. 
                              For open content, the use of a <a href="https://creativecommons.org/licenses/" rel="noopener noreferrer" target="_blank">Creative Commons license</a> is required. 
                              For open data, an <a href="https://opendefinition.org/licenses/" rel="noopener noreferrer" target="_blank">Open Data Commons</a> approved license is required. 
@@ -130,6 +130,9 @@ var quizQuestions = [
       name: "mechanism of extracting data",
       link: ""
     }
+  },
+  {
+    question: "Are you the developer or owner of this digital solution?",
   },
   {
     question: "Does the digital solution adhere to privacy and other applicable international and domestic laws?",
