@@ -329,7 +329,7 @@ function Eligibility() {
 
           {counter !== 6 && (
           <div style={{backgroundColor:"#F4F4F4"}}>
-            <a href="/#" name="FAQ" style={{fontSize:1, textDecoration:"none", color:"#F4F4F4"}}><FAQ content={quizQuestions[counter].faq} /></a>
+            <a href="/#" name="FAQ" style={{fontSize:1, textDecoration:"none", color:"#F4F4F4"}}>.</a><FAQ content={quizQuestions[counter].faq} />
           </div>
           )}
 
