@@ -27,6 +27,8 @@ function Eligibility() {
   const [cookies, setCookie] = useCookies(["uuid"]);
   const [values, setValues] = useState({});
   const [startQuiz, setStartQuiz] = useState(false);
+  const [isOwner, setIsOwner] = useState(true);
+  const [total, setTotal] = useState(7);
 
   React.useEffect(() => {
     document.addEventListener('keydown', handleKeys);
@@ -82,6 +84,14 @@ function Eligibility() {
   function setUserAnswer(ans) {
     setAnswer(ans);
     answersList[counter] = ans;
+    if(counter === 6 && ans === "No") {
+      setIsOwner(false);
+      setTotal(7);
+    }
+    if(counter === 6 && ans === "Yes") {
+      setIsOwner(true);
+      setTotal(quizQuestions.length);
+    }
   }
 
   function handleAnswerSelected(event) {
@@ -92,11 +102,16 @@ function Eligibility() {
   }
 
   function handleClick(param) {
-    if (param && counter<8) {
+    if(param && !isOwner && counter===total-1) {
+      getResultsNotOwner();
+      setCounter(quizQuestions.length);
+      console.log("counter=" + counter);
+    }
+    else if (param && counter<quizQuestions.length-1) {
       setNextQuestion();      
     } else if (param && counter === quizQuestions.length-1) {
-      getResults();
-      setCounter(counter + 1);
+      getResultsIsOwner();
+      setCounter(quizQuestions.length);
     } else if (!param && counter > 1) {
       setPrevQuestion();
     } else if (counter === 1) {
@@ -116,7 +131,9 @@ function Eligibility() {
       setAnswerList({});
       setScore(0);
       setButtonName('');
-      setWrongQuestions([]);         
+      setWrongQuestions([]); 
+      setTotal(7);
+      setIsOwner(true);        
     } else if (param) {
       debouncedSave(values);
       window.open("https://submission-digitalpublicgoods.vercel.app/");
@@ -145,14 +162,14 @@ function Eligibility() {
     setNext(true);    
   }
 
-  function getResults() {
+  function getResultsNotOwner() {
     let i = 0;
     let scoreValue = 0;
     let questionsList = [];
     let maybeList = [];
     let valueList = {};
-
-    while (i < 9) {
+    
+    while (i < 6) {
       if(i > 1) {
         if(answersList[i] === quizQuestions[i].answer)
           valueList[quizQuestions[i].fieldName] = quizQuestions[i].answer;
@@ -172,13 +189,58 @@ function Eligibility() {
       }
       i += 1;
     }
+    maybeList.push(quizQuestions[7]);
+    maybeList.push(quizQuestions[8]);
+    maybeList.push(quizQuestions[9]);
+    setScore(scoreValue);
+    setWrongQuestions(questionsList);
+    setMaybeQuestions(maybeList); 
+    setValues(valueList);
 
+    if(scoreValue === 6 || scoreValue + maybeList.length - 3 === 6) {
+      setButtonName("Proceed");
+      setResultClick(true);
+    } else {
+      setButtonName("Start Again")
+      setResultClick(false);
+    }
+  }
+
+  function getResultsIsOwner() {
+    let i = 0;
+    let scoreValue = 0;
+    let questionsList = [];
+    let maybeList = [];
+    let valueList = {};
+    
+    while (i < 10) {
+      if(i !== 6) {
+        if(i > 1) {
+          if(answersList[i] === quizQuestions[i].answer)
+            valueList[quizQuestions[i].fieldName] = quizQuestions[i].answer;
+          else {
+            if(quizQuestions[i].answer === "Yes")
+              valueList[quizQuestions[i].fieldName] = "No";
+            else
+              valueList[quizQuestions[i].fieldName] = "Yes";
+          }
+        }
+        if(answersList[i] === quizQuestions[i].answer) {
+          scoreValue += 1;
+        } else if (answersList[i] !== quizQuestions[i].answer && quizQuestions[i].maybe) {
+          maybeList.push(quizQuestions[i]);
+        } else {
+          questionsList.push(quizQuestions[i]);
+        }
+      }
+      i += 1;
+    }
     setScore(scoreValue);
     setWrongQuestions(questionsList);
     setMaybeQuestions(maybeList); 
     setValues(valueList);
     
-    if(scoreValue === quizQuestions.length || scoreValue + maybeList.length === quizQuestions.length) {
+    if(scoreValue === quizQuestions.length-1 || scoreValue + maybeList.length === quizQuestions.length-1) {
       setButtonName("Proceed");
       setResultClick(true);
     } else {
@@ -204,8 +266,8 @@ function Eligibility() {
           <div className="p-3">
             <h3 className="pl-3 pr-3 text-center" style={{fontFamily:"NowAlt-Regular", color:"#2b209a"}}> Is your digital solution ready to be a Digital Public Good? </h3>
             <div className="text-left p-4"> 
-            The Eligibility Form consists of 9 questions that will help you quickly determine if your digital solution can be nominated as a Digital Public Good (DPG) at this time. If you are eligible, you may continue with your nomination submission via the submission form. If you are not currently eligible, you will be given pointers on how you can improve in order to be eligible. 
-            <br /><br />If you are a developer or owner of a digital solution that does good and is open to all, we welcome you to fill out this quick and easy form. Want to know whether your favorite open, social impact project can become a DPG? Fill out this form and find out for yourself!
+            The Eligibility Form consists of 9 questions that will help you quickly determine if your digital solution can be nominated as a Digital Public Good (DPG) at this time. If your solution is eligible, you may continue with your nomination submission via the submission form. If your digital solution is not currently eligible, you will be given pointers on how you can improve it in order to make it eligible. 
+            <br /><br />Want to know whether your favorite open, social impact project can become a DPG? Fill out this form and find out for yourself!
             </div>
           </div>
 
@@ -225,10 +287,10 @@ function Eligibility() {
           <div className="quiz pt-0 pl-3 pr-3 text-left">
             <QuestionCount
               counter={questionId}
-              total={quizQuestions.length}
+              total={total}
             />
 
-            <h4 className="question pl-4">{question} <a href="#FAQ" style={{fontSize:13, textDecoration:"underline", color:"#4D29BA"}}> Not sure? </a></h4>
+            <h4 className="question pl-4">{question} {counter !== 6 && (<a href="#FAQ" style={{fontSize:13, textDecoration:"underline", color:"#4D29BA"}}> Not sure? </a>)} </h4>
 
             <ul className="answerOptions">            
               <AnswerOption
@@ -265,15 +327,18 @@ function Eligibility() {
             </Button>
           </div>
 
+          {counter !== 6 && (
           <div style={{backgroundColor:"#F4F4F4"}}>
             <a href="/#" name="FAQ" style={{fontSize:1, textDecoration:"none", color:"#F4F4F4"}}>.</a><FAQ content={quizQuestions[counter].faq} />
           </div>
+          )}
+
           </>
           )}
 
           {startQuiz && counter === quizQuestions.length && (
             <>
-            <Result quizScore={score} result={answersList} questions={wrongQuestions} maybeQuestions={maybeQuestions} />
+            <Result quizScore={score} total={total-1} result={answersList} questions={wrongQuestions} maybeQuestions={maybeQuestions} />
             <div className="text-center">
               <Button 
                 className="ml-2"
