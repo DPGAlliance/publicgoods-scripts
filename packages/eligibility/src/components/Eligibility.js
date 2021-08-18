@@ -63,7 +63,7 @@ function Eligibility() {
 
   async function saveToDb(vals) {
     if (cookies.uuid) {
-      await fetch(`https://submission-digitalpublicgoods.vercel.app/api/saveDB/${cookies.uuid}`, {
+      await fetch(`https://submission.digitalpublicgoods.net/api/saveDB/${cookies.uuid}`, {
         method: "POST",
         headers: {
           "content-type": "application/json",
@@ -136,7 +136,7 @@ function Eligibility() {
       setIsOwner(true);        
     } else if (param) {
       debouncedSave(values);
-      window.open("https://submission-digitalpublicgoods.vercel.app/");
+      window.open("https://submission.digitalpublicgoods.net/");
     }
   }
 

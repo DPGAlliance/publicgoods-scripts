@@ -1,6 +1,6 @@
 # Eligibility Form
 
-The [Eligibility Form](https://digitalpublicgoods.net/eligibility/) consists of nine questions that will help users quickly determine if their digital solution can be nominated as a Digital Public Good (DPG) at this time. If the digital solution is eligible, the user may continue with their nomination submission via the [submission form](https://submission-digitalpublicgoods.vercel.app/). If the digital solution is not currently eligible, the user will be given pointers on how they can improve the product in order to make it eligible. 
+The [Eligibility Form](https://digitalpublicgoods.net/eligibility/) consists of nine questions that will help users quickly determine if their digital solution can be nominated as a Digital Public Good (DPG) at this time. If the digital solution is eligible, the user may continue with their nomination submission via the [submission form](https://submission.digitalpublicgoods.net/). If the digital solution is not currently eligible, the user will be given pointers on how they can improve the product in order to make it eligible.
 
 If you want to know whether your favorite open, social impact project can become a DPG, we welcome you to fill out this quick and easy form. 
 
