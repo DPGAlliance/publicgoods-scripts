@@ -79,7 +79,7 @@ async function fetchGithubActivity(org, item){
 
   if(isOrg) { // it is an organization, else it is a user
     list = $("div.repo-list").find('a.d-inline-block:contains("'+item+'")').filter(
-      function(){return $(this).text().trim() === item;}).parent().parent().next();
+      function(){return $(this).text().trim() === item;}).parent().next();
   } else {
     list = $("#user-repositories-list").find('a:contains("'+item+'")').filter(
       function(){return $(this).text().trim() === item;}).parent().parent().parent().next();
@@ -105,8 +105,15 @@ async function fetchGithubActivity(org, item){
   }
 
   if(list.length) {
-    console.log('Activity chart found.');
-    output = '<a href="https://github.com/'+org+'/'+item+'" target="_blank">' + list.html() + '</a>';
+    // The activity chart should always be a child of a <span class="tooltipped">
+    // If that's not the case, GitHub has changed its code, and we need to adjust
+    if(list.find('span.tooltipped').length) {
+      console.log('Activity chart found.');
+      output = '<a href="https://github.com/'+org+'/'+item+'" target="_blank">' + list.html() + '</a>';
+    } else {
+      console.log('Found something else where the activity chart is expected. This most likely indicates that GitHub has changed the HTML, and this code needs adjustment.');
+      process.exit(1);
+    }
   } else {
     console.log('Activity chart NOT found ! ! ! ! !')
   }
