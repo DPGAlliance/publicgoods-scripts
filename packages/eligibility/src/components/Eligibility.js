@@ -105,7 +105,6 @@ function Eligibility() {
     if(param && !isOwner && counter===total-1) {
       getResultsNotOwner();
       setCounter(quizQuestions.length);
-      console.log("counter=" + counter);
     }
     else if (param && counter<quizQuestions.length-1) {
       setNextQuestion();      
@@ -136,7 +135,7 @@ function Eligibility() {
       setIsOwner(true);        
     } else if (param) {
       debouncedSave(values);
-      window.open("https://submission.digitalpublicgoods.net/");
+      window.open("https://submission.digitalpublicgoods.net/form?uuid=" + cookies.uuid);
     }
   }
 
