@@ -170,14 +170,18 @@ function Eligibility() {
     
     while (i < 6) {
       if(i > 1) {
-        if(answersList[i] === quizQuestions[i].answer)
-          valueList[quizQuestions[i].fieldName] = quizQuestions[i].answer;
-        else {
-          if(quizQuestions[i].answer === "Yes")
-            valueList[quizQuestions[i].fieldName] = "No";
-          else
-            valueList[quizQuestions[i].fieldName] = "Yes";
+        let tempList = {};
+        if(quizQuestions[i].keyName2) {
+          let tempList2 = {};
+          tempList2[quizQuestions[i].keyName2] = answersList[i];
+          tempList[quizQuestions[i].keyName] = tempList2;
         }
+
+        else {
+          tempList[quizQuestions[i].keyName] = answersList[i];
+        }
+
+        valueList[quizQuestions[i].fieldName] = tempList;
       }
       if(answersList[i] === quizQuestions[i].answer) {
         scoreValue += 1;
@@ -215,14 +219,18 @@ function Eligibility() {
     while (i < 10) {
       if(i !== 6) {
         if(i > 1) {
-          if(answersList[i] === quizQuestions[i].answer)
-            valueList[quizQuestions[i].fieldName] = quizQuestions[i].answer;
-          else {
-            if(quizQuestions[i].answer === "Yes")
-              valueList[quizQuestions[i].fieldName] = "No";
-            else
-              valueList[quizQuestions[i].fieldName] = "Yes";
+          let tempList = {};
+          if(quizQuestions[i].keyName2) {
+            let tempList2 = {};
+            tempList2[quizQuestions[i].keyName2] = answersList[i];
+            tempList[quizQuestions[i].keyName] = tempList2;
           }
+
+          else {
+            tempList[quizQuestions[i].keyName] = answersList[i];
+          }
+
+          valueList[quizQuestions[i].fieldName] = tempList;
         }
         if(answersList[i] === quizQuestions[i].answer) {
           scoreValue += 1;
