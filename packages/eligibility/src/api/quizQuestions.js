@@ -56,7 +56,8 @@ var quizQuestions = [
       question: "Is ownership clearly defined?",
       answer: "Yes",
       maybe: false,
-      fieldName: "clearOwnership[isOwnershipExplicit]",
+      fieldName: "clearOwnership",
+      keyName: "isOwnershipExplicit",
       statement: "Ownership of everything the digital solution produces must be clearly defined and documented.",
       faq: {
         copy: [
@@ -73,7 +74,8 @@ var quizQuestions = [
       question: "Is the digital solution platform-independent?",
       answer: "Yes",
       maybe: true,
-      fieldName: "platformIndependence[mandatoryDepsCreateMoreRestrictions]",
+      fieldName: "platformIndependence",
+      keyName: "mandatoryDepsCreateMoreRestrictions",
       statement: "If the digital solution has mandatory dependencies that create more restrictions than the original license, the digital solution(s) must be able to demonstrate independence from the closed component(s) and/or indicate the existence of functional, open alternatives.",
       faq: {
         copy: [
@@ -97,7 +99,8 @@ var quizQuestions = [
       question: "Is there documentation of the source code, use cases, and/or functional requirements for this digital solution?",
       answer: "Yes",
       maybe: false,
-      fieldName: "documentation[isDocumentationAvailable]",
+      fieldName: "documentation",
+      keyName: "isDocumentationAvailable",
       statement: "The digital solution must have documentation of the source code, use cases, and/or functional requirements.",
       faq: {
         copy: [
@@ -114,7 +117,8 @@ var quizQuestions = [
     question: "Does this digital solution collect or use non-personally identifiable information (non-PII) data?",
     answer: "No",
     maybe: true,
-    fieldName: "NonPII[collectsNonPII]",
+    fieldName: "NonPII",
+    keyName: "collectsNonPII",
     statement: "If the digital solution has non personally identifiable information (PII) there must be a mechanism for extracting or importing non-PII data from the system in a non-proprietary format.",
     faq: {
       copy: [
@@ -138,7 +142,8 @@ var quizQuestions = [
     question: "Does the digital solution adhere to privacy and other applicable international and domestic laws?",
     answer: "Yes",
     maybe: false,
-    fieldName: "privacy[isPrivacyCompliant]",
+    fieldName: "privacy",
+    keyName: "isPrivacyCompliant",
     statement: "The digital solution must state to the best of its knowledge that it complies with relevant privacy laws, and all applicable international and domestic laws.",
     faq: {
       copy: [
@@ -155,7 +160,8 @@ var quizQuestions = [
     question: "Does the digital solution adhere to standards and best practices?",
     answer: "Yes",
     maybe: false,
-    fieldName: "standards[supportStandards]",
+    fieldName: "standards",
+    keyName: "supportStandards",
     statement: "Digital solutions must demonstrate adherence to standards, best practices, and/or principles.",
     faq: {
       copy: [
@@ -173,7 +179,9 @@ var quizQuestions = [
     question: "Does the digital solution take steps to anticipate, prevent and do no harm?",
     answer: "Yes",
     maybe: false,
-    fieldName: "doNoHarm[preventHarm[stepsToPreventHarm]]",
+    fieldName: "doNoHarm",
+    keyName: "preventHarm",
+    keyName2: "stepsToPreventHarm",
     statement: "All digital solutions must demonstrate that they have taken steps to ensure the digital solution anticipates, prevents, and does no harm.",
     faq: {
       copy: [
