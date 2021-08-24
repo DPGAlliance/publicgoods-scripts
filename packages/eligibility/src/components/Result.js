@@ -83,7 +83,7 @@ function Result(props) {
 }
 
 Result.propTypes = {
-  quizScore: PropTypes.string.isRequired,
+  quizScore: PropTypes.number.isRequired,
 };
 
 export default Result;
