@@ -19,7 +19,7 @@ function Eligibility() {
   const [question, setQuestion] = useState(quizQuestions[0].question);
   const [answer, setAnswer] = useState('');
   const [answersList, setAnswerList] = useState({});
-  const [score, setScore] = useState(0);
+  const [score, setScore] = useState(1);
   const [buttonName, setButtonName] = useState('');
   const [wrongQuestions, setWrongQuestions] = useState([]);
   const [maybeQuestions, setMaybeQuestions] = useState([]);
@@ -163,21 +163,25 @@ function Eligibility() {
 
   function getResultsNotOwner() {
     let i = 0;
-    let scoreValue = 0;
+    let scoreValue = 1;
     let questionsList = [];
     let maybeList = [];
     let valueList = {};
     
     while (i < 6) {
       if(i > 1) {
-        if(answersList[i] === quizQuestions[i].answer)
-          valueList[quizQuestions[i].fieldName] = quizQuestions[i].answer;
-        else {
-          if(quizQuestions[i].answer === "Yes")
-            valueList[quizQuestions[i].fieldName] = "No";
-          else
-            valueList[quizQuestions[i].fieldName] = "Yes";
+        let tempList = {};
+        if(quizQuestions[i].keyName2) {
+          let tempList2 = {};
+          tempList2[quizQuestions[i].keyName2] = answersList[i];
+          tempList[quizQuestions[i].keyName] = tempList2;
         }
+
+        else {
+          tempList[quizQuestions[i].keyName] = answersList[i];
+        }
+
+        valueList[quizQuestions[i].fieldName] = tempList;
       }
       if(answersList[i] === quizQuestions[i].answer) {
         scoreValue += 1;
@@ -196,7 +200,7 @@ function Eligibility() {
     setMaybeQuestions(maybeList); 
     setValues(valueList);
 
-    if(scoreValue === 6 || scoreValue + maybeList.length - 3 === 6) {
+    if(scoreValue === 7 || scoreValue + maybeList.length - 3 === 7) {
       setButtonName("Proceed");
       setResultClick(true);
     } else {
@@ -207,7 +211,7 @@ function Eligibility() {
 
   function getResultsIsOwner() {
     let i = 0;
-    let scoreValue = 0;
+    let scoreValue = 1;
     let questionsList = [];
     let maybeList = [];
     let valueList = {};
@@ -215,14 +219,18 @@ function Eligibility() {
     while (i < 10) {
       if(i !== 6) {
         if(i > 1) {
-          if(answersList[i] === quizQuestions[i].answer)
-            valueList[quizQuestions[i].fieldName] = quizQuestions[i].answer;
-          else {
-            if(quizQuestions[i].answer === "Yes")
-              valueList[quizQuestions[i].fieldName] = "No";
-            else
-              valueList[quizQuestions[i].fieldName] = "Yes";
+          let tempList = {};
+          if(quizQuestions[i].keyName2) {
+            let tempList2 = {};
+            tempList2[quizQuestions[i].keyName2] = answersList[i];
+            tempList[quizQuestions[i].keyName] = tempList2;
           }
+
+          else {
+            tempList[quizQuestions[i].keyName] = answersList[i];
+          }
+
+          valueList[quizQuestions[i].fieldName] = tempList;
         }
         if(answersList[i] === quizQuestions[i].answer) {
           scoreValue += 1;
@@ -239,7 +247,7 @@ function Eligibility() {
     setMaybeQuestions(maybeList); 
     setValues(valueList);
     
-    if(scoreValue === quizQuestions.length-1 || scoreValue + maybeList.length === quizQuestions.length-1) {
+    if(scoreValue === quizQuestions.length || scoreValue + maybeList.length === quizQuestions.length) {
       setButtonName("Proceed");
       setResultClick(true);
     } else {
@@ -254,7 +262,7 @@ function Eligibility() {
         <div className="pt-2 pb-3" style={{width:"60%"}}>
           <ProgressBar
             filledBackground="linear-gradient(to right, #cdbdff, #4d29ba)"
-            percent={(questionId/9)*100}
+            percent={(questionId/total)*100}
           />
         </div>
 
@@ -265,7 +273,7 @@ function Eligibility() {
           <div className="p-3">
             <h3 className="pl-3 pr-3 text-center" style={{fontFamily:"NowAlt-Regular", color:"#2b209a"}}> Is your digital solution ready to be a Digital Public Good? </h3>
             <div className="text-left p-4"> 
-            The Eligibility Form consists of 9 questions that will help you quickly determine if your digital solution can be nominated as a Digital Public Good (DPG) at this time. If your solution is eligible, you may continue with your nomination submission via the submission form. If your digital solution is not currently eligible, you will be given pointers on how you can improve it in order to make it eligible. 
+            The Eligibility Form requires you to answer 7 or 10 questions that will help you quickly determine if your digital solution can be nominated as a Digital Public Good (DPG) at this time. If your solution is eligible, you may continue with your nomination submission via the submission form. If your digital solution is not currently eligible, you will be given pointers on how you can improve it in order to make it eligible. 
             <br /><br />Want to know whether your favorite open, social impact project can become a DPG? Fill out this form and find out for yourself!
             </div>
           </div>
@@ -337,7 +345,7 @@ function Eligibility() {
 
           {startQuiz && counter === quizQuestions.length && (
             <>
-            <Result quizScore={score} total={total-1} result={answersList} questions={wrongQuestions} maybeQuestions={maybeQuestions} />
+            <Result quizScore={score} total={total} result={answersList} questions={wrongQuestions} maybeQuestions={maybeQuestions} />
             <div className="text-center">
               <Button 
                 className="ml-2"
