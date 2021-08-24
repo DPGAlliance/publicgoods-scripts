@@ -8,9 +8,9 @@ function FAQ(props) {
       {props.content.copy && props.content.copy.map((copy, index) =>
         <div key={index}>
           <h5 style={{fontSize:"1.1rem"}}> {copy.subHeading} </h5>
-          <p style={{fontSize:"1rem", fontWeight:100, marginBottom:25}}>
+          <div style={{fontSize:"1rem", fontWeight:100, marginBottom:25}}>
             {copy.text}
-          </p>
+          </div>
         </div>
       )}
 
