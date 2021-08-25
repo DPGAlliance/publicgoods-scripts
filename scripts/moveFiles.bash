@@ -15,3 +15,9 @@ pushd ../publicgoods-website/eligibility && \
     cp ../../publicgoods-scripts/packages/eligibility/build/index.html . && \
 popd
 
+pushd ../publicgoods-website && \
+	rm -r map || true && \
+    mkdir map && \
+    cp -a ../publicgoods-scripts/packages/map/map/* map && \
+    git add map/* && \
+popd
