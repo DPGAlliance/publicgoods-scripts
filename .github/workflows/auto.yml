@@ -41,6 +41,8 @@ jobs:
         run: cd packages/eligibility && npm install && npm run build
       - name: Build packages/registry
         run: cd packages/registry && npm install && npm run build
+      - name: Build packages/map
+        run: cd packages/map && npm install && npm run build
       - name: Run moveFiles.bash
         run: bash scripts/moveFiles.bash
       

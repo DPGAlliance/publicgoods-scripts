@@ -1,0 +1,95 @@
+{
+  "name": "learn-starter",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build && next export -o map",
+    "start": "next start",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
+    "format": "prettier --write \"**/*.+(js|jsx|json|yml|yaml|css|vue)\"",
+    "convert": "node scripts/pointToPolygon.js"
+  },
+  "dependencies": {
+    "@turf/circle": "^6.5.0",
+    "@turf/transform-rotate": "^6.5.0",
+    "@zeit/next-css": "^1.0.1",
+    "csvtojson": "^2.0.10",
+    "intersection-observer": "^0.12.0",
+    "mapbox-gl": "^1.13.1",
+    "next": "9.5.4",
+    "next-images": "^1.7.0",
+    "react": "^16.14.0",
+    "react-dom": "16.13.1",
+    "react-google-charts": "^3.0.15",
+    "react-intersection-observer": "^8.32.0",
+    "react-mapbox-gl": "^4.8.6",
+    "react-scrollama": "^2.2.16"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.25.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-react": "^7.23.2",
+    "husky": "^6.0.0",
+    "json-loader": "^0.5.7",
+    "lint-staged": "^10.5.4",
+    "prettier": "2.2.1"
+  },
+  "eslintConfig": {
+    "parser": "babel-eslint",
+    "extends": [
+      "eslint:recommended",
+      "plugin:react/recommended",
+      "prettier",
+      "plugin:prettier/recommended"
+    ],
+    "plugins": [
+      "prettier",
+      "react"
+    ],
+    "settings": {
+      "react": {
+        "version": "detect"
+      }
+    },
+    "env": {
+      "browser": true,
+      "node": true,
+      "es6": true
+    },
+    "parserOptions": {
+      "ecmaFeatures": {
+        "jsx": true
+      },
+      "ecmaVersion": 2018,
+      "sourceType": "module"
+    },
+    "rules": {
+      "react/prop-types": "off",
+      "react/react-in-jsx-scope": "off"
+    }
+  },
+  "prettier": {
+    "printWidth": 90,
+    "bracketSpacing": false,
+    "trailingComma": "es5"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.+(js|jsx)": [
+      "eslint --fix",
+      "git add"
+    ],
+    "*.+(json|css|md)": [
+      "prettier --write",
+      "git add"
+    ]
+  }
+}
