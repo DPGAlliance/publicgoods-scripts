@@ -46,7 +46,7 @@ function Eligibility() {
 
   const debounce = (func, wait) => {
     let timeout;
-    return function (...args) {
+    return async function (...args) {
       const context = this;
       if (timeout) clearTimeout(timeout);
       timeout = setTimeout(() => {
@@ -119,7 +119,7 @@ function Eligibility() {
     }
   }
 
-  function handleResultClick(param) {
+  async function handleResultClick(param) {
     if (!param) {
       setCounter(0);
       setPrev(false);
