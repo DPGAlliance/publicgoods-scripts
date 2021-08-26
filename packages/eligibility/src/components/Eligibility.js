@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from "react";
+import React, {useState} from "react";
 import {useCookies} from "react-cookie";
 import {v4 as uuidv4} from "uuid";
 import Result from './Result';
@@ -43,23 +43,6 @@ function Eligibility() {
       document.removeEventListener('keydown', handleKeys);
     };
   });
-
-  const debounce = (func, wait) => {
-    let timeout;
-    return function (...args) {
-      const context = this;
-      if (timeout) clearTimeout(timeout);
-      timeout = setTimeout(() => {
-        timeout = null;
-        func.apply(context, args);
-      }, wait);
-    };
-  };
-
-  const debouncedSave = useCallback(
-    debounce((vals) => saveToDb(vals), 1000),
-    [cookies.uuid]
-  );
 
   async function saveToDb(vals) {
     if (cookies.uuid) {
@@ -119,7 +102,7 @@ function Eligibility() {
     }
   }
 
-  function handleResultClick(param) {
+  async function handleResultClick(param) {
     if (!param) {
       setCounter(0);
       setPrev(false);
@@ -134,7 +117,7 @@ function Eligibility() {
       setTotal(7);
       setIsOwner(true);        
     } else if (param) {
-      debouncedSave(values);
+      await saveToDb(values);
       window.open("https://submission.digitalpublicgoods.net/form?uuid=" + cookies.uuid);
     }
   }
