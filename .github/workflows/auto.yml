@@ -43,6 +43,9 @@ jobs:
         run: cd packages/registry && npm install && npm run build
       - name: Build packages/map
         run: cd packages/map && npm install && npm run build
+        env:
+          NEXT_PUBLIC_MAPBOX_TOKEN: ${{ secrets.NEXT_PUBLIC_MAPBOX_TOKEN }}
+          NEXT_PUBLIC_SHEET_ID: ${{ secrets.NEXT_PUBLIC_SHEET_ID }}
       - name: Run moveFiles.bash
         run: bash scripts/moveFiles.bash
       

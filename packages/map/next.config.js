@@ -1,5 +1,6 @@
 const withCSS = require("@zeit/next-css");
 const withImages = require("next-images");
+const debug = process.env.NODE_ENV !== "production";
 
 module.exports = withCSS(
   withImages({
@@ -14,6 +15,6 @@ module.exports = withCSS(
     cssLoaderOptions: {
       url: false,
     },
-    assetPrefix: "map/" //for github integration in publicgoods-website TODO: write additional code in movefiles.bash and auto.yml 
+    assetPrefix: !debug ? "map/" : "" //add prefix for github integration in publicgoods-website
   })
 );

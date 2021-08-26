@@ -27,7 +27,7 @@ The above requirements were addressed with the following strategies:
 
 ## 🛠 Architecture
 
-This webapp is built using [Next.js](https://nextjs.org/) as a React Framework and deployed using [Vercel](https://vercel.com/).
+This webapp is built using [Next.js](https://nextjs.org/) as a React Framework.
 There are 2 pages: `index.js` and `helper.js`
 
 * `pages/_app.js` is the application entry point, which loads the required stylesheets and loads `index.js`
@@ -57,23 +57,29 @@ Setup your development environment as follows:
 1. Clone this repo:
     - SSL:
     ```bash
-    git clone git@github.com:rolikasi/digital-public-goods-map
+    git clone git@github.com:unicef/publicgoods-scripts
     ```
     - HTTPS:
     ```bash
-    git clone https://github.com/Rolikasi/digital-public-goods-map
+    git clone https://github.com/unicef/publicgoods-scripts
     ```
-2. Install project dependencies:
-    ```bash
-    cd digital-public-goods-map
+2. Install root dependencies from publicgoods-script
+    ```bash 
     npm install
     ```
-3. After having set up the proper [Configuration](#%EF%B8%8F-configuration), run the developmnet server with [fast refresh](https://nextjs.org/docs/basic-features/fast-refresh):
+3. Navigate to the map package
+    ```bash
+    cd /packages/map
+    ```
+4. Install project dependencies:
+    ```bash
+    npm install
+    ```
+5. After having set up the proper [Configuration](#%EF%B8%8F-configuration), run the developmnet server with [fast refresh](https://nextjs.org/docs/basic-features/fast-refresh):
     ```bash
     npm run dev
     ```
-    
-This project has been developed on top of the [Visualization of UNICEF Office of Innovation (OoI) repository](https://github.com/lacabra/ooi-project-visualization) that is licensed under the [GNU General Public License](LICENSE)
+6. Access visualization via https://localhost:3000
 
 ## :memo: License
 
