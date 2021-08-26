@@ -250,6 +250,11 @@ function Eligibility() {
       <center>
         <Modal show={show} onHide={handleClose}>
           <Modal.Body>Please wait, a new tab will be opened to continue the application process.</Modal.Body>
+          <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+        </Modal.Footer>
         </Modal>
         <div className="pt-2 pb-3" style={{width:"60%"}}>
           <ProgressBar
