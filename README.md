@@ -28,3 +28,14 @@ To test the result:
 1. Change folders into the website repo: `cd ../publicgoods-website`
 2. Run a webserver: `./.develop.bash`
 3. Point your browser to http://localhost:8080 to see the result
+
+## 🚀 Deployment
+When a merge is pushed onto main in the publicgood-scripts no build is pushed to the [DPGA public website](https://digitalpublicgoods.net/). 
+However, this only happens via GitHub Actions automatically when the main branch of the [publicgoods-candidates](https://github.com/unicef/publicgoods-candidates) is updated, and also automatically every night at midnight GMT.
+
+You can manually trigger a new website build by visiting the Actions tab on the [publicgoods-candidates](https://github.com/unicef/publicgoods-candidates/actions) repo: 
+1. Visit [the Actions link](https://github.com/unicef/publicgoods-candidates/actions)
+2. Click on Automatic Build on the left column.
+3. Click on Run Workflow on the right side, (keep the main branch selected) and click again the green Run Workflow button. 
+
+Wait for about 10min, and the new website will reflect the changes from the scripts repo
