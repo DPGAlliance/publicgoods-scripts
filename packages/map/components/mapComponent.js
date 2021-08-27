@@ -211,7 +211,7 @@ export default function mapComponent(props) {
   };
 
   return (
-    <div ref={mainRef}>
+    <div ref={mainRef} className='visContainer'>
       <div className={loading ? "whiteBack" : "inactive"}>
         <img className={"loader"} src={dpgaLogo}></img>
       </div>
@@ -635,7 +635,6 @@ export default function mapComponent(props) {
           </div>
         </div>
       </div>
-
       {mapInteractive && width >= 1008 && (
         <InfoComponent
           selectedGood={selectedGood}

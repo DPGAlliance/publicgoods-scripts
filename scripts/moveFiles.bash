@@ -19,5 +19,6 @@ pushd ../publicgoods-website && \
 	rm -r map || true && \
     mkdir map && \
     cp -a ../publicgoods-scripts/packages/map/build/* map && \
+    rm -r map/wp-content && rm -r map/wp-includes && \
     git add map/* && \
 popd

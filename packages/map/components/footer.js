@@ -3,10 +3,10 @@ import React from "react";
 export default function Footer() {
   return (
     <div className="footer">
-      <a target="_blank" href="https://github.com/Rolikasi/digital-public-goods-map">
+      {/* <a target="_blank" href="https://github.com/Rolikasi/digital-public-goods-map">
         Contribute
       </a>
-      <a target="_blank" href="mailto:hello@digitalpublicgoods.net">Report issue</a>
+      <a target="_blank" href="mailto:hello@digitalpublicgoods.net">Report issue</a> */}
       <span>
         Data:{" "}
         <a

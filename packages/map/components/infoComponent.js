@@ -127,7 +127,7 @@ const InfoComponent = forwardRef((props, ref) => {
         <span>{menuInView ? "" : "Tap to see filters and info"}</span>
       </div>
 
-      <ul className="menu" ref={divRef}>
+      <ul className="filters" ref={divRef}>
         {Object.keys(props.visibleLayer).map((layer, index) => (
           <li id={layer} key={layer + index} onClick={(e) => handleLayerToggle(e, layer)}>
             <span>{props.visibleLayer[layer] ? layer : ""}</span>
