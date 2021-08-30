@@ -229,7 +229,7 @@ export default function mapComponent(props) {
               clearSelectedGood={handleClearSearchbox}
             />
           )}
-          {props.story.length && props.story[currentStepIndex].image != "false" && (
+          {props.story.length && props.story[currentStepIndex].image != "false" && !mapInteractive && (
             <img className="stepImage" src={props.story[currentStepIndex].imageUrl} />
           )}
           <Map

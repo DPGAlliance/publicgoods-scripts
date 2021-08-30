@@ -15,10 +15,10 @@ pushd ../publicgoods-website/eligibility && \
     cp ../../publicgoods-scripts/packages/eligibility/build/index.html . && \
 popd
 
-pushd ../publicgoods-website && \
-	rm -r map || true && \
-    mkdir map && \
-    cp -a ../publicgoods-scripts/packages/map/build/* map && \
-    rm -r map/wp-content && rm -r map/wp-includes && \
-    git add map/* && \
+pushd ../publicgoods-website/map && \
+    git rm -rf _next/* || true && \
+    mkdir _next && \
+    cp -a ../../publicgoods-scripts/packages/map/build/_next/* _next && \
+    git add _next/* && \
+    cp ../../publicgoods-scripts/packages/map/build/index.html . && \
 popd

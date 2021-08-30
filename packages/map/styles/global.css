@@ -20,6 +20,10 @@ body {
   line-height: 1.5;
   color: #212529;
   text-align: left;
+  background-color: unset;
+}
+#footer {
+  overflow: unset;
 }
 .h1,
 .h2,
@@ -614,9 +618,6 @@ ul.filters {
     margin: 0.5rem 0 1rem 0;
     max-width: unset;
   }
-  /* ul.filters {
-    margin-bottom: 0.5rem;
-  } */
   #dg-menu {
     width: 100%;
   }
