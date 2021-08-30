@@ -70,11 +70,17 @@ Setup your development environment as follows:
    npm install
    ```
 3. Clone interconnected publicgoods-website
-   `git clone https://github.com/unicef/publicgoods-website.git ../publicgoods-website`
-4. `./scripts/static.bash` crawls a private instance of the WordPress website and saves a copy in `../publicgoods-website`
+   ```bash
+   git clone https://github.com/unicef/publicgoods-website.git ../publicgoods-website
+   ```
+4. ```bash
+   ./scripts/static.bash
+   ```
+   crawls a private instance of the WordPress website and saves a copy in `../publicgoods-website`
 5. `cd packages/automation && node index.js` generates necessary files for the map(and other packages) from publicgoods website
-6. ```ln -s ../../../../publicgoods-website/wp-includes/ packages/map/public/wp-includes;
-         ln -s ../../../../publicgoods-website/wp-content/ packages/map/public/wp-content; 
+6. ```bash |
+    ln -s ../../../../publicgoods-website/wp-includes/ packages/map/public/wp-includes;
+    ln -s ../../../../publicgoods-website/wp-content/ packages/map/public/wp-content;
    ```
    add styles and js for template files(navigation and footer)
 7. Navigate to the map package
