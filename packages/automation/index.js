@@ -45,7 +45,7 @@ pathHtml = '../../../publicgoods-website/registry/index.html';
 destHtml = '../registry/public/index.html';
 pathFormHtml = '../../../publicgoods-website/eligibility/index.html';
 destFormHtml = '../eligibility/public/index.html';
-pathMapHtml = '../../..//publicgoods-website/map/index.html'
+pathMapHtml = '../../../publicgoods-website/map/index.html'
 destMapHtml = '../map/public/';
 
 function sleep(ms) {
