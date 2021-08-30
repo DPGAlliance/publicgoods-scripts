@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from "react";
+import React, {useState} from "react";
 import {useCookies} from "react-cookie";
 import {v4 as uuidv4} from "uuid";
 import Result from './Result';
@@ -10,6 +10,7 @@ import {Button} from "react-bootstrap";
 import "react-step-progress-bar/styles.css";
 import { ProgressBar } from "react-step-progress-bar";
 import Paper from '@material-ui/core/Paper';
+import Modal from 'react-bootstrap/Modal'
 
 function Eligibility() {
   const [counter, setCounter] = useState(0);
@@ -29,6 +30,10 @@ function Eligibility() {
   const [startQuiz, setStartQuiz] = useState(false);
   const [isOwner, setIsOwner] = useState(true);
   const [total, setTotal] = useState(7);
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   React.useEffect(() => {
     document.addEventListener('keydown', handleKeys);
@@ -43,23 +48,6 @@ function Eligibility() {
       document.removeEventListener('keydown', handleKeys);
     };
   });
-
-  const debounce = (func, wait) => {
-    let timeout;
-    return function (...args) {
-      const context = this;
-      if (timeout) clearTimeout(timeout);
-      timeout = setTimeout(() => {
-        timeout = null;
-        func.apply(context, args);
-      }, wait);
-    };
-  };
-
-  const debouncedSave = useCallback(
-    debounce((vals) => saveToDb(vals), 1000),
-    [cookies.uuid]
-  );
 
   async function saveToDb(vals) {
     if (cookies.uuid) {
@@ -119,7 +107,7 @@ function Eligibility() {
     }
   }
 
-  function handleResultClick(param) {
+  async function handleResultClick(param) {
     if (!param) {
       setCounter(0);
       setPrev(false);
@@ -134,7 +122,8 @@ function Eligibility() {
       setTotal(7);
       setIsOwner(true);        
     } else if (param) {
-      debouncedSave(values);
+      handleShow();
+      await saveToDb(values);
       window.open("https://submission.digitalpublicgoods.net/form?uuid=" + cookies.uuid);
     }
   }
@@ -259,6 +248,14 @@ function Eligibility() {
     return (
       <>  
       <center>
+        <Modal show={show} onHide={handleClose}>
+          <Modal.Body>Please wait, a new tab will be opened to continue the application process.</Modal.Body>
+          <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+        </Modal.Footer>
+        </Modal>
         <div className="pt-2 pb-3" style={{width:"60%"}}>
           <ProgressBar
             filledBackground="linear-gradient(to right, #cdbdff, #4d29ba)"
