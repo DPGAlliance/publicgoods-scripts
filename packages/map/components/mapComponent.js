@@ -10,7 +10,21 @@ import InfoComponent from "./infoComponent";
 import UseWindowDimensions from "./UseWindowDimensions";
 import dpgaLogo from "../public/logo.svg";
 
-const legends = ["where it was developed", "where it was deployed"];
+const layerStyles = {
+  "Pathfinders Exploratory": {
+    backgroundImage: `url(${exploratoryPattern})`,
+  },
+  "Pathfinders Confirmed": {
+    backgroundImage: `url(${confirmedPattern})`,
+  },
+  "DPGs developed": {
+    backgroundColor: "#FF952A",
+  },
+  "DPGs deployed": {
+    backgroundColor: "#3333AB",
+  },
+};
+const legends = ["where DPG was developed", "where DPG was deployed"];
 const colors = ["#FF952A", "#d4d4ec"];
 const zoomDefault = 2;
 const SDGS = [
@@ -612,14 +626,14 @@ export default function mapComponent(props) {
 
         <div
           className={
-            selectedGood.name && props.story[currentStepIndex].image == "false"
+            selectedGood.name || (Object.values(visibleLayer).some(item => item) && !mapInteractive) && props.story[currentStepIndex].image == "false"
               ? "map-overlay active"
               : "map-overlay"
           }
           id="legend"
         >
           <div className="legendContainer">
-            {legends.map((legend, index) => (
+            {selectedGood.name && legends.map((legend, index) => (
               <div key={legend + index}>
                 <span
                   className="legend-key"
@@ -632,6 +646,17 @@ export default function mapComponent(props) {
                 <span>{legend}</span>
               </div>
             ))}
+            {!mapInteractive && Object.entries(visibleLayer).map((layer, index) => {
+              return layer[1] &&
+              <div key={layer[0] + index}>
+                <span
+                  className="legend-key rectangle"
+                  style={layerStyles[layer[0]]
+                  }
+                ></span>
+                <span>{layer[0]}</span>
+              </div>
+            })}
           </div>
         </div>
       </div>

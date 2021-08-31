@@ -150,7 +150,7 @@ ul {
   padding: 10px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   line-height: 18px;
-  width: 14rem;
+  width: 15rem;
 }
 
 .legend-key {
@@ -159,6 +159,10 @@ ul {
   width: 10px;
   height: 10px;
   margin-right: 5px;
+}
+.legend-key.rectangle {
+  width: 20px;
+  background-size: 20px;
 }
 
 .defaul-option {
