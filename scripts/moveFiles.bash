@@ -18,7 +18,8 @@ popd
 pushd ../publicgoods-website/map && \
     git rm -rf _next/* || true && \
     mkdir _next && \
-    cp -a ../../publicgoods-scripts/packages/map/build/_next/* _next && \
+    cp -a ../../publicgoods-scripts/packages/map/build/_next/static _next && \
+    cp -a ../../publicgoods-scripts/packages/map/build/_next/data _next && \
     git add _next/* && \
     cp ../../publicgoods-scripts/packages/map/build/index.html . && \
 popd

@@ -15,6 +15,6 @@ module.exports = withCSS(
     cssLoaderOptions: {
       url: false,
     },
-    assetPrefix: !debug ? "map/" : "" //add prefix for github integration in publicgoods-website
+    assetPrefix: !debug ? "./" : "" //add prefix for github integration in publicgoods-website
   })
 );
