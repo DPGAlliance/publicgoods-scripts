@@ -95,7 +95,7 @@ Setup your development environment as follows:
    ```bash
    npm run dev
    ```
-10. Access visualization via https://localhost:3000
+10. Access visualization via http://localhost:3000
 
 ## :memo: License
 
