@@ -45,6 +45,8 @@ pathHtml = '../../../publicgoods-website/registry/index.html';
 destHtml = '../registry/public/index.html';
 pathFormHtml = '../../../publicgoods-website/eligibility/index.html';
 destFormHtml = '../eligibility/public/index.html';
+pathMapHtml = '../../../publicgoods-website/map/index.html'
+destMapHtml = '../map/public/';
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -456,5 +458,16 @@ textLine.each(function (d) {
     console.log('Modified files:', changedFiles.join(', '));
     fs.copyFileSync(pathFormHtml, destFormHtml);
   });
-
+  fs.readFile(pathMapHtml,'utf8',  function (err, html) {
+    if (err) {
+      return console.error('Error occurred:', err);
+    }
+    let $ = cheerio.load(html);
+    $('main').remove(); // removes element where map will be placed 
+    fs.writeFileSync(destMapHtml + 'head.html', $("head").html())
+    fs.writeFileSync(destMapHtml + 'footer.html', $("footer").html())
+    fs.writeFileSync(destMapHtml + 'scripts.html', $.html($("script", 'body')))
+    fs.writeFileSync(destMapHtml + 'navbar.html', $("#page").html())
+    fs.writeFileSync(destMapHtml + 'templateClassName.txt', $("body").attr('class'))
+  });    
 })

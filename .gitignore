@@ -56,6 +56,7 @@ typings/
 
 # dotenv environment variables file
 .env
+.env.local
 
 # next.js build output
 .next
@@ -66,4 +67,9 @@ typings/
 **/public/wp-content
 **/public/wp-includes
 **/public/index.html
+**/map/public/head.html
+**/map/public/navbar.html
+**/map/public/footer.html
+**/map/public/scripts.html
+**/map/public/templateClassName.txt
 .DS_Store

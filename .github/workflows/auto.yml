@@ -27,7 +27,7 @@ jobs:
       #   run: cd packages/automation && node generate_nominees.js
       - name: Downloading nominees.json file into packages/registry/src
         run:  curl --location --request GET 'https://api.digitalpublicgoods.net/nominees/' -o packages/registry/src/nominees.json 
-      - name: Generating registry page
+      - name: Generating registry, eligibility and map pages
         run: cd packages/automation && node index.js
       - name: Run npm i at root for needed react-scripts package below
         run: npm install
@@ -37,10 +37,17 @@ jobs:
           ln -s ../../../../publicgoods-website/wp-content/ packages/eligibility/public/wp-content;
           ln -s ../../../../publicgoods-website/wp-includes/ packages/registry/public/wp-includes;
           ln -s ../../../../publicgoods-website/wp-content/ packages/registry/public/wp-content;
+          ln -s ../../../../publicgoods-website/wp-includes/ packages/map/public/wp-includes;
+          ln -s ../../../../publicgoods-website/wp-content/ packages/map/public/wp-content;
       - name: Build packages/eligibility
         run: cd packages/eligibility && npm install && npm run build
       - name: Build packages/registry
         run: cd packages/registry && npm install && npm run build
+      - name: Build packages/map
+        run: cd packages/map && npm install && npm run build
+        env:
+          NEXT_PUBLIC_MAPBOX_TOKEN: ${{ secrets.NEXT_PUBLIC_MAPBOX_TOKEN }}
+          NEXT_PUBLIC_SHEET_ID: ${{ secrets.NEXT_PUBLIC_SHEET_ID }}
       - name: Run moveFiles.bash
         run: bash scripts/moveFiles.bash
       
