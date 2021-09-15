@@ -6,7 +6,23 @@ import Form from 'react-bootstrap/Form';
 import nominees from './nominees.json';
 
 const sdg_labels = ["1. No Poverty","2. Zero Hunger","3. Good Health and Well-being","4. Quality Education","5. Gender Equality","6. Clean Water and Sanitation","7. Affordable and Clean Energy","8. Decent Work and Economic Growth","9. Industry, Innovation and Infrastructure","10. Reduced Inequality","11. Sustainable Cities and Communities","12. Responsible Consumption and Production","13. Climate Action","14. Life Below Water","15. Life on Land","16. Peace and Justice Strong Institutions","17. Partnerships to achieve the Goal"]
-const types = ["software", "data", "content", "standard"];
+const types = {
+  "aimodel": {
+    name: "AI Model"
+  },
+  "content": {
+    name: "Content"
+  },
+  "data": {
+    name: "Data"
+  },
+  "software": {
+    name: "Software"
+  },
+  "standard": {
+    name: "Standard"
+  }
+};
 const stage = ["nominee", "DPG"];
 const sdgs = ["sdg1", "sdg2", "sdg3", "sdg4", "sdg5", "sdg6", "sdg7", "sdg8", "sdg9", "sdg10", "sdg11", "sdg12", "sdg13", "sdg14", "sdg15", "sdg16", "sdg17"];
 
@@ -37,7 +53,7 @@ class Filters extends Component {
         concurrentClasses = elems[i].className.trim().split(' ').filter(function(a){ return a !== checkboxId });
       }
 
-      let intersectionSet1 = concurrentClasses.filter(i => types.includes(i));
+      let intersectionSet1 = concurrentClasses.filter(i => Object.keys(types).includes(i));
       let intersectionSet2 = concurrentClasses.filter(i => sdgs.includes(i));
       let intersectionSet3 = concurrentClasses.filter(i => stage.includes(i));
 
@@ -151,12 +167,12 @@ class Filters extends Component {
             </div>
             <div className="filteredContent" id="type-options">
                 <Form>
-                  {types.map((label, index) => (
+                  {Object.keys(types).map((label, index) => (
                   <Form.Check 
                     key={index}
                     type='checkbox'
                     id={`${label}-checkbox`}
-                    label={trunc(label,25)}
+                    label={trunc(types[label]['name'],25)}
                     defaultChecked
                     onChange = {this.handleChange}
                   />
