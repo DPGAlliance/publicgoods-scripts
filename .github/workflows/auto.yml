@@ -39,6 +39,8 @@ jobs:
           ln -s ../../../../publicgoods-website/wp-content/ packages/registry/public/wp-content;
           ln -s ../../../../publicgoods-website/wp-includes/ packages/map/public/wp-includes;
           ln -s ../../../../publicgoods-website/wp-content/ packages/map/public/wp-content;
+          ln -s ../../../../publicgoods-website/wp-includes/ packages/roadmap/public/wp-includes;
+          ln -s ../../../../publicgoods-website/wp-content/ packages/roadmap/public/wp-content;
       - name: Build packages/eligibility
         run: cd packages/eligibility && npm install && npm run build
       - name: Build packages/registry
