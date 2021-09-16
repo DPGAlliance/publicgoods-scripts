@@ -1,8 +1,8 @@
 {
-  "name": "@publicgoods-scripts/eligibility",
+  "name": "@publicgoods-scripts/roadmap",
   "version": "0.1.0",
   "private": true,
-  "description": "Digital Public Goods Eligibility Form",
+  "description": "Digital Public Goods Roadmap",
   "main": "index.js",
   "dependencies": {
     "csvtojson": "^2.0.10"
