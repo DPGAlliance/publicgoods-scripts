@@ -23,3 +23,11 @@ pushd ../publicgoods-website/map && \
     git add _next/* && \
     cp ../../publicgoods-scripts/packages/map/build/index.html . && \
 popd
+
+pushd ../publicgoods-website/roadmap && \
+    git rm -rf static/* || true && \
+    mkdir static && \
+    cp -a ../../publicgoods-scripts/packages/roadmap/build/static/* static && \
+    git add static/* && \
+    cp ../../publicgoods-scripts/packages/roadmap/build/index.html . && \
+popd

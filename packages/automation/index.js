@@ -47,6 +47,9 @@ pathFormHtml = '../../../publicgoods-website/eligibility/index.html';
 destFormHtml = '../eligibility/public/index.html';
 pathMapHtml = '../../../publicgoods-website/map/index.html'
 destMapHtml = '../map/public/';
+pathRoadmapHtml = '../../../publicgoods-website/roadmap/index.html';
+destRoadmapHtml = '../roadmap/public/index.html';
+
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -458,6 +461,15 @@ textLine.each(function (d) {
     console.log('Modified files:', changedFiles.join(', '));
     fs.copyFileSync(pathFormHtml, destFormHtml);
   });
+
+  replace({files: pathRoadmapHtml, from: '<p>Placeholder</p>', to: formHtmlOutput}, (error, changedFiles) => {
+    if (error) {
+      return console.error('Error occurred:', error);
+    }
+    console.log('Modified files:', changedFiles.join(', '));
+    fs.copyFileSync(pathRoadmapHtml, destRoadmapHtml);
+  });
+
   fs.readFile(pathMapHtml,'utf8',  function (err, html) {
     if (err) {
       return console.error('Error occurred:', err);
