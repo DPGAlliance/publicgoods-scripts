@@ -28,6 +28,8 @@ export async function getStaticProps() {
   const renameCountry = {
     "Cote d'Ivoire": "Ivory Coast",
     DRC: "Congo, the Democratic Republic of the",
+    'Dem. Rep. Congo': "Congo, the Democratic Republic of the",
+    'East Timor': 'Timor-Leste',
     Eswatini: "eSwatini (former Swaziland)",
     Tanzania: "United Republic of Tanzania",
     "United States of America": "United States",
@@ -41,6 +43,7 @@ export async function getStaticProps() {
     "Iran (Islamic Republic Of)": "Iran",
     Luxemburg: "Luxembourg",
     "Micronesia, Federated States Of": "Micronesia",
+    "Micronesia, Federated States of": "Micronesia",
     "Saint Kitts And Nevis": "Saint Kitts and Nevis",
     "Saint Vincent And The Grenadines": "Saint Vincent and the Grenadines", // +
     "Sao Tome And Principe": "Sao Tome and Principe", // +
@@ -71,7 +74,7 @@ export async function getStaticProps() {
     "Republic of Congo": "Congo",
     "Palestine State": "Palestine",
     "United Kingdom of Great Britain and Northern Ireland": "United Kingdom",
-    "Korea (the Republic of Korea)": "Korea, Democratic People's Republic of",
+    "Korea (the Republic of Korea)": "South Korea",
     "Viet Nam": "Vietnam",
     Macedonia: "North Macedonia",
     "Congo (the Democratic Republic of the Congo)":
@@ -88,6 +91,16 @@ export async function getStaticProps() {
     VietNam: "Vietnam",
     Curaçao: "Curaçao",
     "Lao People's Democratic Republic": "Laos",
+    "Ivory coast": "Ivory Coast",
+    "Unites States": "United States",
+    'Bolivia, Plurinational State of': 'Bolivia',
+    'Moldova, Republic of': 'Moldova',
+    'Macedonia, the Former Yugoslav Republic of': 'North Macedonia',
+    'Palestine, State of': 'Palestine',
+    'Taiwan, Province of China': 'Taiwan',
+    'Tanzania, United Republic of': 'United Republic of Tanzania',
+    'Venezuela, Bolivarian Republic of': 'Venezuela',
+    'Central African Rep.': 'Central African Republic',
   };
   const convertArrayToObject = (array, key) =>
     array.reduce((acc, curr) => ((acc[curr[key]] = curr), acc), {});
