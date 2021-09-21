@@ -5,19 +5,19 @@ import {InView} from "react-intersection-observer";
 import Footer from "./footer";
 import Chart from "react-google-charts";
 import confirmedPattern from "../public/confirmed.svg";
-import exploratoryPattern from "../public/exploratory.svg";
+// import exploratoryPattern from "../public/exploratory.svg";
 
 const buttonStyles = {
-  "Pathfinders Exploratory": {
-    backgroundImage: `url(${exploratoryPattern})`,
-  },
-  "Pathfinders Confirmed": {
+  // "Pathfinders Exploratory": {
+  //   backgroundImage: `url(${exploratoryPattern})`,
+  // },
+  "DPG Pathfinders": {
     backgroundImage: `url(${confirmedPattern})`,
   },
-  "DPGs developed": {
+  "DPGs Developed": {
     backgroundColor: "#FF952A",
   },
-  "DPGs deployed": {
+  "DPGs Deployed": {
     backgroundColor: "#3333AB",
   },
 };
@@ -114,7 +114,7 @@ const InfoComponent = forwardRef((props, ref) => {
     };
   });
   return (
-    <div className="infoGood">
+    <div className={!props.highlight ? 'infoGood' : 'infoGood fixed'}>
       <div>{props.SearchBox}</div>
       <div className="controls" onClick={scrollHandle} ref={infoRef}>
         <span id="arrow-up" className={!menuInView ? "arrow up active" : "arrow up"} />
@@ -127,7 +127,7 @@ const InfoComponent = forwardRef((props, ref) => {
         <span>{menuInView ? "" : "Tap to see filters and info"}</span>
       </div>
 
-      <ul className="filters" ref={divRef}>
+      <ul ref={divRef} className={props.highlight == 'filters' ? 'filters highlight' : 'filters'}>
         {Object.keys(props.visibleLayer).map((layer, index) => (
           <li id={layer} key={layer + index} onClick={(e) => handleLayerToggle(e, layer)}>
             <span>{props.visibleLayer[layer] ? layer : ""}</span>
@@ -206,7 +206,6 @@ const InfoComponent = forwardRef((props, ref) => {
                     </a>
                   ))}
               </div>
-
               <p>
                 DPGs deployed in this country are related to{" "}
                 {
