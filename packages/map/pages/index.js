@@ -101,6 +101,7 @@ export async function getStaticProps() {
     "Tanzania, United Republic of": "United Republic of Tanzania",
     "Venezuela, Bolivarian Republic of": "Venezuela",
     "Central African Rep.": "Central African Republic",
+    "St Vincent and The Grenadines": "Saint Vincent and the Grenadines",
   };
   const convertArrayToObject = (array, key) =>
     array.reduce((acc, curr) => ((acc[curr[key]] = curr), acc), {});
