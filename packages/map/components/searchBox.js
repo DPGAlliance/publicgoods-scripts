@@ -28,6 +28,7 @@ const SearchBox = forwardRef((props, ref) => {
   const [searchFocused, setSearchFocused] = useState(false);
   const onFocus = () => setSearchFocused(true);
   const onBlur = () => setSearchFocused(false);
+  const [tooltip, setTooltip] = useState({});
   const handleSelect = (item, event) => {
     event.preventDefault();
     // Here, we invoke the callback with the new value
@@ -67,7 +68,7 @@ const SearchBox = forwardRef((props, ref) => {
   });
 
   return (
-    <div className="selectContainer">
+    <div className={props.highlight == 'searchbox' ? 'selectContainer highlight' : 'selectContainer'}>
       <div
         onClick={handleMenuClick}
         onMouseOver={handleMouseOver}
@@ -120,8 +121,24 @@ const SearchBox = forwardRef((props, ref) => {
             ))}
         </div>
       </div>
-      <div className="closeIcon" onClick={(e) => handleClear(e)}>
+      <div
+        className="navIcon"
+        onClick={(e) => handleClear(e)}
+        onMouseOver={(e) => setTooltip({clear: true})}
+        onMouseLeave={() => setTooltip({})}
+      >
         <span>x</span>
+        {tooltip.clear && <p className="searchTooltip">clear input</p>}
+      </div>
+      <div
+        className="navIcon"
+        onClick={(e) => props.scrollToStory()}
+        onMouseOver={() => setTooltip({back: true})}
+        onMouseLeave={() => setTooltip({})}
+      >
+        <span className="arrow active up"></span>
+        <span className="arrow active up"></span>
+        {tooltip.back && <p className="searchTooltip">back to story</p>}
       </div>
     </div>
   );

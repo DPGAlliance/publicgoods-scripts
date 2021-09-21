@@ -1,7 +1,7 @@
-import React, {useState, useRef} from "react";
+import React, {useState, useRef, useEffect} from "react";
 import ReactMapboxGl, {ZoomControl, MapContext} from "react-mapbox-gl";
 import confirmedPattern from "../public/confirmed.svg";
-import exploratoryPattern from "../public/exploratory.svg";
+// import exploratoryPattern from "../public/exploratory.svg";
 import hardwarePattern from "../public/hardware.svg";
 import {Scrollama, Step} from "react-scrollama";
 import {InView} from "react-intersection-observer";
@@ -11,16 +11,17 @@ import UseWindowDimensions from "./UseWindowDimensions";
 import dpgaLogo from "../public/logo.svg";
 
 const layerStyles = {
-  "Pathfinders Exploratory": {
-    backgroundImage: `url(${exploratoryPattern})`,
-  },
-  "Pathfinders Confirmed": {
+  // "Pathfinders Exploratory": {
+  //   backgroundImage: `url(${exploratoryPattern})`,
+  // },
+
+  "DPG Pathfinders": {
     backgroundImage: `url(${confirmedPattern})`,
   },
-  "DPGs developed": {
+  "DPGs Developed": {
     backgroundColor: "#FF952A",
   },
-  "DPGs deployed": {
+  "DPGs Deployed": {
     backgroundColor: "#3333AB",
   },
 };
@@ -53,7 +54,6 @@ const sdgsDefault = () => {
   }
   return obj;
 };
-// console.log(process.env.MAPBOX_ACCESS_TOKEN)
 const Map = ReactMapboxGl({
   accessToken: process.env.NEXT_PUBLIC_MAPBOX_TOKEN,
   maxZoom: 9,
@@ -67,6 +67,7 @@ export default function mapComponent(props) {
   const ref = useRef();
   const mainRef = useRef();
   const searchRef = useRef();
+  const lastCard = useRef();
   const {width} = UseWindowDimensions();
   const [zoom, setZoom] = useState(zoomDefault);
   const [lonLat, setLonLat] = useState([props.lon, props.lat]);
@@ -74,13 +75,14 @@ export default function mapComponent(props) {
   const [selectedCountry, setSelectedCountry] = useState({});
   const [prevGood, setPrevGood] = useState({});
   const [visibleLayer, setVisibleLayer] = useState({
-    "Pathfinders Exploratory": false,
-    "Pathfinders Confirmed": false,
-    "DPGs deployed": false,
-    "DPGs developed": false,
+    // "Pathfinders Exploratory": false,
+    "DPG Pathfinders": false,
+    "DPGs Deployed": false,
+    "DPGs Developed": false,
   });
+  const [showMenu, setShowMenu] = useState();
+  const [showStory, setShowStory] = useState(true);
   const [mapInteractive, setMapInteractive] = useState(false);
-
   // scrollama states
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -89,6 +91,7 @@ export default function mapComponent(props) {
   // data prop of the step, which in this demo stores the index of the step.
   const onStepEnter = ({data}) => {
     setCurrentStepIndex(data);
+    
     // Check and set selectedGood from gsheet
     if (props.story[data].showDPG) {
       setSelectedGood((prevState) => {
@@ -105,21 +108,27 @@ export default function mapComponent(props) {
         return {};
       });
     }
+    if (props.story[data].highlightMenu) {
+      setShowMenu(props.story[data].highlightMenu);
+    } else {
+      setShowMenu(false);
+    }
     // Check and set visible layer from gsheet
     if (props.story[data].showFilter) {
       let newVisibleLayer = {};
       Object.keys(visibleLayer).forEach(
-        (v) => (newVisibleLayer[v] = props.story[data].showFilter.includes(v))
+        (v) => (newVisibleLayer[v] = props.story[data].showFilter.toLowerCase().includes(v.toLowerCase()))
       );
       setVisibleLayer(newVisibleLayer);
     } else {
       setVisibleLayer({
-        "Pathfinders Exploratory": false,
-        "Pathfinders Confirmed": false,
-        "DPGs deployed": false,
-        "DPGs developed": false,
+        // "Pathfinders Exploratory": false,
+        "DPG Pathfinders": false,
+        "DPGs Deployed": false,
+        "DPGs Developed": false,
       });
     }
+    searchRef.current && searchRef.current.changeInput(props.story[data].showDPG);
   };
 
   const handleSelectCountry = (code) => {
@@ -135,8 +144,6 @@ export default function mapComponent(props) {
       Object.keys(good.locations.developmentCountries).includes(code)
     );
     const countryName = props.countries[code].name;
-    // set country name in searchbox
-    searchRef.current.changeInput(countryName);
     // count sdgs for each country
     const sdgsDeploymentsInfo = Object.entries(
       deployments
@@ -181,6 +188,7 @@ export default function mapComponent(props) {
       typeDeployments: typeDeploymentsInfo,
     });
     ref.current.clearStatesFromParent();
+    // set country name in searchbox
     searchRef.current.changeInput(countryName);
     width < 1008 && ref.current.scrollFromMap();
   };
@@ -224,14 +232,25 @@ export default function mapComponent(props) {
         });
   };
 
+  const handleScrollToStory = () => {
+    setShowMenu(false);
+    setMapInteractive(false);
+  };
+  useEffect (() => {
+    setTimeout(() => {
+      mapInteractive && handleScrollToBottom();
+    }, 100);
+    
+  }, [mapInteractive])
+
   return (
-    <div ref={mainRef} className='visContainer'>
+    <div ref={mainRef} className="visContainer">
       <div className={loading ? "whiteBack" : "inactive"}>
         <img className={"loader"} src={dpgaLogo}></img>
       </div>
       <div className="map">
-        <div className={mapInteractive ? "mapContainer right" : "mapContainer"}>
-          {mapInteractive && width < 1008 && (
+        <div className={mapInteractive ? "mapContainer interactive" : "mapContainer"}>
+          {(mapInteractive || showMenu == 'searchbox') && width < 1008 && (
             <SearchBox
               ref={searchRef}
               goods={props.digitalGoods}
@@ -241,11 +260,15 @@ export default function mapComponent(props) {
               selectedCountry={selectedCountry.name}
               onSelectGood={handleChangeSearchbox}
               clearSelectedGood={handleClearSearchbox}
+              scrollToStory={handleScrollToStory}
+              highlight={!mapInteractive && showMenu}
             />
           )}
-          {props.story.length && props.story[currentStepIndex].image != "false" && !mapInteractive && (
-            <img className="stepImage" src={props.story[currentStepIndex].imageUrl} />
-          )}
+          {props.story.length &&
+            props.story[currentStepIndex].image != "false" &&
+            !mapInteractive && (
+              <img className="stepImage" src={props.story[currentStepIndex].imageUrl} />
+            )}
           <Map
             style="mapbox://styles/rolikasi/ckn67a95j022m17mcqog82g05"
             center={
@@ -260,7 +283,7 @@ export default function mapComponent(props) {
               mapInteractive ? [zoom] : [parseFloat(props.story[currentStepIndex].zoom)]
             }
             pitch={
-              visibleLayer["DPGs developed"] || visibleLayer["DPGs deployed"] ? 60 : 0
+              visibleLayer["DPGs Developed"] || visibleLayer["DPGs Deployed"] ? 60 : 0
             } // pitch in degrees
             containerStyle={{
               width: "100%",
@@ -355,45 +378,45 @@ export default function mapComponent(props) {
               });
 
               // Declare the image
-              if (map.getLayer("Pathfinders Exploratory")) {
-                console.log("Pathfinders Exploratory is layer already created");
-                return;
-              } else {
-                let exploratoryImg = new Image(20, 20);
-                exploratoryImg.onload = () =>
-                  map.addImage("exploratory-pattern", exploratoryImg);
-                exploratoryImg.src = exploratoryPattern;
+              // if (map.getLayer("Pathfinders Exploratory")) {
+              //   console.log("Pathfinders Exploratory is layer already created");
+              //   return;
+              // } else {
+              //   let exploratoryImg = new Image(20, 20);
+              //   exploratoryImg.onload = () =>
+              //     map.addImage("exploratory-pattern", exploratoryImg);
+              //   exploratoryImg.src = exploratoryPattern;
 
-                // Use it
-                map.addLayer(
-                  {
-                    // adding a layer containing the tileset with country boundaries
-                    id: "Pathfinders Exploratory", //this is the name of our layer, which we will need later
-                    source: {
-                      type: "vector",
-                      url: "mapbox://rolikasi.2kn4jvyh",
-                    },
-                    "source-layer": "ne_10m_admin_0_countries-dxlasx",
-                    type: "fill",
-                    paint: {
-                      "fill-pattern": "exploratory-pattern",
-                      "fill-opacity": 0.5,
-                    },
-                    layout: {
-                      visibility: "none",
-                    },
-                  },
-                  firstSymbolId
-                );
+              //   // Use it
+              //   map.addLayer(
+              //     {
+              //       // adding a layer containing the tileset with country boundaries
+              //       id: "Pathfinders Exploratory", //this is the name of our layer, which we will need later
+              //       source: {
+              //         type: "vector",
+              //         url: "mapbox://rolikasi.2kn4jvyh",
+              //       },
+              //       "source-layer": "ne_10m_admin_0_countries-dxlasx",
+              //       type: "fill",
+              //       paint: {
+              //         "fill-pattern": "exploratory-pattern",
+              //         "fill-opacity": 0.5,
+              //       },
+              //       layout: {
+              //         visibility: "none",
+              //       },
+              //     },
+              //     firstSymbolId
+              //   );
 
-                map.setFilter(
-                  "Pathfinders Exploratory",
-                  ["in", "ADM0_A3_IS"].concat(Object.keys(props.pathfinderExploratory))
-                ); // This line lets us filter by country codes.
-              }
+              //   map.setFilter(
+              //     "Pathfinders Exploratory",
+              //     ["in", "ADM0_A3_IS"].concat(Object.keys(props.pathfinderExploratory))
+              //   ); // This line lets us filter by country codes.
+              // }
 
-              if (map.getLayer("Pathfinders Confirmed")) {
-                console.log("Pathfinders Confirmed layer is already created");
+              if (map.getLayer("DPG Pathfinders")) {
+                console.log("DPG Pathfinders layer is already created");
                 return;
               } else {
                 // Declare the image
@@ -406,7 +429,7 @@ export default function mapComponent(props) {
                 map.addLayer(
                   {
                     // adding a layer containing the tileset with country boundaries
-                    id: "Pathfinders Confirmed", //this is the name of our layer, which we will need later
+                    id: "DPG Pathfinders", //this is the name of our layer, which we will need later
                     source: {
                       type: "vector",
                       url: "mapbox://rolikasi.2kn4jvyh",
@@ -425,7 +448,7 @@ export default function mapComponent(props) {
                 );
 
                 map.setFilter(
-                  "Pathfinders Confirmed",
+                  "DPG Pathfinders",
                   ["in", "ADM0_A3_IS"].concat(Object.keys(props.pathfinderConfirmed))
                 ); // This line lets us filter by country codes.
               }
@@ -456,21 +479,20 @@ export default function mapComponent(props) {
                   "countries",
                   ["in", "ADM0_A3_IS"].concat(Object.keys(props.countries))
                 ); // This line lets us filter by country codes.
-                console.log('map.getLayer("countries")', map.getLayer("countries"));
 
                 // Add 3d layer with extrudes
-                map.addSource("DPGs developed-polygons-source", {
+                map.addSource("DPGs Developed-polygons-source", {
                   type: "geojson",
                   data: props.devPolygons,
                 });
-                map.addSource("DPGs deployed-polygons-source", {
+                map.addSource("DPGs Deployed-polygons-source", {
                   type: "geojson",
                   data: props.depPolygons,
                 });
 
                 map.addLayer({
-                  id: "DPGs developed",
-                  source: "DPGs developed-polygons-source",
+                  id: "DPGs Developed",
+                  source: "DPGs Developed-polygons-source",
                   type: "fill-extrusion",
                   paint: {
                     "fill-extrusion-color": "#FF952A",
@@ -483,8 +505,8 @@ export default function mapComponent(props) {
                 });
 
                 map.addLayer({
-                  id: "DPGs deployed",
-                  source: "DPGs deployed-polygons-source",
+                  id: "DPGs Deployed",
+                  source: "DPGs Deployed-polygons-source",
                   type: "fill-extrusion",
                   paint: {
                     "fill-extrusion-color": "#3333AB",
@@ -495,7 +517,7 @@ export default function mapComponent(props) {
                     visibility: "none",
                   },
                 });
-                ["DPGs deployed", "DPGs developed"].map((layer, i) =>
+                ["DPGs Deployed", "DPGs Developed"].map((layer, i) =>
                   map.addLayer({
                     id: `${layer}-text`,
                     source: `${layer}-polygons-source`,
@@ -542,7 +564,6 @@ export default function mapComponent(props) {
             <MapContext.Consumer>
               {(map) => {
                 Object.keys(visibleLayer).map((layer) => {
-                  console.log("toggle ", layer, " visibility");
                   map.getLayer(layer)
                     ? map.setLayoutProperty(
                         layer,
@@ -552,7 +573,7 @@ export default function mapComponent(props) {
                     : null;
 
                   // toggle text layer for 3d visualizations
-                  if (["DPGs developed", "DPGs deployed"].includes(layer)) {
+                  if (["DPGs Developed", "DPGs Deployed"].includes(layer)) {
                     map.getLayer(layer + "-text")
                       ? map.setLayoutProperty(
                           layer + "-text",
@@ -564,12 +585,10 @@ export default function mapComponent(props) {
                 });
 
                 if (prevGood.name) {
-                  console.log("toggle prevgood visibility");
                   map.setLayoutProperty(prevGood.name + "-develop", "visibility", "none");
                   map.setLayoutProperty(prevGood.name + "-deploy", "visibility", "none");
                 }
                 if (selectedGood.name) {
-                  console.log("toggle selected good visibility");
                   map.setLayoutProperty(
                     selectedGood.name + "-develop",
                     "visibility",
@@ -585,13 +604,17 @@ export default function mapComponent(props) {
             </MapContext.Consumer>
           </Map>
         </div>
+        {!mapInteractive && 
         <InView
           as="div"
           onChange={(inView) => {
-            setMapInteractive(!inView);
             if (mapInstance) mapInstance.resize();
+            setMapInteractive(!inView);
+            !inView && handleScrollToBottom()
+            // !inView && setShowStory(false);
           }}
         >
+          
           <div className="scroller">
             <Scrollama onStepEnter={onStepEnter} offset="0.7">
               {props.story.map((_, stepIndex) => (
@@ -617,50 +640,58 @@ export default function mapComponent(props) {
                         </div>
                       </div>
                     )}
+                    {stepIndex == props.story.length - 1 && <span ref={lastCard}></span>}
                   </div>
                 </Step>
               ))}
             </Scrollama>
           </div>
-        </InView>
+        </InView>}
 
         <div
           className={
-            selectedGood.name || (Object.values(visibleLayer).some(item => item) && !mapInteractive) && props.story[currentStepIndex].image == "false"
+            selectedGood.name ||
+            (Object.values(visibleLayer).some((item) => item) &&
+              !mapInteractive &&
+              props.story[currentStepIndex].image == "false")
               ? "map-overlay active"
               : "map-overlay"
           }
           id="legend"
         >
           <div className="legendContainer">
-            {selectedGood.name && legends.map((legend, index) => (
-              <div key={legend + index}>
-                <span
-                  className="legend-key"
-                  style={
-                    index == 0
-                      ? {backgroundImage: `url(${hardwarePattern})`}
-                      : {backgroundColor: colors[index]}
-                  }
-                ></span>
-                <span>{legend}</span>
-              </div>
-            ))}
-            {!mapInteractive && Object.entries(visibleLayer).map((layer, index) => {
-              return layer[1] &&
-              <div key={layer[0] + index}>
-                <span
-                  className="legend-key rectangle"
-                  style={layerStyles[layer[0]]
-                  }
-                ></span>
-                <span>{layer[0]}</span>
-              </div>
-            })}
+            {selectedGood.name &&
+              legends.map((legend, index) => (
+                <div key={legend + index}>
+                  <span
+                    className="legend-key"
+                    style={
+                      index == 0
+                        ? {backgroundImage: `url(${hardwarePattern})`}
+                        : {backgroundColor: colors[index]}
+                    }
+                  ></span>
+                  <span>{legend}</span>
+                </div>
+              ))}
+            {!mapInteractive &&
+              Object.entries(visibleLayer).map((layer, index) => {
+                return (
+                  layer[1] && (
+                    <div key={layer[0] + index}>
+                      <span
+                        className="legend-key rectangle"
+                        style={layerStyles[layer[0]]}
+                      ></span>
+                      <span>{layer[0]}</span>
+                    </div>
+                  )
+                );
+              })}
           </div>
         </div>
       </div>
-      {mapInteractive && width >= 1008 && (
+      {(mapInteractive || showMenu) && width >= 1008 && (
         <InfoComponent
           selectedGood={selectedGood}
           selectedCountry={selectedCountry}
@@ -669,6 +700,7 @@ export default function mapComponent(props) {
           onLayerToggle={handleLayerToggle}
           visibleLayer={visibleLayer}
           ref={ref}
+          highlight={!mapInteractive && showMenu}
           SearchBox={
             <SearchBox
               ref={searchRef}
@@ -679,6 +711,8 @@ export default function mapComponent(props) {
               selectedCountry={selectedCountry.name}
               onSelectGood={handleChangeSearchbox}
               clearSelectedGood={handleClearSearchbox}
+              scrollToStory={handleScrollToStory}
+              highlight={!mapInteractive && showMenu}
             />
           }
         />
