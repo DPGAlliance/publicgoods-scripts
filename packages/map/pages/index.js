@@ -167,7 +167,6 @@ export async function getStaticProps() {
     const goodsFileNames = await (
       await Promise.all(range(1, pageNumbers, 1).map(async (page) => await result(page)))
     ).reduce((res, v) => res.concat(v.items), []);
-    console.log(goodsFileNames.length);
 
     const digitalGoodsData = await goodsFileNames.map(async (filename) => {
       const res = await fetch(
