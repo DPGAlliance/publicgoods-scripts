@@ -208,9 +208,13 @@ export async function getStaticProps() {
     const addStory = (results) => {
       // replace all //n //r, FALSE
       for (let i = 0; i < results.length; i++) {
-        results[i].text = results[i].text.replace(/[\r\n]+/gm, " ");
-        results[i].image = results[i].image.replace("FALSE", false);
-        results[i].image = results[i].image.replace("TRUE", true);
+        if (results[i].text) {
+          results[i].text = results[i].text.replace(/[\r\n]+/gm, " ");
+        }
+        if (results[i].image) {
+          results[i].image = results[i].image.replace("FALSE", false);
+          results[i].image = results[i].image.replace("TRUE", true);
+        }
       }
       return results;
     };
