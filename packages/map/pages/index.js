@@ -28,8 +28,8 @@ export async function getStaticProps() {
   const renameCountry = {
     "Cote d'Ivoire": "Ivory Coast",
     DRC: "Congo, the Democratic Republic of the",
-    'Dem. Rep. Congo': "Congo, the Democratic Republic of the",
-    'East Timor': 'Timor-Leste',
+    "Dem. Rep. Congo": "Congo, the Democratic Republic of the",
+    "East Timor": "Timor-Leste",
     Eswatini: "eSwatini (former Swaziland)",
     Tanzania: "United Republic of Tanzania",
     "United States of America": "United States",
@@ -93,14 +93,15 @@ export async function getStaticProps() {
     "Lao People's Democratic Republic": "Laos",
     "Ivory coast": "Ivory Coast",
     "Unites States": "United States",
-    'Bolivia, Plurinational State of': 'Bolivia',
-    'Moldova, Republic of': 'Moldova',
-    'Macedonia, the Former Yugoslav Republic of': 'North Macedonia',
-    'Palestine, State of': 'Palestine',
-    'Taiwan, Province of China': 'Taiwan',
-    'Tanzania, United Republic of': 'United Republic of Tanzania',
-    'Venezuela, Bolivarian Republic of': 'Venezuela',
-    'Central African Rep.': 'Central African Republic',
+    "Bolivia, Plurinational State of": "Bolivia",
+    "Moldova, Republic of": "Moldova",
+    "Macedonia, the Former Yugoslav Republic of": "North Macedonia",
+    "Palestine, State of": "Palestine",
+    "Taiwan, Province of China": "Taiwan",
+    "Tanzania, United Republic of": "United Republic of Tanzania",
+    "Venezuela, Bolivarian Republic of": "Venezuela",
+    "Central African Rep.": "Central African Republic",
+    "St Vincent and The Grenadines": "Saint Vincent and the Grenadines",
   };
   const convertArrayToObject = (array, key) =>
     array.reduce((acc, curr) => ((acc[curr[key]] = curr), acc), {});
@@ -115,15 +116,13 @@ export async function getStaticProps() {
     .then((jsonObj) => {
       return convertArrayToObject(jsonObj, "Country");
     });
+  var perPage = 100;
+  const range = (start, stop, step) =>
+    Array.from({length: (stop - start) / step + 1}, (_, i) => start + i * step);
   const fetchData = async () => {
     const alpha3 = {...loadAlpha};
     var countries = {};
     var mismatched = {};
-    //TODO: add an ability to fetch more than 100 dpgs
-    const result = await fetch(
-      "https://api.github.com/search/code?q=repo:unicef/publicgoods-candidates+path:digitalpublicgoods+filename:.json&per_page=100"
-    );
-    const goodsFileNames = await result.json();
     const handleCountries = (data) => {
       let deployGoods = {};
       let developmentGoods = {};
@@ -156,7 +155,21 @@ export async function getStaticProps() {
       countries = c;
       return data;
     };
-    const digitalGoodsData = await goodsFileNames.items.map(async (filename) => {
+
+    const result = (page) =>
+      fetch(
+        `https://api.github.com/search/code?q=repo:unicef/publicgoods-candidates+path:digitalpublicgoods+filename:.json&per_page=${perPage}&page=${page}`
+      ).then((response) => response.json());
+
+    const gitSearchRes = await result(1);
+    // get number of pages we need to fetch
+    const pageNumbers = Math.ceil(gitSearchRes.total_count / perPage);
+    // fetch and add all items to array from publicgoods-candidates
+    const goodsFileNames = await (
+      await Promise.all(range(1, pageNumbers, 1).map(async (page) => await result(page)))
+    ).reduce((res, v) => res.concat(v.items), []);
+
+    const digitalGoodsData = await goodsFileNames.map(async (filename) => {
       const res = await fetch(
         "https://raw.githubusercontent.com/unicef/publicgoods-candidates/master/digitalpublicgoods/" +
           filename.name
@@ -190,13 +203,18 @@ export async function getStaticProps() {
         return {...handleCountries(ngoodsData), ...nnomineeData};
       }
     });
+
     var digitalGoodsArr = await Promise.all(digitalGoodsData);
     const addStory = (results) => {
       // replace all //n //r, FALSE
       for (let i = 0; i < results.length; i++) {
-        results[i].text = results[i].text.replace(/[\r\n]+/gm, " ");
-        results[i].image = results[i].image.replace("FALSE", false);
-        results[i].image = results[i].image.replace("TRUE", true);
+        if (results[i].text) {
+          results[i].text = results[i].text.replace(/[\r\n]+/gm, " ");
+        }
+        if (results[i].image) {
+          results[i].image = results[i].image.replace("FALSE", false);
+          results[i].image = results[i].image.replace("TRUE", true);
+        }
       }
       return results;
     };
