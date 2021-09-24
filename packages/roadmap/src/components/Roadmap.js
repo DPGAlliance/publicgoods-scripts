@@ -231,25 +231,25 @@ function Roadmap() {
           <tspan x="100" y="70">DPGA</tspan>
           <tspan x="100" dy="1em">Organizations</tspan>
         </text>
-        <text x="300" y="0" fontSize="13px" textAnchor="middle" style={{fill: "white"}} textLength="140">
+        <text x="300" y="0" fontSize="13px" textAnchor="middle" style={{fill: "white"}}>
           <tspan x="295" dy="3em">1) DPGs are discoverable,</tspan>
           <tspan x="295" dy="1.2em">sustainably managed, and</tspan>
           <tspan x="295" dy="1.2em">accessible</tspan>
         </text>
-        <text x="500" y="0" fontSize="13px" textAnchor="middle" style={{fill: "white"}} textLength="140">
+        <text x="500" y="0" fontSize="13px" textAnchor="middle" style={{fill: "white"}}>
           <tspan x="495" dy="1.5em">2) UN-institutions, multilateral</tspan>
           <tspan x="495" dy="1.2em">development banks and other</tspan>
           <tspan x="495" dy="1.2em">public and private institutions</tspan>
           <tspan x="495" dy="1.2em">have capacity to promote and</tspan>
           <tspan x="495" dy="1.2em">support DPG adoption</tspan>
         </text>
-        <text x="700" y="0" fontSize="13px" textAnchor="middle" style={{fill: "white"}} textLength="140">
+        <text x="700" y="0" fontSize="13px" textAnchor="middle" style={{fill: "white"}}>
           <tspan x="695" dy="2em">3) LMIC Governments have</tspan>
           <tspan x="695" dy="1.2em">capacity to deploy, maintain</tspan>
           <tspan x="695" dy="1.2em">and evolve DPGs for </tspan>
           <tspan x="695" dy="1.2em">digital public infrastructure</tspan>
         </text>
-        <text x="900" y="0" fontSize="13px" textAnchor="middle" style={{fill: "white"}} textLength="140">
+        <text x="900" y="0" fontSize="13px" textAnchor="middle" style={{fill: "white"}}>
           <tspan x="895" dy="2em">4) LMICs have vibrant</tspan>
           <tspan x="895" dy="1.2em">commercial ecosystems</tspan>
           <tspan x="895" dy="1.2em">capacity to create, maintain,</tspan>
