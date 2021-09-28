@@ -36,12 +36,21 @@ class Filters extends Component {
     this.state = { liked: false, count: 0};
     this.handleChange = this.handleChange.bind(this);
     this.toggleVisible = this.toggleVisible.bind(this);
-
   }
 
   handleChange(event) {
-    const checkboxId = event.target.id.split('-')[0];
-    const display = event.target.checked;
+    let checkboxId
+    let display;
+    if(event){
+      checkboxId = event.target.id.split('-')[0];
+      display = event.target.checked;
+    } else {
+      // When the page loads, handleChange() is called via componentDidMount()
+      // We only want to display DPGs at page load, so nominees is unchecked
+      // and so we set these two variables accordinly to get the desired behavior
+      checkboxId='nominee'
+      display=false
+    }
 
     var elems = document.getElementsByClassName(checkboxId);
 
@@ -108,7 +117,7 @@ class Filters extends Component {
   }
 
   componentDidMount() {
-    this.countActive();
+    this.handleChange();
   }
 
   countActive() {
@@ -146,7 +155,10 @@ class Filters extends Component {
                     type='checkbox'
                     id={`${label}-checkbox`}
                   >
-                    <Form.Check.Input type='checkbox' defaultChecked onChange = {this.handleChange}/>
+                  {(label==='DPG')?
+                    <Form.Check.Input type='checkbox' defaultChecked onChange = {this.handleChange}/>:
+                    <Form.Check.Input type='checkbox' onChange = {this.handleChange}/>
+                  }
                     <Form.Check.Label>
                       {(label==='DPG')?<span>digital public good <img src="dpgicon.svg" alt="DPG icon" height="30"/></span>:trunc(label,25)}
                       </Form.Check.Label>
