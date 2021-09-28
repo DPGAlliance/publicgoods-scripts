@@ -62,7 +62,7 @@ const Map = ReactMapboxGl({
   pitchWithRotate: false,
 });
 
-export default function mapComponent(props) {
+export default function MapComponent(props) {
   const [mapInstance, setMapInstance] = useState();
   const ref = useRef();
   const mainRef = useRef();

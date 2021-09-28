@@ -5,7 +5,7 @@ export default function Footer() {
     <div className="footer">
       <span>
          Data source:{" "}
-        <a target="_blank" href="https://github.com/unicef/publicgoods-candidates">
+        <a target="_blank" rel="noreferrer" href="https://github.com/unicef/publicgoods-candidates">
           DPGs
         </a>
       </span>

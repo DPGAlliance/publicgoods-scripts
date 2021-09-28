@@ -6,9 +6,7 @@
     "dev": "next dev",
     "build": "next build && next export -o build",
     "start": "next start",
-    "lint": "eslint .",
-    "lint:fix": "eslint --fix .",
-    "format": "prettier --write \"**/*.+(js|jsx|json|yml|yaml|css|vue)\"",
+    "lint": "next lint",
     "convert": "node scripts/pointToPolygon.js"
   },
   "dependencies": {
@@ -26,69 +24,15 @@
     "react-scrollama": "^2.2.16"
   },
   "devDependencies": {
-    "babel-eslint": "^10.1.0",
-    "eslint": "^7.25.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-prettier": "^3.4.0",
-    "eslint-plugin-react": "^7.23.2",
+    "@next/eslint-plugin-next": "^11.1.2",
+    "eslint-config-next": "11.1.2",
     "husky": "^6.0.0",
     "json-loader": "^0.5.7",
-    "lint-staged": "^10.5.4",
-    "prettier": "2.2.1",
-    "webpack": "^4.44.2"
-  },
-  "eslintConfig": {
-    "parser": "babel-eslint",
-    "extends": [
-      "eslint:recommended",
-      "plugin:react/recommended",
-      "prettier",
-      "plugin:prettier/recommended"
-    ],
-    "plugins": [
-      "prettier",
-      "react"
-    ],
-    "settings": {
-      "react": {
-        "version": "detect"
-      }
-    },
-    "env": {
-      "browser": true,
-      "node": true,
-      "es6": true
-    },
-    "parserOptions": {
-      "ecmaFeatures": {
-        "jsx": true
-      },
-      "ecmaVersion": 2018,
-      "sourceType": "module"
-    },
-    "rules": {
-      "react/prop-types": "off",
-      "react/react-in-jsx-scope": "off"
-    }
-  },
-  "prettier": {
-    "printWidth": 90,
-    "bracketSpacing": false,
-    "trailingComma": "es5"
+    "lint-staged": "^10.5.4"
   },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
     }
-  },
-  "lint-staged": {
-    "*.+(js|jsx)": [
-      "eslint --fix",
-      "git add"
-    ],
-    "*.+(json|css|md)": [
-      "prettier --write",
-      "git add"
-    ]
   }
 }
