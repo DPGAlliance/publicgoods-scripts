@@ -9,6 +9,7 @@ import SearchBox from "./searchBox";
 import InfoComponent from "./infoComponent";
 import UseWindowDimensions from "./UseWindowDimensions";
 import dpgaLogo from "../public/logo.svg";
+import Image from "next/image";
 
 const layerStyles = {
   // "Pathfinders Exploratory": {
@@ -238,6 +239,7 @@ export default function MapComponent(props) {
     setShowMenu(false);
     setMapInteractive(false);
   };
+
   useEffect(() => {
     setTimeout(() => {
       mapInteractive && handleScrollToBottom();
@@ -248,7 +250,11 @@ export default function MapComponent(props) {
   return (
     <div ref={mainRef} className="visContainer">
       <div className={loading ? "whiteBack" : "inactive"}>
-        <img className={"loader"} src={dpgaLogo}></img>
+        <Image
+          className={"loader"} 
+          src={dpgaLogo}
+          alt="Loading"
+        />
       </div>
       <div className="map">
         <div className={mapInteractive ? "mapContainer interactive" : "mapContainer"}>
@@ -269,7 +275,11 @@ export default function MapComponent(props) {
           {props.story.length &&
             props.story[currentStepIndex].image != "false" &&
             !mapInteractive && (
-              <img className="stepImage" src={props.story[currentStepIndex].imageUrl} />
+              <Image
+                className="stepImage" 
+                src={props.story[currentStepIndex].imageUrl}
+                alt="stepImage"
+              />
             )}
           <Map
             style="mapbox://styles/rolikasi/ckn67a95j022m17mcqog82g05"
@@ -629,7 +639,10 @@ export default function MapComponent(props) {
                         <div>
                           <p>
                             Scroll down to see the story or skip it and{" "}
-                            <span className="button" onClick={() => setMapInteractive(true)}>
+                            <span
+                              className="button"
+                              onClick={() => setMapInteractive(true)}
+                            >
                               explore the map
                             </span>
                           </p>
