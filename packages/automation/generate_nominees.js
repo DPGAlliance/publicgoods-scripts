@@ -26,6 +26,7 @@ const params = {
 }
 
 var candidates = [];
+var missingRepoActivity = [];
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -36,7 +37,7 @@ async function fetchGithubActivity(org, item){
   let $, list=[];
   console.log('Fetching https://github.com/' + org + ' -> searching for '+item);
   let isOrg = true;
-  let fetchLink = 'https://github.com/' + org + '?q=' + item;
+  let fetchLink = 'https://github.com/orgs/' + org + '/repositories?q=' + item +'&sort=stargazers';
   let output = '&nbsp;';
 
   await retry(async bail => {
@@ -44,7 +45,15 @@ async function fetchGithubActivity(org, item){
 
     if(data.status == 404) { // Assume handle is a personal account
       isOrg = false;
-      fetchLink = 'https://github.com/' + org + '?tab=repositories&q=' + item;
+    } else {
+      let response = JSON.parse(await data.text())
+      if(response.hasOwnProperty('message') && response['message']==='Not Found') {
+        isOrg = false;
+      }
+    }
+
+    if(!isOrg){
+      fetchLink = 'https://github.com/' + org + '/?tab=repositories&q=' + item;
     }
     // otherwise we have an org
     return
@@ -79,12 +88,18 @@ async function fetchGithubActivity(org, item){
 
   if(isOrg) { // it is an organization, else it is a user
     list = $("div.repo-list").find('a.d-inline-block:contains("'+item+'")').filter(
-      function(){return $(this).text().trim() === item;}).parent().next();
+      function(){return $(this).text().trim() === item;}).parent().parent().next();
   } else {
     list = $("#user-repositories-list").find('a:contains("'+item+'")').filter(
       function(){return $(this).text().trim() === item;}).parent().parent().parent().next();
   }
 
+  // The chart is not immediately visible, but it is included as a fragment like:
+  //   <div class="text-right hide-lg hide-md hide-sm hide-xs ">
+  //     <poll-include-fragment src="/chrisekelley/zeprs/graphs/participation?w=155&amp;h=28&amp;type=sparkline)">
+  //     </poll-include-fragment>
+  //  </div>
+  // so we extract the src to fetch
   if(list.length){
     let poll = list.find('poll-include-fragment').attr('src');
     if(poll){
@@ -97,6 +112,7 @@ async function fetchGithubActivity(org, item){
           minTimeout: 5000
         });
       } catch {
+        console.log('Error fetching the chart from the fragment, not found')
         // do nothing, it's fine
       }
       $ = cheerio.load(await data.text());
@@ -116,6 +132,7 @@ async function fetchGithubActivity(org, item){
     }
   } else {
     console.log('Activity chart NOT found ! ! ! ! !')
+    missingRepoActivity.push('https://github.com/'+org+'/'+item)
   }
   return output;
 }
@@ -153,4 +170,9 @@ glob(path.join(npath, '/*.json'), {}, async (err, files) => {
         return console.log(err);
       }
     });
+
+  if(missingRepoActivity.length){
+    console.log('GitHub activity could not be found for these '+missingRepoActivity.length+' repos.')
+    console.log(missingRepoActivity)
+  }
 })
