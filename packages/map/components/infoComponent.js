@@ -1,12 +1,7 @@
-import React, {
-  useState,
-  forwardRef,
-  useImperativeHandle,
-  useRef,
-} from "react";
+import React, {useState, forwardRef, useImperativeHandle, useRef} from "react";
 import webSymbol from "../public/globe.png";
 import ghLogo from "../public/github.png";
-import { InView } from "react-intersection-observer";
+import {InView} from "react-intersection-observer";
 import Footer from "./footer";
 import Chart from "react-google-charts";
 import confirmedPattern from "../public/confirmed.svg";
@@ -28,23 +23,23 @@ const buttonStyles = {
   },
 };
 const sdgsDefault = [
-  { name: "1. No Poverty", open: false },
-  { name: "2. Zero Hunger", open: false },
-  { name: "3. Good Health and Well-being", open: false },
-  { name: "4. Quality Education", open: false },
-  { name: "5. Gender Equality", open: false },
-  { name: "6. Clean Water and Sanitation", open: false },
-  { name: "7. Affordable and Clean Energy", open: false },
-  { name: "8. Decent Work and Economic Growth", open: false },
-  { name: "9. Industry, Innovation and Infrastructure", open: false },
-  { name: "10. Reduced Inequality", open: false },
-  { name: "11. Sustainable Cities and Communities", open: false },
-  { name: "12. Responsible Consumption and Production", open: false },
-  { name: "13. Climate Action", open: false },
-  { name: "14. Life Below Water", open: false },
-  { name: "15. Life on Land", open: false },
-  { name: "16. Peace and Justice Strong Institutions", open: false },
-  { name: "17. Partnerships to achieve the Goal", open: false },
+  {name: "1. No Poverty", open: false},
+  {name: "2. Zero Hunger", open: false},
+  {name: "3. Good Health and Well-being", open: false},
+  {name: "4. Quality Education", open: false},
+  {name: "5. Gender Equality", open: false},
+  {name: "6. Clean Water and Sanitation", open: false},
+  {name: "7. Affordable and Clean Energy", open: false},
+  {name: "8. Decent Work and Economic Growth", open: false},
+  {name: "9. Industry, Innovation and Infrastructure", open: false},
+  {name: "10. Reduced Inequality", open: false},
+  {name: "11. Sustainable Cities and Communities", open: false},
+  {name: "12. Responsible Consumption and Production", open: false},
+  {name: "13. Climate Action", open: false},
+  {name: "14. Life Below Water", open: false},
+  {name: "15. Life on Land", open: false},
+  {name: "16. Peace and Justice Strong Institutions", open: false},
+  {name: "17. Partnerships to achieve the Goal", open: false},
 ];
 const InfoComponent = forwardRef((props, ref) => {
   const [openCountries, setOpenCountries] = useState({
@@ -94,7 +89,8 @@ const InfoComponent = forwardRef((props, ref) => {
     props.onSelectCountry(countryCode);
   };
   const parseURLs = (text) => {
-    const url = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
+    const url =
+      /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
     let urls = text.match(url);
     return urls.map((url, index) => (
       <a key={url + index} href={url} target="_blank" rel="noreferrer">
@@ -113,7 +109,7 @@ const InfoComponent = forwardRef((props, ref) => {
     });
   };
   const scrollToInfo = () => {
-    infoRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
+    infoRef.current.scrollIntoView({behavior: "smooth", block: "end"});
   };
   useImperativeHandle(ref, () => {
     return {
@@ -126,10 +122,7 @@ const InfoComponent = forwardRef((props, ref) => {
     <div className={!props.highlight ? "infoGood" : "infoGood fixed"}>
       <div>{props.SearchBox}</div>
       <div className="controls" onClick={scrollHandle} ref={infoRef}>
-        <span
-          id="arrow-up"
-          className={!menuInView ? "arrow up active" : "arrow up"}
-        />
+        <span id="arrow-up" className={!menuInView ? "arrow up active" : "arrow up"} />
         <div
           id="hamburger"
           className={!menuInView ? "hamburger-icon" : "hamburger-icon active"}
@@ -141,25 +134,17 @@ const InfoComponent = forwardRef((props, ref) => {
 
       <ul
         ref={divRef}
-        className={
-          props.highlight == "filters" ? "filters highlight" : "filters"
-        }
+        className={props.highlight == "filters" ? "filters highlight" : "filters"}
       >
         {Object.keys(props.visibleLayer).map((layer, index) => (
-          <li
-            id={layer}
-            key={layer + index}
-            onClick={(e) => handleLayerToggle(e, layer)}
-          >
+          <li id={layer} key={layer + index} onClick={(e) => handleLayerToggle(e, layer)}>
             <span>{props.visibleLayer[layer] ? layer : ""}</span>
             <a
               href="#"
               onClick={(e) => e.preventDefault()}
               className={layer + (props.visibleLayer[layer] ? " active" : "")}
               style={
-                props.visibleLayer[layer]
-                  ? buttonStyles[layer]
-                  : { background: "none" }
+                props.visibleLayer[layer] ? buttonStyles[layer] : {background: "none"}
               }
             >
               {props.visibleLayer[layer] ? "" : layer}
@@ -204,11 +189,10 @@ const InfoComponent = forwardRef((props, ref) => {
                   className="collapsable-text"
                   onClick={() => toggleCountries("deploymentsInCountry")}
                 >
-                  There{" "}
-                  {props.selectedCountry.deployments.length > 1 ? "are" : "is"}{" "}
+                  There {props.selectedCountry.deployments.length > 1 ? "are" : "is"}{" "}
                   {props.selectedCountry.deployments.length} digital public good
-                  {props.selectedCountry.deployments.length > 1 ? "s" : ""}{" "}
-                  deployed in {props.selectedCountry.name}
+                  {props.selectedCountry.deployments.length > 1 ? "s" : ""} deployed in{" "}
+                  {props.selectedCountry.name}
                   <span
                     className={
                       openCountries.deploymentsInCountry
@@ -221,9 +205,7 @@ const InfoComponent = forwardRef((props, ref) => {
                   props.selectedCountry.deployments.map((good, i) => (
                     <a
                       className={
-                        props.selectedCountry.deployments.length - 1 == i
-                          ? "last"
-                          : ""
+                        props.selectedCountry.deployments.length - 1 == i ? "last" : ""
                       }
                       key={good.name + i}
                       onClick={(e) => handleSelectGood(e, good.name)}
@@ -235,15 +217,13 @@ const InfoComponent = forwardRef((props, ref) => {
               <p>
                 DPGs deployed in this country are related to{" "}
                 {
-                  props.selectedCountry.sdgsDeployments.filter(
-                    (sdg) => sdg[1].dpgs >= 1
-                  ).length
+                  props.selectedCountry.sdgsDeployments.filter((sdg) => sdg[1].dpgs >= 1)
+                    .length
                 }{" "}
                 of 17(
                 {(
-                  (props.selectedCountry.sdgsDeployments.filter(
-                    (sdg) => sdg[1].dpgs >= 1
-                  ).length /
+                  (props.selectedCountry.sdgsDeployments.filter((sdg) => sdg[1].dpgs >= 1)
+                    .length /
                     17) *
                   100
                 ).toFixed(1)}
@@ -259,7 +239,7 @@ const InfoComponent = forwardRef((props, ref) => {
                     [
                       "SDG",
                       "DPGs",
-                      { role: "annotation", calc: "stringify", type: "string" },
+                      {role: "annotation", calc: "stringify", type: "string"},
                     ],
                     ...props.selectedCountry.sdgsDeployments.map((sdg) => [
                       sdg[0],
@@ -280,14 +260,14 @@ const InfoComponent = forwardRef((props, ref) => {
                       },
                     },
                     colors: ["#3333AB"],
-                    chartArea: { width: "85%", height: "90%", top: 0 },
+                    chartArea: {width: "85%", height: "90%", top: 0},
                     hAxis: {
                       baselineColor: "#cccccc",
-                      titleTextStyle: { italic: false },
+                      titleTextStyle: {italic: false},
                       title: "Digital public goods",
                       minValue: 0,
                     },
-                    legend: { position: "none" },
+                    legend: {position: "none"},
                   }}
                 />
 
@@ -298,7 +278,7 @@ const InfoComponent = forwardRef((props, ref) => {
                   chartType="BarChart"
                   loader={<div>Loading Chart</div>}
                   data={[
-                    ["SDG", "DPGs", { role: "annotation", calc: "stringify" }],
+                    ["SDG", "DPGs", {role: "annotation", calc: "stringify"}],
                     ...props.selectedCountry.typeDeployments.map((el) => [
                       ...el,
                       el[0] + ": " + el[1],
@@ -311,17 +291,17 @@ const InfoComponent = forwardRef((props, ref) => {
                       duration: 500,
                     },
                     colors: ["#3333AB"],
-                    chartArea: { width: "85%", height: "85%", top: 0 },
+                    chartArea: {width: "85%", height: "85%", top: 0},
                     hAxis: {
                       baselineColor: "#cccccc",
-                      titleTextStyle: { italic: false },
+                      titleTextStyle: {italic: false},
                       title: "Digital public goods",
                       minValue: 0,
                     },
                     vAxis: {
                       textPosition: "none",
                     },
-                    legend: { position: "none" },
+                    legend: {position: "none"},
                   }}
                 />
               </div>
@@ -333,11 +313,10 @@ const InfoComponent = forwardRef((props, ref) => {
                 className="collapsable-text"
                 onClick={() => toggleCountries("developmentsInCountry")}
               >
-                There{" "}
-                {props.selectedCountry.developments.length > 1 ? "are" : "is"}{" "}
+                There {props.selectedCountry.developments.length > 1 ? "are" : "is"}{" "}
                 {props.selectedCountry.developments.length} digital public good
-                {props.selectedCountry.developments.length > 1 ? "s" : ""}{" "}
-                developed in {props.selectedCountry.name}
+                {props.selectedCountry.developments.length > 1 ? "s" : ""} developed in{" "}
+                {props.selectedCountry.name}
                 <span
                   className={
                     openCountries.developmentsInCountry
@@ -350,9 +329,7 @@ const InfoComponent = forwardRef((props, ref) => {
                 props.selectedCountry.developments.map((good, i) => (
                   <a
                     className={
-                      props.selectedCountry.developments.length - 1 == i
-                        ? "last"
-                        : ""
+                      props.selectedCountry.developments.length - 1 == i ? "last" : ""
                     }
                     key={good.name + i}
                     onClick={(e) => handleSelectGood(e, good.name)}
@@ -370,11 +347,7 @@ const InfoComponent = forwardRef((props, ref) => {
             <h2 className="goodName">{props.selectedGood.name}</h2>
             <div className="goodLinks">
               {props.selectedGood.website && (
-                <a
-                  href={props.selectedGood.website}
-                  target="_blank"
-                  rel="noreferrer"
-                >
+                <a href={props.selectedGood.website} target="_blank" rel="noreferrer">
                   <Image
                     src={webSymbol}
                     alt="image link to projects website"
@@ -389,12 +362,7 @@ const InfoComponent = forwardRef((props, ref) => {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  <Image
-                    src={ghLogo}
-                    alt="image link to github"
-                    width={30}
-                    height={30}
-                  />
+                  <Image src={ghLogo} alt="image link to github" width={30} height={30} />
                 </a>
               )}
             </div>
@@ -403,27 +371,20 @@ const InfoComponent = forwardRef((props, ref) => {
           <ul className="goodContainer">
             {" "}
             <p className="text-bold">Type of Digital Public Good</p>
-            {["content", "data", "software", "standard", "AI model"].map(
-              (item) => {
-                if (props.selectedGood.type.includes(item)) {
-                  return <li key={"type-" + item}>✅&nbsp;Open {item}</li>;
-                } else {
-                  return (
-                    <li key={"type-" + item}>
-                      <svg width="18" height="18">
-                        <rect
-                          width="18"
-                          height="18"
-                          fillOpacity="0"
-                          className="rect"
-                        />
-                      </svg>
-                      &nbsp;Open {item}
-                    </li>
-                  );
-                }
+            {["content", "data", "software", "standard", "AI model"].map((item) => {
+              if (props.selectedGood.type.includes(item)) {
+                return <li key={"type-" + item}>✅&nbsp;Open {item}</li>;
+              } else {
+                return (
+                  <li key={"type-" + item}>
+                    <svg width="18" height="18">
+                      <rect width="18" height="18" fillOpacity="0" className="rect" />
+                    </svg>
+                    &nbsp;Open {item}
+                  </li>
+                );
               }
-            )}
+            })}
           </ul>
           <div className="goodContainer">
             <p className="text-bold">Relevant Sustainable Development Goals:</p>
@@ -454,98 +415,89 @@ const InfoComponent = forwardRef((props, ref) => {
             })}
           </div>
           <div className="goodContainer">
-            {Object.keys(props.selectedGood.locations.deploymentCountries)
-              .length > 0 && (
+            {Object.keys(props.selectedGood.locations.deploymentCountries).length > 0 && (
               <div className="header">
                 <p
                   className="collapsable-text"
                   onClick={(e) => toggleCountries("deployment")}
                 >
                   {"Deployed in " +
-                    Object.keys(
-                      props.selectedGood.locations.deploymentCountries
-                    ).length +
+                    Object.keys(props.selectedGood.locations.deploymentCountries).length +
                     " of 249 countries:"}{" "}
                   <span
                     className={
-                      openCountries.deployment
-                        ? "arrow active up"
-                        : "arrow active down"
+                      openCountries.deployment ? "arrow active up" : "arrow active down"
                     }
                   ></span>
                 </p>
 
                 {openCountries.deployment &&
-                  Object.entries(
-                    props.selectedGood.locations.deploymentCountries
-                  ).map((country, i) => {
-                    return (
-                      <a
-                        className={
-                          Object.entries(
-                            props.selectedGood.locations.deploymentCountries
-                          ).length -
-                            1 ==
-                          i
-                            ? "last"
-                            : ""
-                        }
-                        onClick={(e) => handleSelectCountry(e, country[0])}
-                        key={"deploy-" + country}
-                      >
-                        {country[1]}
-                      </a>
-                    );
-                  })}
+                  Object.entries(props.selectedGood.locations.deploymentCountries).map(
+                    (country, i) => {
+                      return (
+                        <a
+                          className={
+                            Object.entries(
+                              props.selectedGood.locations.deploymentCountries
+                            ).length -
+                              1 ==
+                            i
+                              ? "last"
+                              : ""
+                          }
+                          onClick={(e) => handleSelectCountry(e, country[0])}
+                          key={"deploy-" + country}
+                        >
+                          {country[1]}
+                        </a>
+                      );
+                    }
+                  )}
               </div>
             )}
-            {Object.keys(props.selectedGood.locations.developmentCountries)
-              .length > 0 && (
+            {Object.keys(props.selectedGood.locations.developmentCountries).length >
+              0 && (
               <div className="header">
                 <p
                   className="collapsable-text"
                   onClick={(e) => toggleCountries("development")}
                 >
                   {"Developed in " +
-                    Object.keys(
-                      props.selectedGood.locations.developmentCountries
-                    ).length +
-                    (Object.keys(
-                      props.selectedGood.locations.developmentCountries
-                    ).length > 1
+                    Object.keys(props.selectedGood.locations.developmentCountries)
+                      .length +
+                    (Object.keys(props.selectedGood.locations.developmentCountries)
+                      .length > 1
                       ? " countries:"
                       : " country:")}{" "}
                   <span
                     className={
-                      openCountries.development
-                        ? "arrow active up"
-                        : "arrow active down"
+                      openCountries.development ? "arrow active up" : "arrow active down"
                     }
                   ></span>
                 </p>
 
                 {openCountries.development &&
-                  Object.entries(
-                    props.selectedGood.locations.developmentCountries
-                  ).map((country, i) => {
-                    return (
-                      <a
-                        className={
-                          Object.entries(
-                            props.selectedGood.locations.developmentCountries
-                          ).length -
-                            1 ==
-                          i
-                            ? "last"
-                            : ""
-                        }
-                        onClick={(e) => handleSelectCountry(e, country[0])}
-                        key={"develop-" + country}
-                      >
-                        {country[1]}
-                      </a>
-                    );
-                  })}
+                  Object.entries(props.selectedGood.locations.developmentCountries).map(
+                    (country, i) => {
+                      return (
+                        <a
+                          className={
+                            Object.entries(
+                              props.selectedGood.locations.developmentCountries
+                            ).length -
+                              1 ==
+                            i
+                              ? "last"
+                              : ""
+                          }
+                          onClick={(e) => handleSelectCountry(e, country[0])}
+                          key={"develop-" + country}
+                        >
+                          {country[1]}
+                        </a>
+                      );
+                    }
+                  )}
               </div>
             )}
           </div>

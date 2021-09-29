@@ -81,7 +81,6 @@ export default function MapComponent(props) {
     "DPGs Developed": false,
   });
   const [showMenu, setShowMenu] = useState();
-  const [showStory, setShowStory] = useState(true);
   const [mapInteractive, setMapInteractive] = useState(false);
   // scrollama states
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
@@ -91,7 +90,7 @@ export default function MapComponent(props) {
   // data prop of the step, which in this demo stores the index of the step.
   const onStepEnter = ({data}) => {
     setCurrentStepIndex(data);
-    
+
     // Check and set selectedGood from gsheet
     if (props.story[data].showDPG) {
       setSelectedGood((prevState) => {
@@ -117,7 +116,10 @@ export default function MapComponent(props) {
     if (props.story[data].showFilter) {
       let newVisibleLayer = {};
       Object.keys(visibleLayer).forEach(
-        (v) => (newVisibleLayer[v] = props.story[data].showFilter.toLowerCase().includes(v.toLowerCase()))
+        (v) =>
+          (newVisibleLayer[v] = props.story[data].showFilter
+            .toLowerCase()
+            .includes(v.toLowerCase()))
       );
       setVisibleLayer(newVisibleLayer);
     } else {
@@ -236,12 +238,12 @@ export default function MapComponent(props) {
     setShowMenu(false);
     setMapInteractive(false);
   };
-  useEffect (() => {
+  useEffect(() => {
     setTimeout(() => {
       mapInteractive && handleScrollToBottom();
+      if (mapInstance) mapInstance.resize();
     }, 100);
-    
-  }, [mapInteractive])
+  }, [mapInteractive]);
 
   return (
     <div ref={mainRef} className="visContainer">
@@ -250,7 +252,7 @@ export default function MapComponent(props) {
       </div>
       <div className="map">
         <div className={mapInteractive ? "mapContainer interactive" : "mapContainer"}>
-          {(mapInteractive || showMenu == 'searchbox') && width < 1008 && (
+          {(mapInteractive || showMenu == "searchbox") && width < 1008 && (
             <SearchBox
               ref={searchRef}
               goods={props.digitalGoods}
@@ -604,49 +606,50 @@ export default function MapComponent(props) {
             </MapContext.Consumer>
           </Map>
         </div>
-        {!mapInteractive && 
-        <InView
-          as="div"
-          onChange={(inView) => {
-            if (mapInstance) mapInstance.resize();
-            setMapInteractive(!inView);
-            !inView && handleScrollToBottom()
-            // !inView && setShowStory(false);
-          }}
-        >
-          
-          <div className="scroller">
-            <Scrollama onStepEnter={onStepEnter} offset="0.7">
-              {props.story.map((_, stepIndex) => (
-                <Step data={stepIndex} key={stepIndex}>
-                  <div
-                    className={`scrolly-p ${stepIndex == 0 ? "first" : ""} ${
-                      stepIndex == props.story.length - 1 ? "last" : ""
-                    }`}
-                  >
-                    <p>{_.text}</p>
-                    {stepIndex == 0 && (
-                      <div>
-                        <p>
-                          Scroll down to see the story or skip it and{" "}
-                          <span className="button" onClick={handleScrollToBottom}>
-                            explore the map
-                          </span>
-                        </p>
+        {!mapInteractive && (
+          <InView
+            as="div"
+            onChange={(inView) => {
+              if (mapInstance) mapInstance.resize();
+              setMapInteractive(!inView);
+              !inView && handleScrollToBottom();
+            }}
+          >
+            <div className="scroller">
+              <Scrollama onStepEnter={onStepEnter} offset="0.7">
+                {props.story.map((_, stepIndex) => (
+                  <Step data={stepIndex} key={stepIndex}>
+                    <div
+                      className={`scrolly-p ${stepIndex == 0 ? "first" : ""} ${
+                        stepIndex == props.story.length - 1 ? "last" : ""
+                      }`}
+                    >
+                      <p>{_.text}</p>
+                      {stepIndex == 0 && (
+                        <div>
+                          <p>
+                            Scroll down to see the story or skip it and{" "}
+                            <span className="button" onClick={() => setMapInteractive(true)}>
+                              explore the map
+                            </span>
+                          </p>
 
-                        <div className="scrollArrows">
-                          <span></span>
-                          <span></span>
+                          <div className="scrollArrows">
+                            <span></span>
+                            <span></span>
+                          </div>
                         </div>
-                      </div>
-                    )}
-                    {stepIndex == props.story.length - 1 && <span ref={lastCard}></span>}
-                  </div>
-                </Step>
-              ))}
-            </Scrollama>
-          </div>
-        </InView>}
+                      )}
+                      {stepIndex == props.story.length - 1 && (
+                        <span ref={lastCard}></span>
+                      )}
+                    </div>
+                  </Step>
+                ))}
+              </Scrollama>
+            </div>
+          </InView>
+        )}
 
         <div
           className={

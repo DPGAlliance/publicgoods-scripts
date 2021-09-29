@@ -7,6 +7,8 @@
     "build": "next build && next export -o build",
     "start": "next start",
     "lint": "next lint",
+    "lint:fix": "eslint --fix .",
+    "format": "prettier --write \"**/*.+(js|jsx|json|yml|yaml|css|vue)\"",
     "convert": "node scripts/pointToPolygon.js"
   },
   "dependencies": {
@@ -26,13 +28,30 @@
   "devDependencies": {
     "@next/eslint-plugin-next": "^11.1.2",
     "eslint-config-next": "11.1.2",
+    "eslint-config-prettier": "^8.3.0",
     "husky": "^6.0.0",
     "json-loader": "^0.5.7",
-    "lint-staged": "^10.5.4"
+    "lint-staged": "^10.5.4",
+    "prettier": "2.4.1"
+  },
+  "prettier": {
+    "printWidth": 90,
+    "bracketSpacing": false,
+    "trailingComma": "es5"
   },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
     }
+  },
+  "lint-staged": {
+    "*.+(js|jsx)": [
+      "eslint --fix",
+      "git add"
+    ],
+    "*.+(json|css|md)": [
+      "prettier --write",
+      "git add"
+    ]
   }
 }

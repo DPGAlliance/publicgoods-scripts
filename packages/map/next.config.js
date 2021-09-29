@@ -16,7 +16,6 @@ module.exports = withCSS(
       url: false,
     },
     assetPrefix: !debug ? "./" : "", //add prefix for github integration in publicgoods-website
-    "extends": ["eslint:recommended", "next"],
     webpack5: false,
   })
 );

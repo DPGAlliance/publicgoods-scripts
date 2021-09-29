@@ -7,7 +7,10 @@ const head = fs.readFileSync(path.join(process.cwd(), "public/head.html"), "utf8
 const navbar = fs.readFileSync(path.join(process.cwd(), "public/navbar.html"), "utf8");
 const footer = fs.readFileSync(path.join(process.cwd(), "public/footer.html"), "utf8");
 const scripts = fs.readFileSync(path.join(process.cwd(), "public/scripts.html"), "utf8");
-const templateClassName = fs.readFileSync(path.join(process.cwd(), "public/templateClassName.txt"), "utf8");
+const templateClassName = fs.readFileSync(
+  path.join(process.cwd(), "public/templateClassName.txt"),
+  "utf8"
+);
 class MyDocument extends Document {
   render() {
     return (

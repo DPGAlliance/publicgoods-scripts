@@ -69,7 +69,11 @@ const SearchBox = forwardRef((props, ref) => {
   });
 
   return (
-    <div className={props.highlight == 'searchbox' ? 'selectContainer highlight' : 'selectContainer'}>
+    <div
+      className={
+        props.highlight == "searchbox" ? "selectContainer highlight" : "selectContainer"
+      }
+    >
       <div
         onClick={handleMenuClick}
         onMouseOver={handleMouseOver}
@@ -103,7 +107,9 @@ const SearchBox = forwardRef((props, ref) => {
             .map((item, index) => (
               <a key={item.name + index} href="#" onClick={(e) => handleSelect(item, e)}>
                 {item.name}
-                {width > 1008 && <Image width={45} height={24} src={dpgBadge} alt="dpg badge"/>}
+                {width > 1008 && (
+                  <Image width={45} height={24} src={dpgBadge} alt="dpg badge" />
+                )}
               </a>
             ))}
           {Object.values(props.countries)
