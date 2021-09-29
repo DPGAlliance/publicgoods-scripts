@@ -5,6 +5,7 @@ import {InView} from "react-intersection-observer";
 import Footer from "./footer";
 import Chart from "react-google-charts";
 import confirmedPattern from "../public/confirmed.svg";
+import Image from "next/image";
 // import exploratoryPattern from "../public/exploratory.svg";
 
 const buttonStyles = {
@@ -61,7 +62,10 @@ const InfoComponent = forwardRef((props, ref) => {
   };
 
   const toggleCountries = (type) => {
-    setOpenCountries((prevState) => ({...prevState, [type]: !prevState[type]}));
+    setOpenCountries((prevState) => ({
+      ...prevState,
+      [type]: !prevState[type],
+    }));
   };
   const divRef = useRef(null);
   const infoRef = useRef(null);
@@ -85,7 +89,8 @@ const InfoComponent = forwardRef((props, ref) => {
     props.onSelectCountry(countryCode);
   };
   const parseURLs = (text) => {
-    const url = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
+    const url =
+      /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
     let urls = text.match(url);
     return urls.map((url, index) => (
       <a key={url + index} href={url} target="_blank" rel="noreferrer">
@@ -114,7 +119,7 @@ const InfoComponent = forwardRef((props, ref) => {
     };
   });
   return (
-    <div className={!props.highlight ? 'infoGood' : 'infoGood fixed'}>
+    <div className={!props.highlight ? "infoGood" : "infoGood fixed"}>
       <div>{props.SearchBox}</div>
       <div className="controls" onClick={scrollHandle} ref={infoRef}>
         <span id="arrow-up" className={!menuInView ? "arrow up active" : "arrow up"} />
@@ -127,7 +132,10 @@ const InfoComponent = forwardRef((props, ref) => {
         <span>{menuInView ? "" : "Tap to see filters and info"}</span>
       </div>
 
-      <ul ref={divRef} className={props.highlight == 'filters' ? 'filters highlight' : 'filters'}>
+      <ul
+        ref={divRef}
+        className={props.highlight == "filters" ? "filters highlight" : "filters"}
+      >
         {Object.keys(props.visibleLayer).map((layer, index) => (
           <li id={layer} key={layer + index} onClick={(e) => handleLayerToggle(e, layer)}>
             <span>{props.visibleLayer[layer] ? layer : ""}</span>
@@ -340,7 +348,12 @@ const InfoComponent = forwardRef((props, ref) => {
             <div className="goodLinks">
               {props.selectedGood.website && (
                 <a href={props.selectedGood.website} target="_blank" rel="noreferrer">
-                  <img src={webSymbol} width="30px" height="30px" />
+                  <Image
+                    src={webSymbol}
+                    alt="image link to projects website"
+                    width={30}
+                    height={30}
+                  />
                 </a>
               )}
               {props.selectedGood.repositoryURL && (
@@ -349,7 +362,7 @@ const InfoComponent = forwardRef((props, ref) => {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  <img src={ghLogo} width="30px" height="30px" />
+                  <Image src={ghLogo} alt="image link to github" width={30} height={30} />
                 </a>
               )}
             </div>

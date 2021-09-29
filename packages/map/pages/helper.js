@@ -7,10 +7,7 @@ export default function Helper() {
   });
   return (
     <div className="main">
-      <MapHelperComponent
-        lon={-14}
-        lat={24.5}
-      />
+      <MapHelperComponent lon={-14} lat={24.5} />
     </div>
   );
 }

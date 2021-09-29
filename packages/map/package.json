@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build && next export -o build",
     "start": "next start",
-    "lint": "eslint .",
+    "lint": "next lint",
     "lint:fix": "eslint --fix .",
     "format": "prettier --write \"**/*.+(js|jsx|json|yml|yaml|css|vue)\"",
     "convert": "node scripts/pointToPolygon.js"
@@ -18,7 +18,7 @@
     "csvtojson": "^2.0.10",
     "intersection-observer": "^0.12.0",
     "mapbox-gl": "^1.13.1",
-    "next": "9.5.4",
+    "next": "11.1.1",
     "next-images": "^1.7.0",
     "react-google-charts": "^3.0.15",
     "react-intersection-observer": "^8.32.0",
@@ -26,50 +26,13 @@
     "react-scrollama": "^2.2.16"
   },
   "devDependencies": {
-    "babel-eslint": "^10.1.0",
-    "eslint": "^7.25.0",
+    "@next/eslint-plugin-next": "^11.1.2",
+    "eslint-config-next": "11.1.2",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-prettier": "^3.4.0",
-    "eslint-plugin-react": "^7.23.2",
     "husky": "^6.0.0",
     "json-loader": "^0.5.7",
     "lint-staged": "^10.5.4",
-    "prettier": "2.2.1",
-    "webpack": "^4.44.2"
-  },
-  "eslintConfig": {
-    "parser": "babel-eslint",
-    "extends": [
-      "eslint:recommended",
-      "plugin:react/recommended",
-      "prettier",
-      "plugin:prettier/recommended"
-    ],
-    "plugins": [
-      "prettier",
-      "react"
-    ],
-    "settings": {
-      "react": {
-        "version": "detect"
-      }
-    },
-    "env": {
-      "browser": true,
-      "node": true,
-      "es6": true
-    },
-    "parserOptions": {
-      "ecmaFeatures": {
-        "jsx": true
-      },
-      "ecmaVersion": 2018,
-      "sourceType": "module"
-    },
-    "rules": {
-      "react/prop-types": "off",
-      "react/react-in-jsx-scope": "off"
-    }
+    "prettier": "2.4.1"
   },
   "prettier": {
     "printWidth": 90,

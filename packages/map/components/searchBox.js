@@ -1,6 +1,7 @@
 import React, {forwardRef, useImperativeHandle, useState, useRef, useEffect} from "react";
 import dpgBadge from "../public/dpgBadge.svg";
 import UseWindowDimensions from "./UseWindowDimensions";
+import Image from "next/image";
 
 const SearchBox = forwardRef((props, ref) => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -68,7 +69,11 @@ const SearchBox = forwardRef((props, ref) => {
   });
 
   return (
-    <div className={props.highlight == 'searchbox' ? 'selectContainer highlight' : 'selectContainer'}>
+    <div
+      className={
+        props.highlight == "searchbox" ? "selectContainer highlight" : "selectContainer"
+      }
+    >
       <div
         onClick={handleMenuClick}
         onMouseOver={handleMouseOver}
@@ -102,7 +107,9 @@ const SearchBox = forwardRef((props, ref) => {
             .map((item, index) => (
               <a key={item.name + index} href="#" onClick={(e) => handleSelect(item, e)}>
                 {item.name}
-                {width > 1008 && <img width="45px" height="auto" src={dpgBadge}></img>}
+                {width > 1008 && (
+                  <Image width={45} height={24} src={dpgBadge} alt="dpg badge" />
+                )}
               </a>
             ))}
           {Object.values(props.countries)
