@@ -17,5 +17,8 @@ module.exports = withCSS(
     },
     assetPrefix: !debug ? "./" : "", //add prefix for github integration in publicgoods-website
     webpack5: false,
+    images: {
+      domains: ['s3.amazonaws.com'],
+    },
   })
 );
