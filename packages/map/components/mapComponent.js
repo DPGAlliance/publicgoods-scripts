@@ -9,7 +9,7 @@ import SearchBox from "./searchBox";
 import InfoComponent from "./infoComponent";
 import UseWindowDimensions from "./UseWindowDimensions";
 import dpgaLogo from "../public/logo.svg";
-import Image from "next/image";
+import NextImage from "next/image";
 
 const layerStyles = {
   // "Pathfinders Exploratory": {
@@ -250,11 +250,13 @@ export default function MapComponent(props) {
   return (
     <div ref={mainRef} className="visContainer">
       <div className={loading ? "whiteBack" : "inactive"}>
-        <Image
-          className={"loader"} 
-          src={dpgaLogo}
-          alt="Loading"
-        />
+        <div className="loader">
+          <NextImage
+            src={dpgaLogo}
+            layout="fill"
+            alt="Loading"
+          />
+        </div>
       </div>
       <div className="map">
         <div className={mapInteractive ? "mapContainer interactive" : "mapContainer"}>
@@ -275,11 +277,14 @@ export default function MapComponent(props) {
           {props.story.length &&
             props.story[currentStepIndex].image != "false" &&
             !mapInteractive && (
-              <Image
-                className="stepImage" 
-                src={props.story[currentStepIndex].imageUrl}
-                alt="stepImage"
-              />
+              <div className="stepImage">
+                <NextImage
+                  layout="fill"
+                  objectFit="cover"
+                  src={props.story[currentStepIndex].imageUrl}
+                  alt="stepImage"
+                />
+              </div>
             )}
           <Map
             style="mapbox://styles/rolikasi/ckn67a95j022m17mcqog82g05"
