@@ -25,84 +25,6 @@ export default function Home(props) {
 }
 
 export async function getStaticProps() {
-  const renameCountry = {
-    "Cote d'Ivoire": "Ivory Coast",
-    DRC: "Congo, the Democratic Republic of the",
-    "Dem. Rep. Congo": "Congo, the Democratic Republic of the",
-    "East Timor": "Timor-Leste",
-    Eswatini: "eSwatini (former Swaziland)",
-    Tanzania: "United Republic of Tanzania",
-    "United States of America": "United States",
-    "Antigua And Barbuda": "Antigua and Barbuda",
-    "Bolivia (Plurinational State of)": "Bolivia",
-    "Bosnia And Herzegowina": "Bosnia and Herzegovina",
-    "Cabo Verde": "Cape Verde",
-    Czechia: "Czech Republic",
-    "Côte d'Ivoire": "Ivory Coast",
-    "Democratic Republic of the Congo": "Congo, the Democratic Republic of the",
-    "Iran (Islamic Republic Of)": "Iran",
-    Luxemburg: "Luxembourg",
-    "Micronesia, Federated States Of": "Micronesia",
-    "Micronesia, Federated States of": "Micronesia",
-    "Saint Kitts And Nevis": "Saint Kitts and Nevis",
-    "Saint Vincent And The Grenadines": "Saint Vincent and the Grenadines", // +
-    "Sao Tome And Principe": "Sao Tome and Principe", // +
-    "Sint Maarten": "Sint Maarten (Dutch part)",
-    "Slovakia (Slovak Republic)": "Slovakia",
-    "South Georgia And South S.S.": "South Georgia and the South Sandwich Islands",
-    "St. Pierre And Miquelon": "Saint Pierre and Miquelon",
-    "State of Palestine": "Palestine",
-    "Syrian Arab Republic": "Syria",
-    "Trinidad And Tobago": "Trinidad and Tobago",
-    "Turks And Caicos Islands": "Turks and Caicos Islands",
-    "United Republic of Tanzania": "United Republic of Tanzania",
-    "Virgin Islands (British)": "Virgin Islands, British",
-    US: "United States",
-    UK: "United Kingdom",
-    "Cote D'Ivoire": "Ivory Coast",
-    USA: "United States",
-    Africa: "Africa", // ???
-    Bravil: "Bravil", // ???
-    Haita: "Haiti", // ???
-    Zimbwabwe: "Zimbabwe",
-    "United Kingdom of Great Britain And Northern Ireland": "United Kingdom",
-    Vanuata: "Vanuatu",
-    Bosnia: "Bosnia and Herzegovina",
-    "Cote d’Ivoire": "Ivory Coast",
-    Kazahkstan: "Kazakhstan",
-    "North Korea": "Korea, Democratic People's Republic of",
-    "Republic of Congo": "Congo",
-    "Palestine State": "Palestine",
-    "United Kingdom of Great Britain and Northern Ireland": "United Kingdom",
-    "Korea (the Republic of Korea)": "South Korea",
-    "Viet Nam": "Vietnam",
-    Macedonia: "North Macedonia",
-    "Congo (the Democratic Republic of the Congo)":
-      "Congo, the Democratic Republic of the",
-    "Brunei Darussalam": "Brunei",
-    Curaçao: "Curaçao", // The Netherlands Antilles (AN, ANT, 530) was divided into Bonaire, Saint Eustatius and Saba (BQ, BES, 535), Curaçao (CW, CUW, 531) and Sint Maarten (Dutch part) (SX, SXM, 534).
-    "Virgin Islands (U.S.)": "Virgin Islands, U.S.",
-    "Bonaire, Sint Eustatius, and Saba": "Bonaire, Sint Eustatius, and Saba", // The Netherlands Antilles (AN, ANT, 530) was divided into Bonaire, Saint Eustatius and Saba (BQ, BES, 535), Curaçao (CW, CUW, 531) and Sint Maarten (Dutch part) (SX, SXM, 534).
-    "Falkland Islands": "Falkland Islands (Malvinas)",
-    "The Faroe Islands": "Faroe Islands",
-    Kyrgyztan: "Kyrgyzstan",
-    SouthAfrica: "South Africa",
-    Swaziland: "eSwatini (former Swaziland)",
-    VietNam: "Vietnam",
-    Curaçao: "Curaçao",
-    "Lao People's Democratic Republic": "Laos",
-    "Ivory coast": "Ivory Coast",
-    "Unites States": "United States",
-    "Bolivia, Plurinational State of": "Bolivia",
-    "Moldova, Republic of": "Moldova",
-    "Macedonia, the Former Yugoslav Republic of": "North Macedonia",
-    "Palestine, State of": "Palestine",
-    "Taiwan, Province of China": "Taiwan",
-    "Tanzania, United Republic of": "United Republic of Tanzania",
-    "Venezuela, Bolivarian Republic of": "Venezuela",
-    "Central African Rep.": "Central African Republic",
-    "St Vincent and The Grenadines": "Saint Vincent and the Grenadines",
-  };
   const convertArrayToObject = (array, key) =>
     array.reduce((acc, curr) => ((acc[curr[key]] = curr), acc), {});
   const csv = require("csvtojson");
@@ -130,10 +52,9 @@ export async function getStaticProps() {
 
       ["deploymentCountries", "developmentCountries"].map((el) => {
         data.locations[el].map((country) => {
-          country = renameCountry[country] ? renameCountry[country] : country;
           if (!alpha3[country]) {
             // console.log("Mismatched good " + country);
-            mismatched[country] = country + " deploy " + data.name;
+            mismatched[country] = country + ` ${el} ` + data.name;
           } else {
             if (!Object.keys(c).find((e) => e == alpha3[country]["Alpha-3"])) {
               c[alpha3[country]["Alpha-3"]] = {};
@@ -234,7 +155,7 @@ export async function getStaticProps() {
       let l = {};
       let c = countries;
       results.map((el, i) => {
-        let country = renameCountry[el.Country] ? renameCountry[el.Country] : el.Country;
+        let country = el.Country;
         if (!alpha3[country]) {
           console.log("Mismatched " + country);
           mismatched[country] = country + " " + label;

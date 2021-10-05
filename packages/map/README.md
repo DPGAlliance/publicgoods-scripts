@@ -85,7 +85,7 @@ Setup your development environment as follows:
    add styles and js for template files(navigation and footer)
 7. Navigate to the map package
    ```bash
-   cd /packages/map
+   cd packages/map
    ```
 8. Install project dependencies:
    ```bash
