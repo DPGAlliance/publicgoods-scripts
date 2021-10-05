@@ -478,7 +478,7 @@ textLine.each(function (d) {
     $('main').remove(); // removes element where map will be placed 
     fs.writeFileSync(destMapHtml + 'head.html', $("head").html())
     fs.writeFileSync(destMapHtml + 'footer.html', $("footer").html())
-    fs.writeFileSync(destMapHtml + 'scripts.html', $.html($("script", 'body')))
+    fs.writeFileSync(destMapHtml + 'scripts.html', $.html($("#dpga-libs-js")) + $.html($("#dpga-main-js"))) // finds specific dpga scripts.
     fs.writeFileSync(destMapHtml + 'navbar.html', $("#page").html())
     fs.writeFileSync(destMapHtml + 'templateClassName.txt', $("body").attr('class'))
   });    
