@@ -79,7 +79,7 @@ export default function InfoSdg(props) {
             },
           },
           colors: ["#9ed0ff"],
-          chartArea: {width: "85%", height: "99%", top: 0},
+          chartArea: {width: "98%", height: "99%", top: 0},
           hAxis: {
             baselineColor: "#cccccc",
             textStyle: {fontSize: 12},
