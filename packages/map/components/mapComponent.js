@@ -750,7 +750,7 @@ export default function MapComponent(props) {
                   <span className="legend-key gradient"></span>{" "}
                   <span>{selectedSdg.maxDpgsInCountry}</span>
                 </div>
-                <span>DPGs related to "{selectedSdg.name}"</span>
+                <span>DPGs related to {selectedSdg.name}</span>
               </div>
             )}
             {!mapInteractive &&

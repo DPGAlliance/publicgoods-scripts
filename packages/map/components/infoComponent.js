@@ -23,6 +23,7 @@ const buttonStyles = {
   },
 };
 const InfoComponent = forwardRef((props, ref) => {
+  
   const [menuInView, setMenuInView] = useState(false);
   const handleLayerToggle = (e, layer) => {
     e.preventDefault();
@@ -108,5 +109,5 @@ const InfoComponent = forwardRef((props, ref) => {
     </div>
   );
 });
-
+InfoComponent.displayName = 'InfoComponent'
 export default InfoComponent;

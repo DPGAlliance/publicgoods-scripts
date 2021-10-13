@@ -25,9 +25,9 @@ export default function InfoSdg(props) {
       <div className="header">
         <p className="collapsable-text" onClick={() => toggleList("goodsInSDG")}>
           {props.selectedSdg.totalDpgs.length} Digital Public Good
-          {props.selectedSdg.totalDpgs.length > 1 && "s"} that achive "
-          {props.selectedSdg.name}"{" "}
-          {props.selectedSdg.totalDpgs.length > 1 ? "are" : "is"} deployed in{" "}
+          {props.selectedSdg.totalDpgs.length > 1 && "s"} that achive{" "}
+          {props.selectedSdg.name} {props.selectedSdg.totalDpgs.length > 1 ? "are" : "is"}{" "}
+          deployed in{" "}
           {props.selectedSdg.dpgCount.length > 1
             ? `${props.selectedSdg.dpgCount.length} countries`
             : `1 country`}
