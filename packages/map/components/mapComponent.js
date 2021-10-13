@@ -308,7 +308,7 @@ export default function MapComponent(props) {
               mapInteractive ? [zoom] : [parseFloat(props.story[currentStepIndex].zoom)]
             }
             pitch={
-              visibleLayer["DPGs Developed"] || visibleLayer["DPGs Deployed"] ? 60 : 0
+              visibleLayer["DPGs Developed"] || visibleLayer["DPGs Deployed"] ? [60] : [0]
             } // pitch in degrees
             containerStyle={{
               width: "100%",
@@ -750,7 +750,7 @@ export default function MapComponent(props) {
                   <span className="legend-key gradient"></span>{" "}
                   <span>{selectedSdg.maxDpgsInCountry}</span>
                 </div>
-                <span>DPGs related to {selectedSdg.name}</span>
+                <span>DPGs related to "{selectedSdg.name}"</span>
               </div>
             )}
             {!mapInteractive &&

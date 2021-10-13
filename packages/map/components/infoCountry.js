@@ -140,15 +140,17 @@ export default function InfoCountry(props) {
             <b>Types of DPGs deployed in {props.selectedCountry.name}</b>
             <Chart
               width={"100%"}
-              height={"170px"}
+              height={"180px"}
               chartType="BarChart"
               loader={<div>Loading Chart</div>}
               data={[
                 ["SDG", "DPGs", {role: "annotation", calc: "stringify"}],
-                ...props.selectedCountry.typeDeployments.map((el) => [
-                  ...el,
-                  el[0].replace("aimodel", "AI model") + ": " + el[1],
-                ]),
+                ...props.selectedCountry.typeDeployments
+                  .sort((a, b) => b[1] - a[1])
+                  .map((el) => [
+                    ...el,
+                    el[0].replace("aimodel", "AI model") + ": " + el[1],
+                  ]),
               ]}
               options={{
                 animation: {
@@ -168,6 +170,12 @@ export default function InfoCountry(props) {
                   textPosition: "none",
                 },
                 legend: {position: "none"},
+                annotations: {
+                  textStyle: {
+                    fontSize: 11,
+                    bold: false,
+                  },
+                },
               }}
             />
           </div>
