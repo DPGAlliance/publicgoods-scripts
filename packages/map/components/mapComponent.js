@@ -415,7 +415,7 @@ export default function MapComponent(props) {
                       "source-layer": "ne_10m_admin_0_countries-dxlasx",
                       type: "fill",
                       paint: {
-                        "fill-color": "#83BEF6", // this is the color you want your tileset to have (red)
+                        "fill-color": "#83BEF6",
                         "fill-opacity": [
                           "get",
                           ["get", "ADM0_A3_IS"],

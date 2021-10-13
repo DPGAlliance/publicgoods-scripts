@@ -30,6 +30,7 @@ export default function InfoSummary(props) {
             textStyle: {
               fontSize: 11,
               bold: false,
+              color: "black"
             },
           },
           colors: ["#3333AB"],
@@ -82,6 +83,7 @@ export default function InfoSummary(props) {
             textStyle: {
               fontSize: 11,
               bold: false,
+              color: "black"
             },
           },
         }}
