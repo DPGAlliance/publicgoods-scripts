@@ -4,35 +4,31 @@ import ghLogo from "../public/github.png";
 import Image from "next/image";
 
 export default function InfoGood(props) {
-  const sdgsDefault = [
-    {name: "1. No Poverty", open: false},
-    {name: "2. Zero Hunger", open: false},
-    {name: "3. Good Health and Well-being", open: false},
-    {name: "4. Quality Education", open: false},
-    {name: "5. Gender Equality", open: false},
-    {name: "6. Clean Water and Sanitation", open: false},
-    {name: "7. Affordable and Clean Energy", open: false},
-    {name: "8. Decent Work and Economic Growth", open: false},
-    {name: "9. Industry, Innovation and Infrastructure", open: false},
-    {name: "10. Reduced Inequality", open: false},
-    {name: "11. Sustainable Cities and Communities", open: false},
-    {name: "12. Responsible Consumption and Production", open: false},
-    {name: "13. Climate Action", open: false},
-    {name: "14. Life Below Water", open: false},
-    {name: "15. Life on Land", open: false},
-    {name: "16. Peace and Justice Strong Institutions", open: false},
-    {name: "17. Partnerships to achieve the Goal", open: false},
+  const sdgs = [
+    "1. No Poverty",
+    "2. Zero Hunger",
+    "3. Good Health and Well-being",
+    "4. Quality Education",
+    "5. Gender Equality",
+    "6. Clean Water and Sanitation",
+    "7. Affordable and Clean Energy",
+    "8. Decent Work and Economic Growth",
+    "9. Industry, Innovation and Infrastructure",
+    "10. Reduced Inequality",
+    "11. Sustainable Cities and Communities",
+    "12. Responsible Consumption and Production",
+    "13. Climate Action",
+    "14. Life Below Water",
+    "15. Life on Land",
+    "16. Peace and Justice Strong Institutions",
+    "17. Partnerships to achieve the Goal",
   ];
-  const [sdgs, setSdgs] = useState([...sdgsDefault]);
-  const toggleEvidence = (i) => {
-    sdgs[i].open = !sdgs[i].open;
-    setSdgs([...sdgs]);
-  };
   const [dropDownList, setDropDownList] = useState({
     development: false,
     deployment: false,
+    ...Object.fromEntries(sdgs.map((key) => [key, false])),
   });
-  const toggleCountries = (type) => {
+  const toggleList = (type) => {
     setDropDownList((prevState) => ({
       ...prevState,
       [type]: !prevState[type],
@@ -54,11 +50,8 @@ export default function InfoGood(props) {
     ));
   };
   useEffect(() => {
-    sdgs.map((e) => (e.open = false));
-    setSdgs([...sdgs]);
-    setDropDownList({
-      development: false,
-      deployment: false,
+    setDropDownList((prevState) => {
+      return Object.fromEntries(Object.keys(prevState).map((key) => [key, false]));
     });
   }, [props.selectedGood]);
   return (
@@ -89,7 +82,11 @@ export default function InfoGood(props) {
         <p className="text-bold">Type of Digital Public Good</p>
         {["content", "data", "software", "standard", "aimodel"].map((item) => {
           if (props.selectedGood.type.includes(item)) {
-            return <li key={"type-" + item}>✅&nbsp;Open {item.replace("aimodel", "AI model")}</li>;
+            return (
+              <li key={"type-" + item}>
+                ✅&nbsp;Open {item.replace("aimodel", "AI model")}
+              </li>
+            );
           } else {
             return (
               <li key={"type-" + item}>
@@ -105,26 +102,27 @@ export default function InfoGood(props) {
       <div className="goodContainer">
         <p className="text-bold">Relevant Sustainable Development Goals:</p>
         {props.selectedGood["SDGs"].map((item) => {
+          console.log(dropDownList);
           return (
             <div key={"SDG-" + item.SDGNumber} className="header">
               <p
                 className="collapsable-text"
-                onClick={(e) => toggleEvidence(item.SDGNumber - 1)}
+                onClick={(e) => toggleList([sdgs[item.SDGNumber - 1]])}
               >
-                {sdgs[item.SDGNumber - 1].name}{" "}
+                {sdgs[item.SDGNumber - 1]}{" "}
                 <span
                   className={
-                    sdgs[item.SDGNumber - 1].open
+                    dropDownList[sdgs[item.SDGNumber - 1]]
                       ? "arrow active up"
                       : "arrow active down"
                   }
                 ></span>
               </p>
-              {item.evidenceText && sdgs[item.SDGNumber - 1].open && (
+              {item.evidenceText && dropDownList[sdgs[item.SDGNumber - 1]] && (
                 <p>{item.evidenceText}</p>
               )}
               {item.evidenceURL &&
-                sdgs[item.SDGNumber - 1].open &&
+                dropDownList[sdgs[item.SDGNumber - 1]] &&
                 parseURLs(item.evidenceURL)}
             </div>
           );
@@ -133,10 +131,7 @@ export default function InfoGood(props) {
       <div className="goodContainer">
         {Object.keys(props.selectedGood.locations.deploymentCountries).length > 0 && (
           <div className="header">
-            <p
-              className="collapsable-text"
-              onClick={(e) => toggleCountries("deployment")}
-            >
+            <p className="collapsable-text" onClick={(e) => toggleList("deployment")}>
               {"Deployed in " +
                 Object.keys(props.selectedGood.locations.deploymentCountries).length +
                 " of 249 countries:"}{" "}
@@ -172,10 +167,7 @@ export default function InfoGood(props) {
         )}
         {Object.keys(props.selectedGood.locations.developmentCountries).length > 0 && (
           <div className="header">
-            <p
-              className="collapsable-text"
-              onClick={(e) => toggleCountries("development")}
-            >
+            <p className="collapsable-text" onClick={(e) => toggleList("development")}>
               {"Developed in " +
                 Object.keys(props.selectedGood.locations.developmentCountries).length +
                 (Object.keys(props.selectedGood.locations.developmentCountries).length > 1

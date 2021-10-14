@@ -6,7 +6,7 @@ export default function InfoCountry(props) {
     deploymentsInCountry: false,
     developmentsInCountry: false,
   });
-  const toggleCountries = (type) => {
+  const toggleList = (type) => {
     setDropDownList((prevState) => ({
       ...prevState,
       [type]: !prevState[type],
@@ -56,7 +56,7 @@ export default function InfoCountry(props) {
           <div className="header">
             <p
               className="collapsable-text"
-              onClick={() => toggleCountries("deploymentsInCountry")}
+              onClick={() => toggleList("deploymentsInCountry")}
             >
               There {props.selectedCountry.deployments.length > 1 ? "are" : "is"}{" "}
               {props.selectedCountry.deployments.length} digital public good
@@ -129,7 +129,7 @@ export default function InfoCountry(props) {
                 chartArea: {width: "85%", height: "90%", top: 0},
                 hAxis: {
                   baselineColor: "#cccccc",
-                  titleTextStyle: {italic: false},
+                  titleTextStyle: {italic: false,fontSize: 12,},
                   title: "Digital public goods",
                   minValue: 0,
                   format: "#",
@@ -163,7 +163,7 @@ export default function InfoCountry(props) {
                 chartArea: {width: "85%", height: "85%", top: 0},
                 hAxis: {
                   baselineColor: "#cccccc",
-                  titleTextStyle: {italic: false},
+                  titleTextStyle: {italic: false, fontSize: 12,},
                   title: "Digital public goods",
                   minValue: 0,
                 },
@@ -187,7 +187,7 @@ export default function InfoCountry(props) {
         <div className="header">
           <p
             className="collapsable-text"
-            onClick={() => toggleCountries("developmentsInCountry")}
+            onClick={() => toggleList("developmentsInCountry")}
           >
             There {props.selectedCountry.developments.length > 1 ? "are" : "is"}{" "}
             {props.selectedCountry.developments.length} digital public good

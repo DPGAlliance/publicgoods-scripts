@@ -1,29 +1,19 @@
 import {useState, useEffect} from "react";
 import Chart from "react-google-charts";
 export default function InfoSdg(props) {
-  const [dropDownList, setDropDownList] = useState({
-    goodsInSDG: false,
-  });
+  const [dropDownList, setDropDownList] = useState(false);
   const handleSelectGood = (event, good) => {
     event.preventDefault();
     event.stopPropagation();
     props.onSelectGood(good);
   };
-  const toggleList = (type) => {
-    setDropDownList((prevState) => ({
-      ...prevState,
-      [type]: !prevState[type],
-    }));
-  };
   useEffect(() => {
-    setDropDownList({
-      goodsInSDG: false,
-    });
+    setDropDownList(false);
   }, [props.selectedSdg]);
   return (
     <div className={"chart-container"}>
       <div className="header">
-        <p className="collapsable-text" onClick={() => toggleList("goodsInSDG")}>
+        <p className="collapsable-text" onClick={() => setDropDownList(!dropDownList)}>
           {props.selectedSdg.totalDpgs.length} Digital Public Good
           {props.selectedSdg.totalDpgs.length > 1 && "s"} that achive{" "}
           {props.selectedSdg.name} {props.selectedSdg.totalDpgs.length > 1 ? "are" : "is"}{" "}
@@ -33,10 +23,10 @@ export default function InfoSdg(props) {
             : `1 country`}
           .
           <span
-            className={dropDownList.goodsInSDG ? "arrow active up" : "arrow active down"}
+            className={dropDownList ? "arrow active up" : "arrow active down"}
           ></span>
         </p>
-        {dropDownList.goodsInSDG &&
+        {dropDownList &&
           props.selectedSdg.totalDpgs.map((good, i) => (
             <a
               className={props.selectedSdg.totalDpgs.length - 1 == i ? "last--extra" : ""}
@@ -93,7 +83,7 @@ export default function InfoSdg(props) {
         }}
       />
       <div className="centered">
-        <span>Digital Public Goods</span>
+        <span className='axis-title'>Digital Public Goods</span>
       </div>
     </div>
   );

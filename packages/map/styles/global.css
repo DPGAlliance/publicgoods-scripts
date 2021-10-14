@@ -174,7 +174,7 @@ ul {
   background-size: 20px;
 }
 .legend-key.gradient {
-  background: linear-gradient(to right, white, #83BEF6);
+  background: linear-gradient(to right, white, #83bef6);
   width: 100%;
   border-radius: 5px;
   margin-left: 5px;
@@ -577,6 +577,9 @@ ul.filters {
 .chart-container rect {
   rx: 4;
   ry: 4;
+}
+.axis-title {
+  font-size: 12px;
 }
 .searchTooltip {
   min-width: 100px;

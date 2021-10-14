@@ -30,14 +30,14 @@ export default function InfoSummary(props) {
             textStyle: {
               fontSize: 11,
               bold: false,
-              color: "black"
+              color: "black",
             },
           },
           colors: ["#3333AB"],
           chartArea: {width: "85%", height: "90%", top: 0},
           hAxis: {
             baselineColor: "#cccccc",
-            titleTextStyle: {italic: false},
+            titleTextStyle: {italic: false, fontSize: 12},
             title: "Digital public goods",
             minValue: 0,
             format: "#",
@@ -71,7 +71,7 @@ export default function InfoSummary(props) {
           chartArea: {width: "85%", height: "85%", top: 0},
           hAxis: {
             baselineColor: "#cccccc",
-            titleTextStyle: {italic: false},
+            titleTextStyle: {italic: false, fontSize: 12},
             title: "Digital public goods",
             minValue: 0,
           },
@@ -83,7 +83,7 @@ export default function InfoSummary(props) {
             textStyle: {
               fontSize: 11,
               bold: false,
-              color: "black"
+              color: "black",
             },
           },
         }}
