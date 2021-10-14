@@ -136,13 +136,18 @@ export default function MapComponent(props) {
     }
     searchRef.current && searchRef.current.changeInput(props.story[data].showDPG);
   };
+  
   const handleSelectCountry = (code) => {
+    // this line of code checks if (code) is country name
+    if (!props.countries[code]) {
+      code = Object.values(props.countries).filter(country => country.name === code)[0].code
+    }
     setSelectedGood((prevState) => {
       setPrevGood(prevState);
       return {};
     });
     setSelectedSdg({});
-
+    
     const deployments = props.digitalGoods.filter((good) =>
       Object.keys(good.locations.deploymentCountries).includes(code)
     );
@@ -198,12 +203,17 @@ export default function MapComponent(props) {
     width < 1008 && ref.current.scrollFromMap();
   };
   const handleSelectSdg = (sdg) => {
+    // check if sdg is number of sdg
+    if (typeof(sdg) == 'number') {
+      sdg = props.SDGs.filter(el => el.number == sdg)[0]
+    }
     setSelectedSdg(sdg);
     setSelectedCountry({});
     setSelectedGood((prevState) => {
       setPrevGood(prevState);
       return {};
     });
+    searchRef.current.changeInput(sdg.name);
   };
   const handleSelectGood = (good) => {
     setSelectedGood((prevState) => {
@@ -782,6 +792,7 @@ export default function MapComponent(props) {
           ref={ref}
           highlight={!mapInteractive && showMenu}
           summary={props.summary}
+          onSelectSdg={handleSelectSdg}
           SearchBox={
             <SearchBox
               ref={searchRef}
@@ -811,6 +822,7 @@ export default function MapComponent(props) {
           onSelectCountry={handleSelectCountry}
           visibleLayer={visibleLayer}
           onLayerToggle={handleLayerToggle}
+          onSelectSdg={handleSelectSdg}
           ref={ref}
           summary={props.summary}
         />

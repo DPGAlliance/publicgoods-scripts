@@ -8,6 +8,7 @@ export default function InfoSummary(props) {
         Sustainable Development Goals around the world.
       </p>
       <Chart
+        className="clickable"
         width={"100%"}
         height={"600px"}
         chartType="BarChart"
@@ -44,6 +45,16 @@ export default function InfoSummary(props) {
           },
           legend: {position: "none"},
         }}
+        chartEvents={[
+          {
+            eventName: "select",
+            callback: ({chartWrapper}) => {
+              const chart = chartWrapper.getChart();
+              const selection = chart.getSelection();
+              props.onSelectSdg(selection[0].row + 1);
+            },
+          },
+        ]}
       />
       <p className="text-bold">
         Most of Digital Public Goods are{" "}

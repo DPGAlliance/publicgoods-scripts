@@ -102,7 +102,6 @@ export default function InfoGood(props) {
       <div className="goodContainer">
         <p className="text-bold">Relevant Sustainable Development Goals:</p>
         {props.selectedGood["SDGs"].map((item) => {
-          console.log(dropDownList);
           return (
             <div key={"SDG-" + item.SDGNumber} className="header">
               <p

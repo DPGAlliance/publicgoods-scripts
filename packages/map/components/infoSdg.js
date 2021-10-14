@@ -22,9 +22,7 @@ export default function InfoSdg(props) {
             ? `${props.selectedSdg.dpgCount.length} countries`
             : `1 country`}
           .
-          <span
-            className={dropDownList ? "arrow active up" : "arrow active down"}
-          ></span>
+          <span className={dropDownList ? "arrow active up" : "arrow active down"}></span>
         </p>
         {dropDownList &&
           props.selectedSdg.totalDpgs.map((good, i) => (
@@ -39,6 +37,7 @@ export default function InfoSdg(props) {
       </div>
 
       <Chart
+        className="clickable"
         key={Object.keys(props.selectedSdg.opacity).length} // let us redraw entire chart with new dimensions after changing props.selectedSDg
         width={"100%"}
         height={Object.keys(props.selectedSdg.opacity).length * 30 + 30 + "px"}
@@ -81,9 +80,26 @@ export default function InfoSdg(props) {
           },
           legend: {position: "none"},
         }}
+        chartEvents={[
+          {
+            eventName: "select",
+            callback: ({chartWrapper}) => {
+              const chart = chartWrapper.getChart();
+              const selection = chart.getSelection();
+              const {row} = selection[0];
+              // pass country name to parent
+              props.onSelectCountry(
+                chartWrapper
+                  .getDataTable()
+                  .getValue(row, 2)
+                  .replace(new RegExp(":.*", "gm"), "")
+              );
+            },
+          },
+        ]}
       />
       <div className="centered">
-        <span className='axis-title'>Digital Public Goods</span>
+        <span className="axis-title">Digital Public Goods</span>
       </div>
     </div>
   );

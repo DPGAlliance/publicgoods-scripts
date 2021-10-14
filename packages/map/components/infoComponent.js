@@ -23,7 +23,6 @@ const buttonStyles = {
   },
 };
 const InfoComponent = forwardRef((props, ref) => {
-  
   const [menuInView, setMenuInView] = useState(false);
   const handleLayerToggle = (e, layer) => {
     e.preventDefault();
@@ -90,6 +89,7 @@ const InfoComponent = forwardRef((props, ref) => {
         <InfoCountry
           selectedCountry={props.selectedCountry}
           onSelectGood={props.onSelectGood}
+          onSelectSdg={props.onSelectSdg}
         />
       )}
       {Object.keys(props.selectedGood).length != 0 && (
@@ -100,14 +100,20 @@ const InfoComponent = forwardRef((props, ref) => {
       )}
       {Object.keys(props.selectedSdg).length > 0 &&
         props.selectedSdg.dpgCount.length > 0 && (
-          <InfoSdg selectedSdg={props.selectedSdg} onSelectGood={props.onSelectGood} />
+          <InfoSdg
+            selectedSdg={props.selectedSdg}
+            onSelectGood={props.onSelectGood}
+            onSelectCountry={props.onSelectCountry}
+          />
         )}
       {!Object.keys(props.selectedGood).length &&
         !Object.keys(props.selectedCountry).length &&
-        !Object.keys(props.selectedSdg).length && <InfoSummary summary={props.summary} />}
+        !Object.keys(props.selectedSdg).length && (
+          <InfoSummary summary={props.summary} onSelectSdg={props.onSelectSdg} />
+        )}
       <Footer />
     </div>
   );
 });
-InfoComponent.displayName = 'InfoComponent'
+InfoComponent.displayName = "InfoComponent";
 export default InfoComponent;

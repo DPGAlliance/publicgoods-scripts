@@ -578,6 +578,9 @@ ul.filters {
   rx: 4;
   ry: 4;
 }
+.chart-container .clickable g g rect {
+  cursor: pointer;
+}
 .axis-title {
   font-size: 12px;
 }

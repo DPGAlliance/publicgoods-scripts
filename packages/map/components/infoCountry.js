@@ -100,6 +100,7 @@ export default function InfoCountry(props) {
           </p>
           <div className={"chart-container"}>
             <Chart
+              className="clickable"
               width={"100%"}
               height={"600px"}
               chartType="BarChart"
@@ -129,13 +130,23 @@ export default function InfoCountry(props) {
                 chartArea: {width: "85%", height: "90%", top: 0},
                 hAxis: {
                   baselineColor: "#cccccc",
-                  titleTextStyle: {italic: false,fontSize: 12,},
+                  titleTextStyle: {italic: false, fontSize: 12},
                   title: "Digital public goods",
                   minValue: 0,
                   format: "#",
                 },
                 legend: {position: "none"},
               }}
+              chartEvents={[
+                {
+                  eventName: "select",
+                  callback: ({chartWrapper}) => {
+                    const chart = chartWrapper.getChart();
+                    const selection = chart.getSelection();
+                    props.onSelectSdg(selection[0].row + 1);
+                  },
+                },
+              ]}
             />
 
             <b>Types of DPGs deployed in {props.selectedCountry.name}</b>
@@ -163,7 +174,7 @@ export default function InfoCountry(props) {
                 chartArea: {width: "85%", height: "85%", top: 0},
                 hAxis: {
                   baselineColor: "#cccccc",
-                  titleTextStyle: {italic: false, fontSize: 12,},
+                  titleTextStyle: {italic: false, fontSize: 12},
                   title: "Digital public goods",
                   minValue: 0,
                 },
