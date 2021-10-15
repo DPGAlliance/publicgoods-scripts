@@ -19,12 +19,122 @@ export default function Home(props) {
         story={props.data.story}
         devPolygons={props.data.polygons[1]}
         depPolygons={props.data.polygons[0]}
+        SDGs={props.data.SDGs}
+        summary={props.data.summary}
       />
     </div>
   );
 }
 
 export async function getStaticProps() {
+  const renameCountry = {
+    "Antigua & Barbuda": "Antigua and Barbuda",
+    "Antigua And Barbuda": "Antigua and Barbuda",
+    "Bolivia (Plurinational State of)": "Bolivia",
+    "Bolivia, Plurinational State of": "Bolivia",
+    Bosnia: "Bosnia and Herzegovina",
+    "Bosnia & Herzegovina": "Bosnia and Herzegovina",
+    "Bosnia And Herzegowina": "Bosnia and Herzegovina",
+    Bravil: "Brazil",
+    "Brunei Darussalam": "Brunei",
+    "Cape Verde": "Cabo Verde",
+    "Central African Rep.": "Central African Republic",
+    Congo: "Congo (Congo-Brazzaville)",
+    "Congo (the Democratic Republic of the Congo)":
+      "Democratic Republic of the Congo",
+    "Congo - Brazzaville": "Congo (Congo-Brazzaville)",
+    "Congo, the Democratic Republic of the": "Democratic Republic of the Congo",
+    "Cote D'Ivoire": "Côte d'Ivoire",
+    "Cote d' Ivoire": "Côte d'Ivoire",
+    "Cote d'Ivoire": "Côte d'Ivoire",
+    "Cote d’Ivoire": "Côte d'Ivoire",
+    "Czech Republic": "Czechia (Czech Republic)",
+    Czechia: "Czechia (Czech Republic)",
+    "Côte d’Ivoire": "Côte d'Ivoire",
+    DRC: "Democratic Republic of the Congo",
+    "Dem. Rep. Congo": "Democratic Republic of the Congo",
+    "Democratic Republic of Congo": "Democratic Republic of the Congo",
+    "East Timor": "Timor-Leste",
+    Eswatini: "Eswatini (fmr. 'Swaziland')",
+    "Falkland Islands": "Falkland Islands (Malvinas)",
+    "Guinea Bissau": "Guinea-Bissau",
+    Haita: "Haiti",
+    "Holy See (Vatican City State)": "Holy See",
+    "Iran (Islamic Republic Of)": "Iran",
+    "Ivory Coast": "Côte d'Ivoire",
+    "Ivory coast": "Côte d'Ivoire",
+    Kazahkstan: "Kazakhstan",
+    "Korea (the Republic of Korea)": "South Korea",
+    "Korea, Democratic People's Republic of": "North Korea",
+    "Korea, Republic of": "South Korea",
+    Kyrgyztan: "Kyrgyzstan",
+    "Lao People's Democratic Republic": "Laos",
+    London: "United Kingdom",
+    Luxemburg: "Luxembourg",
+    Macedonia: "North Macedonia",
+    "Macedonia, the Former Yugoslav Republic of": "North Macedonia",
+    "Met Norway Weather has universal design and coverage, and serves all countries in the world with geospecific user-oriented data dissemination (supporting more than 12 million unique geolocations world-wide on Yr). The usage is largest in Norway and neighbouring countries but also relatively large in low- and middle-income countries. We have also written feedback from users that Yr and Met Norway Weather are being used and adapted for use in a range of low- and middle-income countries. To our understanding, Met Norway Weather removes barriers to access and usage in the availability of open, user-oriented, timely, high-quality weather forecast information. List of countries where recent requests to MET Norway Weather have originated (ordered after number of requests):":
+      "",
+    "Micronesia, Federated States Of": "Micronesia",
+    "Micronesia, Federated States of": "Micronesia",
+    "Moldova, Republic of": "Moldova",
+    "Myanmar (Burma)": "Myanmar",
+    Palestine: "Palestine State",
+    "Palestine, State of": "Palestine State",
+    "Republic of Congo": "Congo (Congo-Brazzaville)",
+    "Republic of the Congo": "Congo (Congo-Brazzaville)",
+    "Russian Federation": "Russia",
+    "Sao Tome": "Sao Tome and Principe",
+    "Sint Maarten": "Sint Maarten (Dutch part)",
+    "Slovakia (Slovak Republic)": "Slovakia",
+    Somaliland: "Somalia", //  Somaliland is an unrecognised sovereign state in the Horn of Africa, internationally considered[11][12] to be part of Somalia.
+    "South Georgia And South S.S.":
+      "South Georgia and the South Sandwich Islands",
+    SouthAfrica: "South Africa",
+    "St. Helena": "Saint Helena, Ascension and Tristan da Cunha",
+    "St. Kitts & Nevis": "Saint Kitts and Nevis",
+    "Saint Kitts And Nevis": "Saint Kitts and Nevis",
+    "St. Lucia": "Saint Lucia",
+    "St. Martin": "Saint Martin (French part)",
+    "St. Pierre & Miquelon": "Saint Pierre and Miquelon",
+    "St. Barthélemy": "Saint Barthélemy",
+    "St. Pierre And Miquelon": "Saint Pierre and Miquelon",
+    "St. Vincent & Grenadines": "Saint Vincent and the Grenadines",
+    'Saint Vincent And The Grenadines': "Saint Vincent and the Grenadines",
+    "State of Palestine": "Palestine State",
+    Swaziland: "Eswatini (fmr. 'Swaziland')",
+    "Syrian Arab Republic": "Syria",
+    "São Tomé & Príncipe": "Sao Tome and Principe",
+    'Sao Tome And Principe': "Sao Tome and Principe",
+    "Taiwan, Province of China": "Taiwan",
+    "Tanzania, United Republic of": "Tanzania",
+    "The Faroe Islands": "Faroe Islands",
+    "The Gambia": "Gambia",
+    "Trinidad & Tobago": "Trinidad and Tobago",
+    'Trinidad And Tobago': "Trinidad and Tobago",
+    "Turks & Caicos Islands": "Turks and Caicos Islands",
+    "Turks And Caicos Islands": "Turks and Caicos Islands",
+    "U.S. Virgin Islands": "Virgin Islands, U.S.",
+    UK: "United Kingdom",
+    US: "United States of America",
+    USA: "United States of America",
+    "United Kingdom of Great Britain And Northern Ireland": "United Kingdom",
+    "United Kingdom of Great Britain and Northern Ireland": "United Kingdom",
+    "United Republic of Tanzania": "Tanzania",
+    "United States": "United States of America",
+    "Unites States": "United States of America",
+    Vanuata: "Vanuatu",
+    "Venezuela, Bolivarian Republic of": "Venezuela",
+    "Viet Nam": "Vietnam",
+    "Virgin Islands (British)": "Virgin Islands, British",
+    "Virgin Islands (U.S.)": "Virgin Islands, U.S.",
+    "Wallis & Futuna": "Wallis and Futuna",
+    Zimbwabwe: "Zimbabwe",
+    "eSwatini (former Swaziland)": "Eswatini (fmr. 'Swaziland')",
+    "Bonaire, Sint Eustatius and Saba": "Caribbean Netherlands",
+    "Bonaire, Sint Eustatius, and Saba": "Caribbean Netherlands",
+    "British Virgin Islands": "Virgin Islands, British",
+  };
   const convertArrayToObject = (array, key) =>
     array.reduce((acc, curr) => ((acc[curr[key]] = curr), acc), {});
   const csv = require("csvtojson");
@@ -41,6 +151,32 @@ export async function getStaticProps() {
   var perPage = 100;
   const range = (start, stop, step) =>
     Array.from({length: (stop - start) / step + 1}, (_, i) => start + i * step);
+  const SDGS = [
+    "No Poverty",
+    "Zero Hunger",
+    "Good Health and Well-being",
+    "Quality Education",
+    "Gender Equality",
+    "Clean Water and Sanitation",
+    "Affordable and Clean Energy",
+    "Decent Work and Economic Growth",
+    "Industry, Innovation and Infrastructure",
+    "Reduced Inequality",
+    "Sustainable Cities and Communities",
+    "Responsible Consumption and Production",
+    "Climate Action",
+    "Life Below Water",
+    "Life on Land",
+    "Peace and Justice Strong Institutions",
+    "Partnerships to achieve the Goal",
+  ];
+  const sdgsDefault = () => {
+    let obj = {};
+    for (let i = 0; i < SDGS.length; i++) {
+      obj[i + 1] = {dpgs: 0, ann: SDGS[i]};
+    }
+    return obj;
+  };
   const fetchData = async () => {
     const alpha3 = {...loadAlpha};
     var countries = {};
@@ -52,6 +188,7 @@ export async function getStaticProps() {
 
       ["deploymentCountries", "developmentCountries"].map((el) => {
         data.locations[el].map((country) => {
+          country = renameCountry[country] ? renameCountry[country] : country;
           if (!alpha3[country]) {
             // console.log("Mismatched good " + country);
             mismatched[country] = country + ` ${el} ` + data.name;
@@ -67,6 +204,7 @@ export async function getStaticProps() {
             c[code]["code"] = code;
             c[code]["lat"] = alpha3[country]["Latitude (average)"];
             c[code]["lon"] = alpha3[country]["Longitude (average)"];
+            c[code]['search'] = 'country';
           }
         });
       });
@@ -105,7 +243,7 @@ export async function getStaticProps() {
         let goodsData = JSON.parse(fileContents);
 
         let nomineeData = JSON.parse(nomineeFileContents);
-        return {...handleCountries(goodsData), ...nomineeData};
+        return {...handleCountries(goodsData), ...nomineeData, search: 'dpg'};
       } catch (error) {
         // handle linked json
         const res = await fetch(
@@ -121,7 +259,7 @@ export async function getStaticProps() {
         let ngoodsData = JSON.parse(nestedFileContent);
         ngoodsData.name = filename.name.replace(".json", "");
         let nnomineeData = JSON.parse(nestedNomineeFileContents);
-        return {...handleCountries(ngoodsData), ...nnomineeData};
+        return {...handleCountries(ngoodsData), ...nnomineeData, search: 'dpg'};
       }
     });
 
@@ -155,7 +293,8 @@ export async function getStaticProps() {
       let l = {};
       let c = countries;
       results.map((el, i) => {
-        let country = el.Country;
+        let country = renameCountry[el.Country] ? renameCountry[el.Country] : el.Country;
+        // let country = el.Country;
         if (!alpha3[country]) {
           console.log("Mismatched " + country);
           mismatched[country] = country + " " + label;
@@ -170,6 +309,7 @@ export async function getStaticProps() {
           c[code]["lat"] = alpha3[country]["Latitude (average)"];
           c[code]["lon"] = alpha3[country]["Longitude (average)"];
           el.Status == "Confirmed" ? (s[code] = el) : (l[code] = el);
+          c[code]['search'] = 'country';
         }
       });
       countries = c;
@@ -204,12 +344,71 @@ export async function getStaticProps() {
       });
     console.log("missmathes", mismatched);
 
+    const SDGs = SDGS.map((sdg, sdgindex) => {
+      let totalDpgs = digitalGoodsArr.filter((good) =>
+        good.SDGs.some((sdg) => sdg.SDGNumber == sdgindex + 1)
+      );
+      let opacity = [...totalDpgs]
+        .reduce((accum, curr) => {
+          return [...accum, ...Object.keys(curr.locations.deploymentCountries)];
+        }, [])
+        .reduce((acc, curr) => {
+          return acc[curr] ? ++acc[curr] : (acc[curr] = 1), acc;
+        }, {});
+      let dpgCount = [...totalDpgs]
+        .reduce((accum, curr) => {
+          return [...accum, ...Object.values(curr.locations.deploymentCountries)];
+        }, [])
+        .reduce((acc, curr) => {
+          return acc[curr] ? ++acc[curr] : (acc[curr] = 1), acc;
+        }, {});
+      let maxDpgs =
+        Math.max(...Object.values(opacity)) > 0 ? Math.max(...Object.values(opacity)) : 0; // avoid -Infinity
+      Object.keys(opacity).map(function (key) {
+        opacity[key] /= maxDpgs;
+      });
+      let name = "SDG " + (sdgindex + 1) + ": " + sdg;
+      return {
+        name: name,
+        number: sdgindex + 1,
+        maxDpgsInCountry: maxDpgs,
+        dpgCount: Object.entries(dpgCount),
+        opacity: opacity,
+        totalDpgs: totalDpgs,
+        search: 'sdg'
+      };
+    });
+    const sdgsSum = Object.entries(
+      digitalGoodsArr
+        .reduce((accum, curr) => [...accum, ...curr.SDGs.map((sdg) => sdg.SDGNumber)], [])
+        .reduce(
+          (acc, curr) => {
+            return acc[curr] ? ++acc[curr]["dpgs"] : (acc[curr]["dpgs"] = 1), acc;
+          },
+          //initial value helps us create all elements of object
+          {...sdgsDefault()}
+        )
+    );
+    const typeSum = Object.entries(
+      digitalGoodsArr
+        .reduce((accum, curr) => [...accum, ...curr.type.map((type) => type)], [])
+        .reduce(
+          (acc, curr) => {
+            return acc[curr] ? ++acc[curr] : (acc[curr] = 1), acc;
+          },
+          //initial value helps us create all elements of object
+          {content: 0, data: 0, software: 0, standard: 0, aimodel: 0}
+        )
+    );
+
     return {
       countries: countries,
       digitalGoods: digitalGoodsArr,
       pathfinders: pathfinders,
       polygons: await Promise.all(polygons),
       story: storyData,
+      SDGs: SDGs,
+      summary: {sdgsSum: sdgsSum, typeSum: typeSum, dpgsum: digitalGoodsArr.length},
     };
   };
   return {

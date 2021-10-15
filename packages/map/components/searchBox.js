@@ -7,11 +7,7 @@ const SearchBox = forwardRef((props, ref) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const textRef = useRef();
   const [inputValue, setInputValue] = useState(
-    props.selectedGood
-      ? props.selectedGood
-      : props.selectedCountry
-      ? props.selectedCountry
-      : ""
+    props.selectedValue ? props.selectedValue : ""
   );
   const {width} = UseWindowDimensions();
   const handleMouseOver = () => {
@@ -34,13 +30,15 @@ const SearchBox = forwardRef((props, ref) => {
     event.preventDefault();
     // Here, we invoke the callback with the new value
     setInputValue(item.name);
-    props.onSelectGood(item);
-  };
-  const handleSelectCountry = (item, event) => {
-    event.preventDefault();
-    // Here, we invoke the callback with the new value
-    setInputValue(item.name);
-    props.onSelectCountry(item.code);
+    if (item.search == "dpg") {
+      props.onSelectGood(item);
+    }
+    if (item.search == "sdg") {
+      props.onSelectSdg(item);
+    }
+    if (item.search == "country") {
+      props.onSelectCountry(item.code);
+    }
   };
   const handleClear = (event) => {
     event.preventDefault();
@@ -87,7 +85,7 @@ const SearchBox = forwardRef((props, ref) => {
           className="searchInput"
           type="text"
           value={inputValue}
-          placeholder="Select a digital good or country"
+          placeholder="Select a DPG, SDG or country"
           onChange={(e) => handleChangeInput(e)}
         ></textarea>
         <span
@@ -99,31 +97,22 @@ const SearchBox = forwardRef((props, ref) => {
           id="dg-menu-dropdown"
           className={menuOpen || searchFocused ? "active" : ""}
         >
-          {props.goods
+          {[
+            ...props.goods.sort((a, b) => a.name.localeCompare(b.name)),
+            ...Object.values(props.sdgs),
+            ...Object.values(props.countries).sort((a, b) =>
+              a.name.localeCompare(b.name)
+            ),
+          ]
             .filter(
               (el) => el.name.toLowerCase().indexOf(inputValue.toLowerCase()) !== -1
             )
-            .sort((a, b) => a.name.localeCompare(b.name))
             .map((item, index) => (
               <a key={item.name + index} href="#" onClick={(e) => handleSelect(item, e)}>
                 {item.name}
-                {width > 1008 && (
+                {item.search == "dpg" && width > 1008 && (
                   <Image width={45} height={24} src={dpgBadge} alt="dpg badge" />
                 )}
-              </a>
-            ))}
-          {Object.values(props.countries)
-            .filter(
-              (el) => el.name.toLowerCase().indexOf(inputValue.toLowerCase()) !== -1
-            )
-            .sort((a, b) => a.name.localeCompare(b.name))
-            .map((item, index) => (
-              <a
-                key={item.name + index}
-                href="#"
-                onClick={(e) => handleSelectCountry(item, e)}
-              >
-                {item.name}
               </a>
             ))}
         </div>
@@ -137,16 +126,18 @@ const SearchBox = forwardRef((props, ref) => {
         <span>x</span>
         {tooltip.clear && <p className="searchTooltip">clear input</p>}
       </div>
-      <div
-        className="navIcon"
-        onClick={(e) => props.scrollToStory()}
-        onMouseOver={() => setTooltip({back: true})}
-        onMouseLeave={() => setTooltip({})}
-      >
-        <span className="arrow active up"></span>
-        <span className="arrow active up"></span>
-        {tooltip.back && <p className="searchTooltip">back to story</p>}
-      </div>
+      {props.mapInteractive && (
+        <div
+          className="navIcon"
+          onClick={(e) => props.scrollToStory()}
+          onMouseOver={() => setTooltip({back: true})}
+          onMouseLeave={() => setTooltip({})}
+        >
+          <span className="arrow active up"></span>
+          <span className="arrow active up"></span>
+          {tooltip.back && <p className="searchTooltip">back to story</p>}
+        </div>
+      )}
     </div>
   );
 });

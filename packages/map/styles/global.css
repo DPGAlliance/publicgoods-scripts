@@ -148,6 +148,7 @@ ul {
   bottom: 1rem;
   visibility: hidden;
   margin-left: 1rem;
+  pointer-events: none;
 }
 .legendContainer {
   background: rgba(255, 255, 255, 0.8);
@@ -158,6 +159,7 @@ ul {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   line-height: 18px;
   width: 15rem;
+  pointer-events: all;
 }
 
 .legend-key {
@@ -170,6 +172,18 @@ ul {
 .legend-key.rectangle {
   width: 20px;
   background-size: 20px;
+}
+.legend-key.gradient {
+  background: linear-gradient(to right, white, #83bef6);
+  width: 100%;
+  border-radius: 5px;
+  margin-left: 5px;
+}
+.spaced {
+  width: 100%;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
 }
 
 .defaul-option {
@@ -315,11 +329,11 @@ ul.filters {
   font-size: 1.5rem;
   text-align: center;
 }
-.goodLinks {
+.centered {
   display: flex;
   justify-content: center;
 }
-.goodLinks a {
+.centered a {
   margin: 0 0.5rem 1rem 0;
 }
 .header {
@@ -332,7 +346,9 @@ ul.filters {
 .header a.last {
   margin-bottom: 1rem;
 }
-
+.header a.last--extra {
+  margin-bottom: 2rem;
+}
 .text-bold {
   font-weight: bold;
 }
@@ -562,6 +578,12 @@ ul.filters {
   rx: 4;
   ry: 4;
 }
+.chart-container .clickable g g rect {
+  cursor: pointer;
+}
+.axis-title {
+  font-size: 12px;
+}
 .searchTooltip {
   min-width: 100px;
   pointer-events: none;
@@ -586,7 +608,7 @@ ul.filters {
 
 @media screen and (min-width: 768px) {
   #dg-menu-dropdown {
-    margin: 2.4rem 0;
+    margin: 2rem 0;
   }
   .footer {
     flex-direction: row;

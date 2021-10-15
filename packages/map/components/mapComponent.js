@@ -64,6 +64,7 @@ const Map = ReactMapboxGl({
 });
 
 export default function MapComponent(props) {
+  const [selectedSdg, setSelectedSdg] = useState({});
   const [mapInstance, setMapInstance] = useState();
   const ref = useRef();
   const mainRef = useRef();
@@ -94,6 +95,8 @@ export default function MapComponent(props) {
 
     // Check and set selectedGood from gsheet
     if (props.story[data].showDPG) {
+      setSelectedCountry({});
+      setSelectedSdg({});
       setSelectedGood((prevState) => {
         setPrevGood(prevState);
         return props.digitalGoods.filter(
@@ -133,13 +136,18 @@ export default function MapComponent(props) {
     }
     searchRef.current && searchRef.current.changeInput(props.story[data].showDPG);
   };
-
+  
   const handleSelectCountry = (code) => {
+    // this line of code checks if (code) is country name
+    if (!props.countries[code]) {
+      code = Object.values(props.countries).filter(country => country.name === code)[0].code
+    }
     setSelectedGood((prevState) => {
       setPrevGood(prevState);
       return {};
     });
-
+    setSelectedSdg({});
+    
     const deployments = props.digitalGoods.filter((good) =>
       Object.keys(good.locations.deploymentCountries).includes(code)
     );
@@ -176,7 +184,7 @@ export default function MapComponent(props) {
             return acc[curr] ? ++acc[curr] : (acc[curr] = 1), acc;
           },
           //initial value helps us create all elements of object
-          {content: 0, data: 0, software: 0, standard: 0, "AI model": 0}
+          {content: 0, data: 0, software: 0, standard: 0, aimodel: 0}
         )
     );
 
@@ -190,29 +198,39 @@ export default function MapComponent(props) {
       sdgsDeployments: sdgsDeploymentsInfo,
       typeDeployments: typeDeploymentsInfo,
     });
-    ref.current.clearStatesFromParent();
     // set country name in searchbox
     searchRef.current.changeInput(countryName);
     width < 1008 && ref.current.scrollFromMap();
   };
-  const handleSelectGoodPopup = (goodName) => {
+  const handleSelectSdg = (sdg) => {
+    // check if sdg is number of sdg
+    if (typeof(sdg) == 'number') {
+      sdg = props.SDGs.filter(el => el.number == sdg)[0]
+    }
+    setSelectedSdg(sdg);
+    setSelectedCountry({});
     setSelectedGood((prevState) => {
       setPrevGood(prevState);
-      return props.digitalGoods.filter(
-        (el) => el.name.toLowerCase().indexOf(goodName.toLowerCase()) !== -1
-      )[0]; // filter and grab 1st result
+      return {};
     });
-    setSelectedCountry({});
-    searchRef.current.changeInput(goodName);
+    searchRef.current.changeInput(sdg.name);
   };
-
-  const handleChangeSearchbox = (good) => {
+  const handleSelectGood = (good) => {
     setSelectedGood((prevState) => {
       setPrevGood(prevState);
-      return good;
+      if (typeof good == "object") {
+        searchRef.current.changeInput(good.name);
+        return good;
+      }
+      if (typeof good == "string") {
+        searchRef.current.changeInput(good);
+        return props.digitalGoods.filter(
+          (el) => el.name.toLowerCase().indexOf(good.toLowerCase()) !== -1
+        )[0]; // filter and grab 1st result;
+      }
     });
     setSelectedCountry({});
-    ref.current.clearStatesFromParent();
+    setSelectedSdg({});
   };
   const handleLayerToggle = (layer) => {
     setVisibleLayer((prevState) => ({...prevState, [layer]: !prevState[layer]}));
@@ -223,7 +241,7 @@ export default function MapComponent(props) {
       return {};
     });
     setSelectedCountry({});
-    ref.current.clearStatesFromParent();
+    setSelectedSdg({});
   };
   const handleScrollToBottom = () => {
     width < 1008
@@ -251,11 +269,7 @@ export default function MapComponent(props) {
     <div ref={mainRef} className="visContainer">
       <div className={loading ? "whiteBack" : "inactive"}>
         <div className="loader">
-          <NextImage
-            src={dpgaLogo}
-            layout="fill"
-            alt="Loading"
-          />
+          <NextImage src={dpgaLogo} layout="fill" alt="Loading" />
         </div>
       </div>
       <div className="map">
@@ -266,12 +280,16 @@ export default function MapComponent(props) {
               goods={props.digitalGoods}
               countries={props.countries}
               onSelectCountry={handleSelectCountry}
-              selectedGood={selectedGood.name}
-              selectedCountry={selectedCountry.name}
-              onSelectGood={handleChangeSearchbox}
+              onSelectGood={handleSelectGood}
               clearSelectedGood={handleClearSearchbox}
               scrollToStory={handleScrollToStory}
               highlight={!mapInteractive && showMenu}
+              mapInteractive={mapInteractive}
+              onSelectSdg={handleSelectSdg}
+              sdgs={props.SDGs}
+              selectedValue={
+                selectedCountry.name || selectedGood.name || selectedSdg.name
+              }
             />
           )}
           {props.story.length &&
@@ -300,7 +318,7 @@ export default function MapComponent(props) {
               mapInteractive ? [zoom] : [parseFloat(props.story[currentStepIndex].zoom)]
             }
             pitch={
-              visibleLayer["DPGs Developed"] || visibleLayer["DPGs Deployed"] ? 60 : 0
+              visibleLayer["DPGs Developed"] || visibleLayer["DPGs Deployed"] ? [60] : [0]
             } // pitch in degrees
             containerStyle={{
               width: "100%",
@@ -334,7 +352,6 @@ export default function MapComponent(props) {
               let hardwareImg = new Image(20, 20);
               hardwareImg.onload = () => map.addImage("hardware-pattern", hardwareImg);
               hardwareImg.src = hardwarePattern;
-              //add layer for each good with map
               props.digitalGoods.map((good) => {
                 // check if layer is already created
                 if (map.getLayer(good.name + "-develop")) {
@@ -391,6 +408,39 @@ export default function MapComponent(props) {
                       Object.keys(good.locations.deploymentCountries)
                     )
                   ); // This line lets us filter by country codes.
+                }
+              });
+              props.SDGs.map((sdg) => {
+                if (map.getLayer(sdg.name)) {
+                  console.log(sdg.name + " layer is already created");
+                  return;
+                } else {
+                  map.addLayer(
+                    {
+                      id: sdg.name,
+                      source: {
+                        type: "vector",
+                        url: "mapbox://rolikasi.2kn4jvyh",
+                      },
+                      "source-layer": "ne_10m_admin_0_countries-dxlasx",
+                      type: "fill",
+                      paint: {
+                        "fill-color": "#83BEF6",
+                        "fill-opacity": [
+                          "get",
+                          ["get", "ADM0_A3_IS"],
+                          ["literal", sdg.opacity],
+                        ],
+                      },
+                    },
+                    firstSymbolId
+                  );
+                  map.setLayoutProperty(sdg.name, "visibility", "none");
+
+                  map.setFilter(
+                    sdg.name,
+                    ["in", "ADM0_A3_IS"].concat(Object.keys(sdg.opacity))
+                  );
                 }
               });
 
@@ -600,6 +650,13 @@ export default function MapComponent(props) {
                       : null;
                   }
                 });
+                props.SDGs.map((sdg) => {
+                  if (map.getLayer(sdg.name)) {
+                    selectedSdg.name == sdg.name
+                      ? map.setLayoutProperty(selectedSdg.name, "visibility", "visible")
+                      : map.setLayoutProperty(sdg.name, "visibility", "none");
+                  }
+                });
 
                 if (prevGood.name) {
                   map.setLayoutProperty(prevGood.name + "-develop", "visibility", "none");
@@ -671,6 +728,7 @@ export default function MapComponent(props) {
 
         <div
           className={
+            selectedSdg.maxDpgsInCountry ||
             selectedGood.name ||
             (Object.values(visibleLayer).some((item) => item) &&
               !mapInteractive &&
@@ -695,6 +753,16 @@ export default function MapComponent(props) {
                   <span>{legend}</span>
                 </div>
               ))}
+            {selectedSdg.name && (
+              <div>
+                <div className={"spaced"}>
+                  <span>0</span>
+                  <span className="legend-key gradient"></span>{" "}
+                  <span>{selectedSdg.maxDpgsInCountry}</span>
+                </div>
+                <span>DPGs related to {selectedSdg.name}</span>
+              </div>
+            )}
             {!mapInteractive &&
               Object.entries(visibleLayer).map((layer, index) => {
                 return (
@@ -715,25 +783,32 @@ export default function MapComponent(props) {
       {(mapInteractive || showMenu) && width >= 1008 && (
         <InfoComponent
           selectedGood={selectedGood}
+          selectedSdg={selectedSdg}
           selectedCountry={selectedCountry}
-          onSelectGood={handleSelectGoodPopup}
+          onSelectGood={handleSelectGood}
           onSelectCountry={handleSelectCountry}
           onLayerToggle={handleLayerToggle}
           visibleLayer={visibleLayer}
           ref={ref}
           highlight={!mapInteractive && showMenu}
+          summary={props.summary}
+          onSelectSdg={handleSelectSdg}
           SearchBox={
             <SearchBox
               ref={searchRef}
+              sdgs={props.SDGs}
+              selectedValue={
+                selectedCountry.name || selectedGood.name || selectedSdg.name
+              }
+              onSelectSdg={handleSelectSdg}
               goods={props.digitalGoods}
               countries={props.countries}
               onSelectCountry={handleSelectCountry}
-              selectedGood={selectedGood.name}
-              selectedCountry={selectedCountry.name}
-              onSelectGood={handleChangeSearchbox}
+              onSelectGood={handleSelectGood}
               clearSelectedGood={handleClearSearchbox}
               scrollToStory={handleScrollToStory}
               highlight={!mapInteractive && showMenu}
+              mapInteractive={mapInteractive}
             />
           }
         />
@@ -741,12 +816,15 @@ export default function MapComponent(props) {
       {width < 1008 && (
         <InfoComponent
           selectedGood={selectedGood}
+          selectedSdg={selectedSdg}
           selectedCountry={selectedCountry}
-          onSelectGood={handleSelectGoodPopup}
+          onSelectGood={handleSelectGood}
           onSelectCountry={handleSelectCountry}
           visibleLayer={visibleLayer}
           onLayerToggle={handleLayerToggle}
+          onSelectSdg={handleSelectSdg}
           ref={ref}
+          summary={props.summary}
         />
       )}
     </div>
