@@ -86,10 +86,13 @@ function Roadmap() {
       while (data[i+rowspan] && data[i+rowspan].Organization===org){
         rowspan++;
       }
+      let orgLines = org.split("\\n")
       return <>
         <rect x="0" y={`${80+(40*(i+1))}`} width="190" height={30*rowspan+10*(rowspan-1)} fill="#2AA8A8"/>
         <text fontSize="16px" textAnchor="middle">
-          <tspan x="100" y={`${100+(40*(i+1))+20*(rowspan-1)}`} style={{fill: "white"}}>{org}</tspan>
+          {orgLines.map(function(line, l){
+            return <tspan x="100" y={`${100+(40*(i+1))+20*(rowspan-1)+20*(l-((orgLines.length-1)*1/2))}`} style={{fill: "white"}}>{line}</tspan>
+          })}
         </text>
       </>
     }
