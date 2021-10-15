@@ -182,12 +182,12 @@ var quizQuestions = [
     fieldName: "doNoHarm",
     keyName: "preventHarm",
     keyName2: "stepsToPreventHarm",
-    statement: "All digital solutions must demonstrate that they have taken steps to ensure the digital solution anticipates, prevents, and does no harm.",
+    statement: "All digital solutions must demonstrate that they have taken steps to ensure the digital solution anticipates, prevents, and does no harm by design.",
     faq: {
       copy: [
               {
-                subHeading: "What does it mean to do no harm?",
-                text: "Doing no harm is a key component of the UN Secretary-General’s definition of a digital public good. Digital solutions must demonstrate what steps have been taken to mitigate and avoid harm in product design in regards to data security and privacy, inappropriate and illegal content, and protection from harassment."
+                subHeading: "What does it mean to do no harm by design?",
+                text: "Doing no harm by design is a key component of the UN Secretary-General’s definition of a digital public good. Digital solutions must demonstrate what steps have been taken to mitigate and avoid harm in product design in regards to data security and privacy, inappropriate and illegal content, and protection from harassment."
               },
               {
                 subHeading: "What if my digital solution collects or stores personally identifiable information (PII) data?",
