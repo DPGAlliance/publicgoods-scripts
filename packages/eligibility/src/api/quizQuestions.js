@@ -22,7 +22,7 @@ var quizQuestions = [
           }
   },
   {
-      question: "Does it use an approved open source license?",
+      question: "Does it use an approved open-source license?",
       answer: "Yes",
       maybe: false,
       statement: "Digital solutions must demonstrate the use of an approved open license.",
