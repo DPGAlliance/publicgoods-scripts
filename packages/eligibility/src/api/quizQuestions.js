@@ -114,24 +114,24 @@ var quizQuestions = [
       }
   },
   {
-    question: "Does this digital solution collect or use non-personally identifiable information (non-PII) data?",
+    question: "Does this digital solution collect or use non-personally identifiable information (non-PII) data and/or content?",
     answer: "No",
     maybe: true,
     fieldName: "NonPII",
     keyName: "collectsNonPII",
-    statement: "If the digital solution has non personally identifiable information (PII) there must be a mechanism for extracting or importing non-PII data from the system in a non-proprietary format.",
+    statement: "If the digital solution has non personally identifiable information (PII) there must be a mechanism for extracting or importing non-PII data and/or content from the system in a non-proprietary format.",
     faq: {
       copy: [
               {
-                subHeading: "What is “non-personally identifiable data”?",
-                text: "“Non-personally identifiable data” refers to data that is anonymous. More specifically, this data cannot be used to identify an individual. For example, a person’s name, social security number, birth date, biometric data etc is personally identifiable data since it could be used to identify the individual but their city or university would be considered non-personally identifiable data since it alone cannot be used to identify a specific individual. Being able to extract or import non-PII data in a non-proprietary format is a measurement of openness – if data collected remains proprietary, there is limited utility of the data for other projects, use cases or attainment of the SDGs."
+                subHeading: "What is “non-personally identifiable data and/or content”?",
+                text: "“Non-personally identifiable data and/or content” refers to data and/or content that is anonymous. More specifically, this data and/or content cannot be used to identify an individual. For example, a person’s name, social security number, birth date, biometric data etc is personally identifiable data since it could be used to identify the individual but their city or university would be considered non-personally identifiable data since it alone cannot be used to identify a specific individual. Being able to extract or import non-PII data in a non-proprietary format is a measurement of openness – if data collected remains proprietary, there is limited utility of the data for other projects, use cases or attainment of the SDGs."
               },
               {
-                subHeading: "What is the best practice when providing documentation on data extraction?",
-                text: "Digital solutions should list the mechanisms in place for data extraction such as exposure via API/ REST/ XML, access to CSV/ JSON/ XML files via download et al. Additionally, digital solutions should ensure up to date documentation is publicly available regarding the mechanisms used for data extraction."
+                subHeading: "What is the best practice when providing documentation on data and/or content extraction?",
+                text: "Digital solutions should list the mechanisms in place for data and/or content extraction such as exposure via API/ REST/ XML, access to CSV/ JSON/ XML files via download et al. Additionally, digital solutions should ensure up to date documentation is publicly available regarding the mechanisms used for data and/or content extraction."
               }
             ],
-      name: "mechanism of extracting data",
+      name: "mechanism of extracting data and/or content",
       link: ""
     }
   },
@@ -190,8 +190,8 @@ var quizQuestions = [
                 text: "Doing no harm by design is a key component of the UN Secretary-General’s definition of a digital public good. Digital solutions must demonstrate what steps have been taken to mitigate and avoid harm in product design in regards to data security and privacy, inappropriate and illegal content, and protection from harassment."
               },
               {
-                subHeading: "What if my digital solution collects or stores personally identifiable information (PII) data?",
-                text: "Digital solutions collecting data must identify the types of data collected and stored. Digital solutions must also demonstrate how they ensure the privacy and security of this data in addition to the steps taken to prevent adverse impacts resulting from its collection, storage, and distribution."
+                subHeading: "What if my digital solution collects or stores personally identifiable information (PII) data and/or content?",
+                text: "Digital solutions collecting data and/or content must identify the types of data and/or content collected and stored. Digital solutions must also demonstrate how they ensure the privacy and security of this data and/or content in addition to the steps taken to prevent adverse impacts resulting from its collection, storage, and distribution."
               }
             ],
       name: "do no harm",
