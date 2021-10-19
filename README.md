@@ -37,9 +37,9 @@ The public website is updated under these 3 circumstances:
 * Every night at midnight GMT
 * Manually triggered through [GitHub Actions](https://github.com/unicef/publicgoods-candidates/actions) in the [unicef/publicgood-candidates](https://github.com/unicef/publicgoods-candidates/) repo
 
-You can manually trigger a new website build by visiting the [Actions](https://github.com/unicef/publicgoods-candidates/actions) tab on the [publicgoods-candidates](https://github.com/unicef/publicgoods-candidates/actions) repo, though *you need **Write** permissions onthat repo*:
+You can manually trigger a new website build by visiting the [Actions](https://github.com/unicef/publicgoods-candidates/actions) tab on the [publicgoods-candidates](https://github.com/unicef/publicgoods-candidates/actions) repo, though *you need **Write** permissions on that repo*:
 1. Visit [the Actions link](https://github.com/unicef/publicgoods-candidates/actions)
 2. Click on Automatic Build on the left column.
 3. Click on Run Workflow on the right side, (keep the main branch selected) and click again the green Run Workflow button. 
 
-Wait for about 10min, and the new website will reflect the changes from the [unicef/publicgood-scripts](https://github.com/unicef/publicgoods-scripts/) repository.
+Wait for about 10 minutes, and the new website will reflect the changes from the [unicef/publicgood-scripts](https://github.com/unicef/publicgoods-scripts/) repository.
