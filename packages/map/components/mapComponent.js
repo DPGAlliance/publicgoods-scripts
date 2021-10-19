@@ -68,7 +68,6 @@ export default function MapComponent(props) {
   const [mapInstance, setMapInstance] = useState();
   const ref = useRef();
   const mainRef = useRef();
-  const searchRef = useRef();
   const lastCard = useRef();
   const {width} = UseWindowDimensions();
   const [zoom, setZoom] = useState(zoomDefault);
@@ -87,7 +86,6 @@ export default function MapComponent(props) {
   // scrollama states
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [loading, setLoading] = useState(true);
-
   // This callback fires when a Step hits the offset threshold. It receives the
   // data prop of the step, which in this demo stores the index of the step.
   const onStepEnter = ({data}) => {
@@ -95,21 +93,18 @@ export default function MapComponent(props) {
 
     // Check and set selectedGood from gsheet
     if (props.story[data].showDPG) {
-      setSelectedCountry({});
-      setSelectedSdg({});
-      setSelectedGood((prevState) => {
-        setPrevGood(prevState);
-        return props.digitalGoods.filter(
-          (el) =>
-            el.name.toLowerCase().indexOf(props.story[data].showDPG.toLowerCase()) !== -1
-        )[0]; // filter and grab 1st result
-      });
+      handleSelectGood(props.story[data].showDPG);
     } else {
       // clear state if there is no dpg in gsheet
       setSelectedGood((prevState) => {
         setPrevGood(prevState);
         return {};
       });
+    }
+    if (props.story[data].showSDG) {
+      handleSelectSdg(props.story[data].showSDG);
+    } else {
+      setSelectedSdg({});
     }
     if (props.story[data].highlightMenu) {
       setShowMenu(props.story[data].highlightMenu);
@@ -134,20 +129,20 @@ export default function MapComponent(props) {
         "DPGs Developed": false,
       });
     }
-    searchRef.current && searchRef.current.changeInput(props.story[data].showDPG);
   };
-  
+
   const handleSelectCountry = (code) => {
     // this line of code checks if (code) is country name
     if (!props.countries[code]) {
-      code = Object.values(props.countries).filter(country => country.name === code)[0].code
+      code = Object.values(props.countries).filter((country) => country.name === code)[0]
+        .code;
     }
     setSelectedGood((prevState) => {
       setPrevGood(prevState);
       return {};
     });
     setSelectedSdg({});
-    
+
     const deployments = props.digitalGoods.filter((good) =>
       Object.keys(good.locations.deploymentCountries).includes(code)
     );
@@ -198,14 +193,17 @@ export default function MapComponent(props) {
       sdgsDeployments: sdgsDeploymentsInfo,
       typeDeployments: typeDeploymentsInfo,
     });
-    // set country name in searchbox
-    searchRef.current.changeInput(countryName);
     width < 1008 && ref.current.scrollFromMap();
   };
   const handleSelectSdg = (sdg) => {
     // check if sdg is number of sdg
-    if (typeof(sdg) == 'number') {
-      sdg = props.SDGs.filter(el => el.number == sdg)[0]
+    if (typeof sdg == "number") {
+      sdg = props.SDGs.filter((el) => el.number == sdg)[0];
+    }
+    if (typeof sdg == "string") {
+      sdg = props.SDGs.filter(
+        (el) => el.name.toLowerCase().indexOf(sdg.toLowerCase()) !== -1
+      )[0];
     }
     setSelectedSdg(sdg);
     setSelectedCountry({});
@@ -213,17 +211,14 @@ export default function MapComponent(props) {
       setPrevGood(prevState);
       return {};
     });
-    searchRef.current.changeInput(sdg.name);
   };
   const handleSelectGood = (good) => {
     setSelectedGood((prevState) => {
       setPrevGood(prevState);
       if (typeof good == "object") {
-        searchRef.current.changeInput(good.name);
         return good;
       }
       if (typeof good == "string") {
-        searchRef.current.changeInput(good);
         return props.digitalGoods.filter(
           (el) => el.name.toLowerCase().indexOf(good.toLowerCase()) !== -1
         )[0]; // filter and grab 1st result;
@@ -276,7 +271,6 @@ export default function MapComponent(props) {
         <div className={mapInteractive ? "mapContainer interactive" : "mapContainer"}>
           {(mapInteractive || showMenu == "searchbox") && width < 1008 && (
             <SearchBox
-              ref={searchRef}
               goods={props.digitalGoods}
               countries={props.countries}
               onSelectCountry={handleSelectCountry}
@@ -288,7 +282,7 @@ export default function MapComponent(props) {
               onSelectSdg={handleSelectSdg}
               sdgs={props.SDGs}
               selectedValue={
-                selectedCountry.name || selectedGood.name || selectedSdg.name
+                selectedCountry.name || selectedGood.name || selectedSdg.name || ""
               }
             />
           )}
@@ -795,10 +789,9 @@ export default function MapComponent(props) {
           onSelectSdg={handleSelectSdg}
           SearchBox={
             <SearchBox
-              ref={searchRef}
               sdgs={props.SDGs}
               selectedValue={
-                selectedCountry.name || selectedGood.name || selectedSdg.name
+                selectedCountry.name || selectedGood.name || selectedSdg.name || ""
               }
               onSelectSdg={handleSelectSdg}
               goods={props.digitalGoods}

@@ -40,8 +40,7 @@ export async function getStaticProps() {
     "Cape Verde": "Cabo Verde",
     "Central African Rep.": "Central African Republic",
     Congo: "Congo (Congo-Brazzaville)",
-    "Congo (the Democratic Republic of the Congo)":
-      "Democratic Republic of the Congo",
+    "Congo (the Democratic Republic of the Congo)": "Democratic Republic of the Congo",
     "Congo - Brazzaville": "Congo (Congo-Brazzaville)",
     "Congo, the Democratic Republic of the": "Democratic Republic of the Congo",
     "Cote D'Ivoire": "Côte d'Ivoire",
@@ -88,8 +87,7 @@ export async function getStaticProps() {
     "Sint Maarten": "Sint Maarten (Dutch part)",
     "Slovakia (Slovak Republic)": "Slovakia",
     Somaliland: "Somalia", //  Somaliland is an unrecognised sovereign state in the Horn of Africa, internationally considered[11][12] to be part of Somalia.
-    "South Georgia And South S.S.":
-      "South Georgia and the South Sandwich Islands",
+    "South Georgia And South S.S.": "South Georgia and the South Sandwich Islands",
     SouthAfrica: "South Africa",
     "St. Helena": "Saint Helena, Ascension and Tristan da Cunha",
     "St. Kitts & Nevis": "Saint Kitts and Nevis",
@@ -100,18 +98,18 @@ export async function getStaticProps() {
     "St. Barthélemy": "Saint Barthélemy",
     "St. Pierre And Miquelon": "Saint Pierre and Miquelon",
     "St. Vincent & Grenadines": "Saint Vincent and the Grenadines",
-    'Saint Vincent And The Grenadines': "Saint Vincent and the Grenadines",
+    "Saint Vincent And The Grenadines": "Saint Vincent and the Grenadines",
     "State of Palestine": "Palestine State",
     Swaziland: "Eswatini (fmr. 'Swaziland')",
     "Syrian Arab Republic": "Syria",
     "São Tomé & Príncipe": "Sao Tome and Principe",
-    'Sao Tome And Principe': "Sao Tome and Principe",
+    "Sao Tome And Principe": "Sao Tome and Principe",
     "Taiwan, Province of China": "Taiwan",
     "Tanzania, United Republic of": "Tanzania",
     "The Faroe Islands": "Faroe Islands",
     "The Gambia": "Gambia",
     "Trinidad & Tobago": "Trinidad and Tobago",
-    'Trinidad And Tobago': "Trinidad and Tobago",
+    "Trinidad And Tobago": "Trinidad and Tobago",
     "Turks & Caicos Islands": "Turks and Caicos Islands",
     "Turks And Caicos Islands": "Turks and Caicos Islands",
     "U.S. Virgin Islands": "Virgin Islands, U.S.",
@@ -149,6 +147,7 @@ export async function getStaticProps() {
       return convertArrayToObject(jsonObj, "Country");
     });
   var perPage = 100;
+  const maxBarHeight = 350000;
   const range = (start, stop, step) =>
     Array.from({length: (stop - start) / step + 1}, (_, i) => start + i * step);
   const SDGS = [
@@ -204,7 +203,7 @@ export async function getStaticProps() {
             c[code]["code"] = code;
             c[code]["lat"] = alpha3[country]["Latitude (average)"];
             c[code]["lon"] = alpha3[country]["Longitude (average)"];
-            c[code]['search'] = 'country';
+            c[code]["search"] = "country";
           }
         });
       });
@@ -243,7 +242,7 @@ export async function getStaticProps() {
         let goodsData = JSON.parse(fileContents);
 
         let nomineeData = JSON.parse(nomineeFileContents);
-        return {...handleCountries(goodsData), ...nomineeData, search: 'dpg'};
+        return {...handleCountries(goodsData), ...nomineeData, search: "dpg"};
       } catch (error) {
         // handle linked json
         const res = await fetch(
@@ -259,7 +258,7 @@ export async function getStaticProps() {
         let ngoodsData = JSON.parse(nestedFileContent);
         ngoodsData.name = filename.name.replace(".json", "");
         let nnomineeData = JSON.parse(nestedNomineeFileContents);
-        return {...handleCountries(ngoodsData), ...nnomineeData, search: 'dpg'};
+        return {...handleCountries(ngoodsData), ...nnomineeData, search: "dpg"};
       }
     });
 
@@ -309,7 +308,7 @@ export async function getStaticProps() {
           c[code]["lat"] = alpha3[country]["Latitude (average)"];
           c[code]["lon"] = alpha3[country]["Longitude (average)"];
           el.Status == "Confirmed" ? (s[code] = el) : (l[code] = el);
-          c[code]['search'] = 'country';
+          c[code]["search"] = "country";
         }
       });
       countries = c;
@@ -330,13 +329,29 @@ export async function getStaticProps() {
         const polygon = JSON.parse(fileContents);
         let arrayOfCountries =
           index == 0 ? "deploymentCountries" : "developmentCountries";
+        let maxDpgs = Math.max(
+          ...Object.values(
+            digitalGoodsArr
+              .reduce(
+                (accum, curr) => [
+                  ...accum,
+                  ...Object.keys(curr.locations[arrayOfCountries]).map((el) => el),
+                ],
+                []
+              )
+              .reduce((acc, curr) => {
+                return acc[curr] ? ++acc[curr] : (acc[curr] = 1), acc;
+              }, {})
+          )
+        );
         polygon["features"].map((el) => {
           el.properties["text-field"] = digitalGoodsArr
             .filter((good) =>
               Object.keys(good.locations[arrayOfCountries]).includes(el.properties.iso)
             )
             .length.toString();
-          el.properties["height"] = parseFloat(el.properties["text-field"]) * 20000;
+          el.properties["height"] =
+            (parseFloat(el.properties["text-field"]) / maxDpgs) * maxBarHeight;
           el.properties["base"] = el.properties["height"] == 0 ? 999999999999 : 0;
           el.properties["height"] += el.properties["height"] == 0 ? 999999999999 : 0;
         });
@@ -375,7 +390,7 @@ export async function getStaticProps() {
         dpgCount: Object.entries(dpgCount),
         opacity: opacity,
         totalDpgs: totalDpgs,
-        search: 'sdg'
+        search: "sdg",
       };
     });
     const sdgsSum = Object.entries(
