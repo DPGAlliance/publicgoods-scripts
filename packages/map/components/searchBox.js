@@ -1,9 +1,9 @@
-import React, {forwardRef, useImperativeHandle, useState, useRef, useEffect} from "react";
+import React, {useState, useRef, useEffect} from "react";
 import dpgBadge from "../public/dpgBadge.svg";
 import UseWindowDimensions from "./UseWindowDimensions";
 import Image from "next/image";
 
-const SearchBox = forwardRef((props, ref) => {
+export default function SearchBox(props) {
   const [menuOpen, setMenuOpen] = useState(false);
   const textRef = useRef();
   const [inputValue, setInputValue] = useState(
@@ -53,18 +53,13 @@ const SearchBox = forwardRef((props, ref) => {
     element.style.height = "2rem";
     element.style.height = element.scrollHeight + "px";
   };
-  const changeInput = (value) => {
-    setInputValue(value);
-  };
-  useImperativeHandle(ref, () => {
-    return {
-      changeInput: changeInput,
-    };
-  });
   useEffect(() => {
     handleInputSize(textRef.current);
     // code to run after render goes here
   });
+  useEffect(() => {
+    setInputValue(props.selectedValue ? props.selectedValue : "");
+  }, [props.selectedValue]);
 
   return (
     <div
@@ -140,5 +135,4 @@ const SearchBox = forwardRef((props, ref) => {
       )}
     </div>
   );
-});
-export default SearchBox;
+}

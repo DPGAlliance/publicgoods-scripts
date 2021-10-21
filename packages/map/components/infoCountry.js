@@ -143,7 +143,13 @@ export default function InfoCountry(props) {
                   callback: ({chartWrapper}) => {
                     const chart = chartWrapper.getChart();
                     const selection = chart.getSelection();
-                    props.onSelectSdg(selection[0].row + 1);
+                    const {row} = selection[0];
+                    props.onSelectSdg(
+                      chartWrapper
+                        .getDataTable()
+                        .getValue(row, 2)
+                        .replace(new RegExp(":.*", "gm"), "")
+                    );
                   },
                 },
               ]}

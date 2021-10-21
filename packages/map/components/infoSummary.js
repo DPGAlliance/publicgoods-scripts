@@ -5,7 +5,7 @@ export default function InfoSummary(props) {
     <div className={"chart-container"}>
       <p className="text-bold">
         There are {props.summary.dpgsum} Digital Public Goods that achieve all types of
-        Sustainable Development Goals around the world.
+        Sustainable Development Goals in {props.summary.dpgCountrySum} countries.
       </p>
       <Chart
         className="clickable"
@@ -51,7 +51,13 @@ export default function InfoSummary(props) {
             callback: ({chartWrapper}) => {
               const chart = chartWrapper.getChart();
               const selection = chart.getSelection();
-              props.onSelectSdg(selection[0].row + 1);
+              const {row} = selection[0];
+              props.onSelectSdg(
+                chartWrapper
+                  .getDataTable()
+                  .getValue(row, 2)
+                  .replace(new RegExp(":.*", "gm"), "")
+              );
             },
           },
         ]}
