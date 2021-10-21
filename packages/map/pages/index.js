@@ -415,7 +415,13 @@ export async function getStaticProps() {
           {content: 0, data: 0, software: 0, standard: 0, aimodel: 0}
         )
     );
-
+    const dpgCountrySum = [
+      ...new Set(
+        digitalGoodsArr.reduce((accum, curr) => {
+          return [...accum, ...Object.keys(curr.locations.deploymentCountries)];
+        }, [])
+      ),
+    ];
     return {
       countries: countries,
       digitalGoods: digitalGoodsArr,
@@ -423,7 +429,12 @@ export async function getStaticProps() {
       polygons: await Promise.all(polygons),
       story: storyData,
       SDGs: SDGs,
-      summary: {sdgsSum: sdgsSum, typeSum: typeSum, dpgsum: digitalGoodsArr.length},
+      summary: {
+        sdgsSum: sdgsSum,
+        typeSum: typeSum,
+        dpgsum: digitalGoodsArr.length,
+        dpgCountrySum: dpgCountrySum.length,
+      },
     };
   };
   return {
