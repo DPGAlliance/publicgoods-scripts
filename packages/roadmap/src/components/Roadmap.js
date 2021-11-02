@@ -78,7 +78,7 @@ function Roadmap() {
     }
   }
 
-  function renderOrg(data, i, org) {
+  function renderOrg(data, i, org, orgLink) {
     let rowspan = 0;
     if(i>0 && data[i-1].Organization===org){
       // Do nothing because we have already covered this scenario
@@ -91,6 +91,9 @@ function Roadmap() {
         <rect x="0" y={`${80+(40*(i+1))}`} width="190" height={30*rowspan+10*(rowspan-1)} fill="#2AA8A8"/>
         <text fontSize="16px" textAnchor="middle">
           {orgLines.map(function(line, l){
+            if(orgLink){
+              line = <a href={orgLink} target="_blank" rel="noopener noreferrer" style={{fill: "white"}}>{line}</a>
+            } 
             return <tspan x="100" y={`${100+(40*(i+1))+20*(rowspan-1)+20*(l-((orgLines.length-1)*1/2))}`} style={{fill: "white"}}>{line}</tspan>
           })}
         </text>
@@ -152,7 +155,7 @@ function Roadmap() {
 
     return <>
       <rect x={x} y={`${80+(40*(i+1))}`} width={width} height="30" style={{fill: "rgb(255,255,255)", strokeWidth:1, stroke:"rgb(0,0,0)"}}/>
-      { renderOrg(data, i, row.Organization) }
+      { renderOrg(data, i, row.Organization, row.OrgLink) }
       <text x="300" y={`${80+(40*(i+1))+22}`} fontSize="14px" textAnchor="middle">
         { renderLink(row.Activity, row.Link, cx) }
       </text>
