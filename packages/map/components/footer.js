@@ -8,7 +8,7 @@ export default function Footer() {
         <a
           target="_blank"
           rel="noreferrer"
-          href="https://github.com/unicef/publicgoods-candidates"
+          href="https://github.com/DPGAlliance/publicgoods-candidates"
         >
           DPGs
         </a>

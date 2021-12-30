@@ -216,7 +216,7 @@ export async function getStaticProps() {
 
     const result = (page) =>
       fetch(
-        `https://api.github.com/search/code?q=repo:unicef/publicgoods-candidates+path:digitalpublicgoods+filename:.json&per_page=${perPage}&page=${page}`
+        `https://api.github.com/search/code?q=repo:DPGAlliance/publicgoods-candidates+path:digitalpublicgoods+filename:.json&per_page=${perPage}&page=${page}`
       ).then((response) => response.json());
 
     const gitSearchRes = await result(1);
@@ -229,12 +229,12 @@ export async function getStaticProps() {
 
     const digitalGoodsData = await goodsFileNames.map(async (filename) => {
       const res = await fetch(
-        "https://raw.githubusercontent.com/unicef/publicgoods-candidates/master/digitalpublicgoods/" +
+        "https://raw.githubusercontent.com/DPGAlliance/publicgoods-candidates/master/digitalpublicgoods/" +
           filename.name
       );
       const fileContents = await res.text();
       const nomineeRes = await fetch(
-        "https://raw.githubusercontent.com/unicef/publicgoods-candidates/master/nominees/" +
+        "https://raw.githubusercontent.com/DPGAlliance/publicgoods-candidates/master/nominees/" +
           filename.name
       );
       const nomineeFileContents = await nomineeRes.text();
@@ -246,12 +246,12 @@ export async function getStaticProps() {
       } catch (error) {
         // handle linked json
         const res = await fetch(
-          "https://raw.githubusercontent.com/unicef/publicgoods-candidates/master/digitalpublicgoods/" +
+          "https://raw.githubusercontent.com/DPGAlliance/publicgoods-candidates/master/digitalpublicgoods/" +
             fileContents
         );
         const nestedFileContent = await res.text();
         const nnomineeRes = await fetch(
-          "https://raw.githubusercontent.com/unicef/publicgoods-candidates/master/nominees/" +
+          "https://raw.githubusercontent.com/DPGAlliance/publicgoods-candidates/master/nominees/" +
             filename.name
         );
         const nestedNomineeFileContents = await nnomineeRes.text();
