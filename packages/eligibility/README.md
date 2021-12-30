@@ -35,7 +35,7 @@ The `components` directory in the `src` folder contains all the React components
 
 ## 🛠 Development
 
-To run the eligibility form on your local machine, follow the development instructions in [publicgoods-scripts/README.md](https://github.com/unicef/publicgoods-scripts/blob/main/README.md). Then point your browser to http://localhost:8080/eligibility/ to see the result.
+To run the eligibility form on your local machine, follow the development instructions in [publicgoods-scripts/README.md](https://github.com/DPGAlliance/publicgoods-scripts/blob/main/README.md). Then point your browser to http://localhost:8080/eligibility/ to see the result.
 
 Every time you make changes to the package, you need not repeat the entire development process. The steps to test your changes in the eligibility package in your local machine are given below:
 - Make sure you are in directory `/publicgoods-scripts/packages/eligibility`

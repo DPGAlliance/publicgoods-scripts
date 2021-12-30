@@ -21,7 +21,7 @@ const params = {
   headers: {
     'Content-Type': 'text/plain',
     'Authorization': 'Basic ' + btoa(process.env.CLIENTID+':'+process.env.CLIENTSECRET),
-    'User-Agent': 'node-fetch/1.0 unicef/publicgoods-scripts'
+    'User-Agent': 'node-fetch/1.0 DPGAlliance/publicgoods-scripts'
   }
 }
 

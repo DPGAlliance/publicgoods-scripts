@@ -15,7 +15,7 @@ The above requirements were addressed with the following strategies:
 
 1. Data for Pathfinders and storyline is maintained in a Google Spreadsheets that any member of the team can easily edit. The spreadsheet is published on the web, and changes in data automatically and instantaneoulsy propagate to the web application.
 
-2. Map pulls set of JSONs from [publicgoods-candidates]('https://github.com/unicef/publicgoods-candidates')
+2. Map pulls set of JSONs from [publicgoods-candidates]('https://github.com/DPGAlliance/publicgoods-candidates')
 
 3. Data is displayed on a world map using Mapbox, and integrated on the React frontend through the [react-mapbox-gl](https://www.npmjs.com/package/react-mapbox-gl) bindings for [Mapbox GL JS](https://docs.mapbox.com/mapbox-gl-js/api/).
 
@@ -32,7 +32,7 @@ There are 2 pages: `index.js` and `helper.js`
 
 - `pages/_app.js` is the application entry point, which loads the required stylesheets and loads `index.js`
 - `pages/index.js` wraps most of the logic of the application:
-  - loads the data from [google spreadsheet](https://docs.google.com/spreadsheets/d/1t75gYVhdUjPD1532DbPYN49FLXFhpRwEBFiS4Hbk6_Q) and [unicef/publicgoods-candidates](https://github.com/unicef/publicgoods-candidates) using [Incremental Static Regeneration](https://nextjs.org/docs/basic-features/data-fetching#incremental-static-regeneration). It allows us to prerender data as JSONs, create or update static pages after the site is built. It significantly improves loading time and requires no fetches from client side. All data passed to react components as `props`.
+  - loads the data from [google spreadsheet](https://docs.google.com/spreadsheets/d/1t75gYVhdUjPD1532DbPYN49FLXFhpRwEBFiS4Hbk6_Q) and [DPGAlliance/publicgoods-candidates](https://github.com/DPGAlliance/publicgoods-candidates) using [Incremental Static Regeneration](https://nextjs.org/docs/basic-features/data-fetching#incremental-static-regeneration). It allows us to prerender data as JSONs, create or update static pages after the site is built. It significantly improves loading time and requires no fetches from client side. All data passed to react components as `props`.
   - loads the MapComponent from `components/mapComponents.js`
 - `pages/helper.js` tool which allows team easily find logitude, latitude and zoom variables for cards in [google spreadsheet](https://docs.google.com/spreadsheets/d/1t75gYVhdUjPD1532DbPYN49FLXFhpRwEBFiS4Hbk6_Q)
 - `components/mapComponent.js` loads the Mapbox map, adds a layer for each dataset, creates a popup for each country, searchBar menu to toggle the visibility of each layer of digitalpublic good, and creates filters for other layers of data.
@@ -59,11 +59,11 @@ Setup your development environment as follows:
 1. Clone this repo:
    - SSL:
    ```bash
-   git clone git@github.com:unicef/publicgoods-scripts
+   git clone git@github.com:DPGAlliance/publicgoods-scripts
    ```
    - HTTPS:
    ```bash
-   git clone https://github.com/unicef/publicgoods-scripts
+   git clone https://github.com/DPGAlliance/publicgoods-scripts
    ```
 2. Install root dependencies from publicgoods-script
    ```bash
@@ -71,7 +71,7 @@ Setup your development environment as follows:
    ```
 3. Clone interconnected publicgoods-website
    ```bash
-   git clone https://github.com/unicef/publicgoods-website.git ../publicgoods-website
+   git clone https://github.com/DPGAlliance/publicgoods-website.git ../publicgoods-website
    ```
 4. ```bash
    ./scripts/static.bash

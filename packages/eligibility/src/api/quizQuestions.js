@@ -37,7 +37,7 @@ var quizQuestions = [
                     text: <p style={{fontSize:"1rem"}}>For open source software, only <a href="https://opensource.org/licenses" rel="noopener noreferrer" target="_blank">OSI approved licenses</a> are accepted. 
                              For open content, the use of a <a href="https://creativecommons.org/licenses/" rel="noopener noreferrer" target="_blank">Creative Commons license</a> is required. 
                              For open data, an <a href="https://opendefinition.org/licenses/" rel="noopener noreferrer" target="_blank">Open Data Commons</a> approved license is required. 
-                             See the <a href="https://github.com/unicef/publicgoods-candidates/blob/master/docs/licenses.md" rel="noopener noreferrer" target="_blank">full license list here</a> for reference.
+                             See the <a href="https://github.com/DPGAlliance/publicgoods-candidates/blob/master/docs/licenses.md" rel="noopener noreferrer" target="_blank">full license list here</a> for reference.
                           </p>
                   },
                   {
@@ -49,7 +49,7 @@ var quizQuestions = [
                   }
                 ],
         name: "open license",
-        link: "https://github.com/unicef/publicgoods-candidates/blob/master/docs/licenses.md"
+        link: "https://github.com/DPGAlliance/publicgoods-candidates/blob/master/docs/licenses.md"
       }
   },
   {
