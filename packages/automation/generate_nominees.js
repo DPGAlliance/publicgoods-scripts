@@ -143,8 +143,17 @@ glob(path.join(npath, '/*.json'), {}, async (err, files) => {
     let n = JSON.parse(fs.readFileSync(files[i], 'utf8'));
 
     let html = '';
-    if(n.hasOwnProperty('repositoryURL')){
-      var matchGithub = n.repositoryURL.match(/https:\/\/github.com\/([^\/]*)\/([^\/]*)/);
+    if(n.hasOwnProperty('repositories')){
+      let repoIndex = 0;
+      if(n.repositories.length > 1) {
+        for(item in n.repositories) {
+          if(n.repositories[item].name === 'main'){
+            repoIndex = item
+            break
+          }
+        }
+      }
+      var matchGithub = n.repositories[repoIndex].url.match(/https:\/\/github.com\/([^\/]*)\/([^\/]*)/);
       if(matchGithub){
         html += await fetchGithubActivity(matchGithub[1], matchGithub[2]);
       }
