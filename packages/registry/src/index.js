@@ -241,8 +241,17 @@ function ListItem(props){
 
   if(item.hasOwnProperty('website') && item.website !== '') {
       name = <a href={item.website} target="_blank" rel="noopener noreferrer">{nameText}</a>;
-  } else if(item.hasOwnProperty('repositoryURL') && item.repositoryURL !== '') {
-      name = <a href={item.repositoryURL} target="_blank" rel="noopener noreferrer">{nameText}</a>;
+  } else if(item.hasOwnProperty('repositories') && item.repositories.length) {
+      let repoIndex = 0;
+      if(item.repositories.length > 1) {
+        for(let i in item.repositories) {
+          if(item.repositories[i].name === 'main'){
+            repoIndex = i
+            break
+          }
+        }
+      }
+      name = <a href={item.repositories[repoIndex].url} target="_blank" rel="noopener noreferrer">{nameText}</a>;
   } else {
       name = {nameText}
   }
