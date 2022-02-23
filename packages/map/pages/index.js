@@ -229,12 +229,12 @@ export async function getStaticProps() {
 
     const digitalGoodsData = await goodsFileNames.map(async (filename) => {
       const res = await fetch(
-        "https://raw.githubusercontent.com/DPGAlliance/publicgoods-candidates/master/digitalpublicgoods/" +
+        "https://raw.githubusercontent.com/DPGAlliance/publicgoods-candidates/main/digitalpublicgoods/" +
           filename.name
       );
       const fileContents = await res.text();
       const nomineeRes = await fetch(
-        "https://raw.githubusercontent.com/DPGAlliance/publicgoods-candidates/master/nominees/" +
+        "https://raw.githubusercontent.com/DPGAlliance/publicgoods-candidates/main/nominees/" +
           filename.name
       );
       const nomineeFileContents = await nomineeRes.text();
@@ -246,12 +246,12 @@ export async function getStaticProps() {
       } catch (error) {
         // handle linked json
         const res = await fetch(
-          "https://raw.githubusercontent.com/DPGAlliance/publicgoods-candidates/master/digitalpublicgoods/" +
+          "https://raw.githubusercontent.com/DPGAlliance/publicgoods-candidates/main/digitalpublicgoods/" +
             fileContents
         );
         const nestedFileContent = await res.text();
         const nnomineeRes = await fetch(
-          "https://raw.githubusercontent.com/DPGAlliance/publicgoods-candidates/master/nominees/" +
+          "https://raw.githubusercontent.com/DPGAlliance/publicgoods-candidates/main/nominees/" +
             filename.name
         );
         const nestedNomineeFileContents = await nnomineeRes.text();
