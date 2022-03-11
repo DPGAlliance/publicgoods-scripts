@@ -152,11 +152,11 @@ glob(path.join(npath, '/*.json'), {}, async (err, files) => {
             break
           }
         }
-      }
-      var matchGithub = n.repositories[repoIndex].url.match(/https:\/\/github.com\/([^\/]*)\/([^\/]*)/);
-      if(matchGithub){
-        html += await fetchGithubActivity(matchGithub[1], matchGithub[2]);
-      }
+        var matchGithub = n.repositories[repoIndex].url.match(/https:\/\/github.com\/([^\/]*)\/([^\/]*)/);
+        if(matchGithub){
+          html += await fetchGithubActivity(matchGithub[1], matchGithub[2]);
+        }
+      }  
     }
     n['githubActivity'] = html;
     if(n['stage'] === 'DPG' && fs.existsSync(path.join(spath, path.basename(files[i])))) {
