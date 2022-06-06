@@ -141,11 +141,10 @@ glob(path.join(npath, '/*.json'), {}, async (err, files) => {
   console.log(files);
   for (var i=0; i<files.length; i++) {
     let n = JSON.parse(fs.readFileSync(files[i], 'utf8'));
-
     let html = '';
     if(n.hasOwnProperty('repositories')){
       let repoIndex = 0;
-      if(n.repositories.length > 1) {
+      if(n.repositories.length > 0) {
         for(item in n.repositories) {
           if(n.repositories[item].name === 'main'){
             repoIndex = item
