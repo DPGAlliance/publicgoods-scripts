@@ -307,8 +307,8 @@ class List extends Component {
             <tr>
               <th>Name</th>
               <th>Description</th>
-              <th>License</th>
-              <th>Past year of activity</th>
+              <th>Open license</th>
+              <th>Activity</th>
             </tr>
           </thead>
           <tbody>
