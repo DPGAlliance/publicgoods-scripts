@@ -307,7 +307,7 @@ class List extends Component {
             <tr>
               <th>Name</th>
               <th>Description</th>
-              <th>License</th>
+              <th>Open License</th>
               <th>Past year of activity</th>
             </tr>
           </thead>
