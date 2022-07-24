@@ -288,7 +288,7 @@ function ListItem(props){
   let linkName = item.name.replace(/ /g,'_')
 
   return(
-    <tr key={index} className={itemClass}>
+    <tr key={index} id={linkName} className={itemClass}>
       <td>{name}</td>
       {/* eslint-disable-next-line */}
       <td><a id={linkName} className="anchor"></a>{item.description}</td>
