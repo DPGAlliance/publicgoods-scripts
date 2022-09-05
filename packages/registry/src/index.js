@@ -239,7 +239,7 @@ function ListItem(props){
     nameText = item.name;
   }
 
-  if(item.hasOwnProperty('website') && item.website !== '') {
+/*   if(item.hasOwnProperty('website') && item.website !== '') {
       name = <a href={item.website} target="_blank" rel="noopener noreferrer">{nameText}</a>;
   } else if(item.hasOwnProperty('repositories') && item.repositories.length) {
       let repoIndex = 0;
@@ -254,7 +254,14 @@ function ListItem(props){
       name = <a href={item.repositories[repoIndex].url} target="_blank" rel="noopener noreferrer">{nameText}</a>;
   } else {
       name = {nameText}
-  }
+  } */
+
+  name = <a href={'/registry/' + item.name.normalize('NFD')
+                                          .toLowerCase()
+                                          .replace(/\s{2,}/g, ' ')
+                                          .replace(/ /g, '-')
+                                          .replace(/[^A-Za-z0-9-.]/g, '')
+                                          .replace(/-{2,}/g, '-') +'.html'}>{nameText}</a>
 
   if(item.stage === 'DPG') {
     if(item.dpgLink){
