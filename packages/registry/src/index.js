@@ -239,25 +239,14 @@ function ListItem(props){
     nameText = item.name;
   }
 
-  if(item.hasOwnProperty('website') && item.website !== '') {
-      name = <a href={item.website} target="_blank" rel="noopener noreferrer">{nameText}</a>;
-  } else if(item.hasOwnProperty('repositories') && item.repositories.length) {
-      let repoIndex = 0;
-      if(item.repositories.length > 1) {
-        for(let i in item.repositories) {
-          if(item.repositories[i].name === 'main'){
-            repoIndex = i
-            break
-          }
-        }
-      }
-      name = <a href={item.repositories[repoIndex].url} target="_blank" rel="noopener noreferrer">{nameText}</a>;
-  } else {
-      name = {nameText}
-  }
-
   if(item.stage === 'DPG') {
     if(item.dpgLink){
+        name = <a href={'/registry/' + item.name.normalize('NFD')
+        .toLowerCase()
+        .replace(/\s{2,}/g, ' ')
+        .replace(/ /g, '-')
+        .replace(/[^A-Za-z0-9-.]/g, '')
+        .replace(/-{2,}/g, '-') +'.html'} target="_blank" rel="noopener noreferrer">{nameText}</a>;
       name = <span>{name} <a href={'/registry/' + item.name.normalize('NFD')
                                                            .toLowerCase()
                                                            .replace(/\s{2,}/g, ' ')
@@ -267,6 +256,24 @@ function ListItem(props){
     } else {
       name = <span>{name} <a href="/blog/announcing-the-first-vetted-digital-public-goods-for-foundational-literacy-and-early-grade-reading/"><img src="dpgicon.svg" alt="DPG icon" height="25"/></a></span>;
     }
+  }
+  else{
+    if(item.hasOwnProperty('website') && item.website !== '') {
+        name = <a href={item.website} target="_blank" rel="noopener noreferrer">{nameText}</a>;
+      } else if(item.hasOwnProperty('repositories') && item.repositories.length) {
+          let repoIndex = 0;
+          if(item.repositories.length > 1) {
+            for(let i in item.repositories) {
+              if(item.repositories[i].name === 'main'){
+                repoIndex = i
+                break
+              }
+            }
+          }
+          name = <a href={item.repositories[repoIndex].url} target="_blank" rel="noopener noreferrer">{nameText}</a>;
+      } else {
+          name = {nameText}
+      }
   }
 
   let itemClass='';
