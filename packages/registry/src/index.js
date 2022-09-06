@@ -247,12 +247,7 @@ function ListItem(props){
         .replace(/ /g, '-')
         .replace(/[^A-Za-z0-9-.]/g, '')
         .replace(/-{2,}/g, '-') +'.html'} target="_blank" rel="noopener noreferrer">{nameText}</a>;
-      name = <span>{name} <a href={'/registry/' + item.name.normalize('NFD')
-                                                           .toLowerCase()
-                                                           .replace(/\s{2,}/g, ' ')
-                                                           .replace(/ /g, '-')
-                                                           .replace(/[^A-Za-z0-9-.]/g, '')
-                                                           .replace(/-{2,}/g, '-') +'.html'}><img src="dpgicon.svg" alt="DPG icon" height="25"/></a></span>
+      name = <span>{name} <img src="dpgicon.svg" alt="DPG icon" height="25"/></span>
     } else {
       name = <span>{name} <a href="/blog/announcing-the-first-vetted-digital-public-goods-for-foundational-literacy-and-early-grade-reading/"><img src="dpgicon.svg" alt="DPG icon" height="25"/></a></span>;
     }
