@@ -248,8 +248,9 @@ function ListItem(props){
     .replace(/-{2,}/g, '-') +'.html'} target="_blank" rel="noopener noreferrer">{nameText}</a>;
     if(item.dpgLink){
       name = <span>{name} <img src="dpgicon.svg" alt="DPG icon" height="25"/></span>
-    } else {
-      name = <span>{name} <a href="/blog/announcing-the-first-vetted-digital-public-goods-for-foundational-literacy-and-early-grade-reading/"><img src="dpgicon.svg" alt="DPG icon" height="25"/></a></span>;
+    } 
+    else {
+      name = <span><a href="/blog/announcing-the-first-vetted-digital-public-goods-for-foundational-literacy-and-early-grade-reading/" target="_blank" rel="noopener noreferrer">{nameText} <img src="dpgicon.svg" alt="DPG icon" height="25"/></a></span>;
     }
   }
   else{
