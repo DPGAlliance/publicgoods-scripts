@@ -225,6 +225,69 @@ class Filters extends Component {
   }
 }
 
+function ListItemBeta(props){
+
+  let item = props.item;
+  let index = props.index;
+
+  let name;
+  let nameText = item.name;
+
+  if(item.stage === 'DPG') {
+    name = <a href={'https://app.digitalpublicgoods.net/a/' + item.id} target="_blank" rel="noopener noreferrer">{nameText}</a>;
+    /* if(item.dpgLink){
+      name = <span>{name} <img src="dpgicon.svg" alt="DPG icon" height="25"/></span>
+    } 
+    else {
+      name = <span><a href="/blog/announcing-the-first-vetted-digital-public-goods-for-foundational-literacy-and-early-grade-reading/" target="_blank" rel="noopener noreferrer">{nameText} <img src="dpgicon.svg" alt="DPG icon" height="25"/></a></span>;
+    } */
+  }
+  else{
+    if(item.hasOwnProperty('website') && item.website !== '') {
+        name = <a href={item.website} target="_blank" rel="noopener noreferrer">{nameText}</a>;
+      } else if(item.hasOwnProperty('repositories') && item.repositories.length) {
+          let repoIndex = 0;
+          if(item.repositories.length > 1) {
+            for(let i in item.repositories) {
+              if(item.repositories[i].name === 'main'){
+                repoIndex = i
+                break
+              }
+            }
+          }
+          name = <a href={item.repositories[repoIndex].url} target="_blank" rel="noopener noreferrer">{nameText}</a>;
+      } else {
+          name = {nameText}
+      }
+  }
+
+  let itemClass='';
+  itemClass += item.stage;
+
+  let license;
+  if (item.hasOwnProperty("openlicenses")) {
+    license = item.openlicenses[0].openLicense;
+  } else {
+    for (let j=0; j<item.license.length; j++) {
+      license = <a href={item.license[j].licenseURL} target="_blank" rel="noopener noreferrer">{item.license[j].spdx} </a>
+    }
+  }
+
+  let linkName = item.name.replace(/ /g,'_')
+
+  return(
+    <tr key={index} className={itemClass}>
+      <td>{name}</td>
+      {/* eslint-disable-next-line */}
+      <td><a id={linkName} className="anchor"></a>{item.description}</td>
+      <td>{license}</td>
+      <td><div dangerouslySetInnerHTML={{__html: item.githubActivity}} /></td>
+    </tr>
+  )
+
+}
+
+
 function ListItem(props){
 
   let item = props.item;
@@ -240,12 +303,7 @@ function ListItem(props){
   }
 
   if(item.stage === 'DPG') {
-    name = <a href={'/registry/' + item.name.normalize('NFD')
-    .toLowerCase()
-    .replace(/\s{2,}/g, ' ')
-    .replace(/ /g, '-')
-    .replace(/[^A-Za-z0-9-.]/g, '')
-    .replace(/-{2,}/g, '-') +'.html'} target="_blank" rel="noopener noreferrer">{nameText}</a>;
+    name = <a href={'/registry/' + item.name.replace(" ","_")  +'.html'} target="_blank" rel="noopener noreferrer">{nameText}</a>;
     if(item.dpgLink){
       name = <span>{name} <img src="dpgicon.svg" alt="DPG icon" height="25"/></span>
     } 
@@ -273,6 +331,7 @@ function ListItem(props){
   }
 
   let itemClass='';
+  /* 
   for (var j=0; j<item.SDGs.length; j++) {
     itemClass += 'sdg'+item.SDGs[j].SDGNumber+' '
   }
@@ -282,11 +341,16 @@ function ListItem(props){
   }
 
   itemClass += item.stage;
-
+ */
   let license;
-  for (let j=0; j<item.license.length; j++) {
-    license = <a href={item.license[j].licenseURL} target="_blank" rel="noopener noreferrer">{item.license[j].spdx} </a>
+  if (item.hasOwnProperty("openlicenses")) {
+    license = item.openlicenses[0].openLicense;
+  } else {
+    for (let j=0; j<item.license.length; j++) {
+      license = <a href={item.license[j].licenseURL} target="_blank" rel="noopener noreferrer">{item.license[j].spdx} </a>
+    }
   }
+  
 
   let linkName = item.name.replace(/ /g,'_')
 
@@ -316,7 +380,7 @@ class List extends Component {
           </thead>
           <tbody>
             {nominees.map((item, index) => (
-              <ListItem item={item} index={index} key={index}/>
+              <ListItemBeta item={item} index={index} key={index}/>
             ))}
           </tbody>
         </table>
