@@ -124,7 +124,7 @@ function Eligibility() {
     } else if (param) {
       handleShow();
       await saveToDb(values);
-      window.open("https://submission.digitalpublicgoods.net/form?uuid=" + cookies.uuid);
+      window.open("https://app.digitalpublicgoods.net/signup");
     }
   }
 
