@@ -32,27 +32,28 @@ async function start() {
   const dpgs = [...dpgjson, ...nomineejson];
 let allData = []
 //   Generate github activity
-  dpgs.forEach(async (dpg)=>{
+  for(dpg of dpgs){
     let html = '';
-    if(dpg.hasOwnProperty('repositories')){
+    if(dpg['repositories']){
       let repoIndex = 0;
       if(dpg.repositories.length > 0) {
         for(item in dpg.repositories) {
           if(dpg.repositories[item].name === 'main'){
             repoIndex = item
-            break
+            var matchGithub = dpg.repositories[repoIndex].url.match(/https:\/\/github.com\/([^\/]*)\/([^\/]*)/);
+            if(matchGithub){
+                html += await fetchGithubActivity(matchGithub[1], matchGithub[2]);
+                // console.log(html)
+            }
           }
         }
-        var matchGithub = dpg.repositories[repoIndex].url.match(/https:\/\/github.com\/([^\/]*)\/([^\/]*)/);
-        if(matchGithub){
-          html += await fetchGithubActivity(matchGithub[1], matchGithub[2]);
-        }
+        
       }  
     }
     dpg['githubActivity'] = html;
     dpg['dpgLink'] = true;
     allData.push(dpg);
-  })
+  }
 
   // write to nominees.json file
   fs.writeFileSync(
