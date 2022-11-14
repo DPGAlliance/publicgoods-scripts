@@ -235,15 +235,16 @@ function ListItemBeta(props){
 
   if(item.stage === 'DPG') {
     name = <a href={'https://app.digitalpublicgoods.net/a/' + item.id} target="_blank" rel="noopener noreferrer">{nameText}</a>;
-    /* if(item.dpgLink){
+    if(item.dpgLink){
       name = <span>{name} <img src="dpgicon.svg" alt="DPG icon" height="25"/></span>
     } 
-    else {
+    /* else {
       name = <span><a href="/blog/announcing-the-first-vetted-digital-public-goods-for-foundational-literacy-and-early-grade-reading/" target="_blank" rel="noopener noreferrer">{nameText} <img src="dpgicon.svg" alt="DPG icon" height="25"/></a></span>;
     } */
   }
   else{
-    if(item.hasOwnProperty('website') && item.website !== '') {
+    name = <a href={'https://app.digitalpublicgoods.net/a/' + item.id} target="_blank" rel="noopener noreferrer">{nameText}</a>;
+    /* if(item.hasOwnProperty('website') && item.website !== '') {
         name = <a href={item.website} target="_blank" rel="noopener noreferrer">{nameText}</a>;
       } else if(item.hasOwnProperty('repositories') && item.repositories.length) {
           let repoIndex = 0;
@@ -258,7 +259,7 @@ function ListItemBeta(props){
           name = <a href={item.repositories[repoIndex].url} target="_blank" rel="noopener noreferrer">{nameText}</a>;
       } else {
           name = {nameText}
-      }
+      } */
   }
 
   let itemClass='';
