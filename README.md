@@ -20,7 +20,7 @@ To test the functionality of these scripts, you can run the following commands i
     git clone https://github.com/DPGAlliance/publicgoods-candidates.git ../publicgoods-candidates
     ```
 3. `./scripts/static.bash`: crawls a private instance of the WordPress website and saves a copy in `../publicgoods-website`
-4. `pushd packages/automation && node generate_dpgs.js && popd`: consolidates nomiees and DPGs from the new api into a single `nominees.json` file for the registry page.
+4. `pushd packages/automation && node consolidate_data.js && popd`: consolidates nomiees and DPGs from the new api into a single `nominees.json` file for the registry page.
 5. ~~`pushd packages/automation && node generate_dpgs.js && popd`: generates the individual website pages for each vetted digital public good~~
 6. ~~`pushd packages/automation && node generate_nominees.js && popd`: queries the GitHub API for activity data for each linked repo~~
 7. `pushd packages/automation && node index.js && popd`: generates the registry page

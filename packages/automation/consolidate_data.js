@@ -24,13 +24,13 @@ async function start() {
   // Fetch all migrated DPGs from new app api at https://app.digitalpublicgoods.net/api/dpgs
   let dpgjson = await fetch("https://api.digitalpublicgoods.net/dpgs");
   dpgjson = await dpgjson.json();
-    console.log(dpgjson)
+    
   let nomineejson = await fetch("https://api.digitalpublicgoods.net/nominees");
   nomineejson = await nomineejson.json();
-  console.log(nomineejson)
+  
   // const response = await fetch('https://app.digitalpublicgoods.net/api/dpgs');
   const dpgs = [...dpgjson, ...nomineejson];
-
+let allData = []
 //   Generate github activity
   dpgs.forEach(async (dpg)=>{
     let html = '';
@@ -51,12 +51,13 @@ async function start() {
     }
     dpg['githubActivity'] = html;
     dpg['dpgLink'] = true;
+    allData.push(dpg);
   })
 
   // write to nominees.json file
   fs.writeFileSync(
     path.join(dpath, './nominees.json'),
-    JSON.stringify(dpgs, 2),
+    JSON.stringify(allData, 2),
     "utf8",
     function(err) {
       if (err) {
