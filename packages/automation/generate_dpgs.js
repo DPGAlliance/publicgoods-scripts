@@ -283,7 +283,7 @@ for (let i = 0; i < dpgs.length; i++) {
 
 	html += `</ul></div>`
 
-	html = addElements(dpg, screeningSchema, 0, html);
+	// html = addElements(dpg, screeningSchema, 0, html);
 
 	html += '</div></div>'
 

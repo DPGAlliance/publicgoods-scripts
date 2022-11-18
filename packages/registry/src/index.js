@@ -24,7 +24,7 @@ const types = {
   }
 };
 const stage = ["nominee", "DPG"];
-const sdgs = ["sdg1", "sdg2", "sdg3", "sdg4", "sdg5", "sdg6", "sdg7", "sdg8", "sdg9", "sdg10", "sdg11", "sdg12", "sdg13", "sdg14", "sdg15", "sdg16", "sdg17"];
+const sdgs = ["SDG1", "SDG2", "SDG3", "SDG4", "SDG5", "SDG6", "SDG7", "SDG8", "SDG9", "SDG10", "SDG11", "SDG12", "SDG13", "SDG14", "SDG15", "SDG16", "SDG17"];
 
 function trunc(str, n){
     return (str.length > n) ? str.substr(0, n-1) + '...' : str;
@@ -332,17 +332,17 @@ function ListItem(props){
   }
 
   let itemClass='';
-  /* 
-  for (var j=0; j<item.SDGs.length; j++) {
-    itemClass += 'sdg'+item.SDGs[j].SDGNumber+' '
+   
+  for (var j=0; j<item.sdgs.length; j++) {
+    itemClass += 'sdg'+item.sdgs[j].sdg.spilt(':',1)[0]+' '
   }
 
-  for (var k=0; k<item.type.length; k++) {
-    itemClass += item.type[k] + ' ';
+  for (var k=0; k<item.categories.length; k++) {
+    itemClass += item.categories[k] + ' ';
   }
 
   itemClass += item.stage;
- */
+ 
   let license;
   if (item.hasOwnProperty("openlicenses")) {
     license = item.openlicenses[0].openLicense;
@@ -359,7 +359,7 @@ function ListItem(props){
     <tr key={index} className={itemClass}>
       <td>{name}</td>
       {/* eslint-disable-next-line */}
-      <td><a id={linkName} className="anchor"></a>{item.description}</td>
+      <td><a id={item.id} className="anchor"></a>{item.description}</td>
       <td>{license}</td>
       <td><div dangerouslySetInnerHTML={{__html: item.githubActivity}} /></td>
     </tr>
