@@ -23,7 +23,7 @@ const types = {
     name: "Standard"
   }
 };
-const stage = ["nominee", "DPG"];
+const stage = ["DPG"];
 const sdgs = ["SDG1", "SDG2", "SDG3", "SDG4", "SDG5", "SDG6", "SDG7", "SDG8", "SDG9", "SDG10", "SDG11", "SDG12", "SDG13", "SDG14", "SDG15", "SDG16", "SDG17"];
 
 function trunc(str, n){
@@ -64,9 +64,9 @@ class Filters extends Component {
       } else {
         concurrentClasses = elems[i].className.trim().split(' ').filter(function(a){ return a !== checkboxId });
       }
-      //console.log("The elems ",elems[i])
+      
       let intersectionSet1 = concurrentClasses.filter(i => Object.keys(types).includes(i));
-      console.log("INtersections ",intersectionSet1)
+      
       let intersectionSet2 = concurrentClasses.filter(i => sdgs.includes(i));
     
       let intersectionSet3 = concurrentClasses.filter(i => stage.includes(i));
@@ -146,7 +146,7 @@ class Filters extends Component {
 
           <div className="filterSection">
             <div className="filterSectionTitle">
-               <p className="filter_header">status</p>
+               <p className="filter_header"></p>
                <div className="icon" onClick={this.toggleVisible} id="type-toggle">
                 <svg viewBox="0 0 8 5" xmlns="http://www.w3.org/2000/svg" strokeLinejoin="round" strokeLinecap="round" strokeWidth="1.35">
                   <path d="M7 1.053L4.027 4 1 1" stroke="currentColor" fill="none"></path>
@@ -162,7 +162,7 @@ class Filters extends Component {
                     id={`${label}-checkbox`}
                   >
                   {(label==='DPG')?
-                    <Form.Check.Input type='checkbox' defaultChecked onChange = {this.handleChange}/>:
+                    <Form.Check.Input type='checkbox' disabled defaultChecked onChange = {this.handleChange}/>:
                     <Form.Check.Input type='checkbox' onChange = {this.handleChange}/>
                   }
                     <Form.Check.Label>
@@ -172,7 +172,7 @@ class Filters extends Component {
                   ))}
                 </Form>
             </div>
-          </div>
+          </div> 
 
           <div className="filterSection">
             <div className="filterSectionTitle">
