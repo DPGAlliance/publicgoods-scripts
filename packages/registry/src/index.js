@@ -23,7 +23,7 @@ const types = {
     name: "Standard"
   }
 };
-const stage = [ "DPG"];
+const stage = [];//["nominee", "DPG"];
 const sdgs = ["SDG1", "SDG2", "SDG3", "SDG4", "SDG5", "SDG6", "SDG7", "SDG8", "SDG9", "SDG10", "SDG11", "SDG12", "SDG13", "SDG14", "SDG15", "SDG16", "SDG17"];
 
 function trunc(str, n){
@@ -141,7 +141,7 @@ class Filters extends Component {
             <p>Displaying {this.state.count} of <b>{nominees.length}</b> items</p>
           </div>
 
-          <div className="filterSection">
+          {/* <div className="filterSection">
             <div className="filterSectionTitle">
                <p className="filter_header">status</p>
                <div className="icon" onClick={this.toggleVisible} id="type-toggle">
@@ -169,7 +169,7 @@ class Filters extends Component {
                   ))}
                 </Form>
             </div>
-          </div>
+          </div> */}
 
           <div className="filterSection">
             <div className="filterSectionTitle">
