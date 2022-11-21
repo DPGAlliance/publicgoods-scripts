@@ -5,7 +5,7 @@ import * as serviceWorker from './serviceWorker';
 import Form from 'react-bootstrap/Form';
 import nominees from './nominees.json';
 
-const sdg_labels = ["SDG1. No Poverty","SDG2. Zero Hunger","SDG3. Good Health and Well-being","SDG4. Quality Education","SDG5. Gender Equality","SDG6. Clean Water and Sanitation","SDG7. Affordable and Clean Energy","SDG8. Decent Work and Economic Growth","SDG9. Industry, Innovation and Infrastructure","SDG10. Reduced Inequality","SDG11. Sustainable Cities and Communities","SDG12. Responsible Consumption and Production","SDG13. Climate Action","SDG14. Life Below Water","SDG15. Life on Land","SDG16. Peace and Justice Strong Institutions","SDG17. Partnerships to achieve the Goal"]
+const sdg_labels = ["1. No Poverty","2. Zero Hunger","3. Good Health and Well-being","4. Quality Education","5. Gender Equality","6. Clean Water and Sanitation","7. Affordable and Clean Energy","8. Decent Work and Economic Growth","9. Industry, Innovation and Infrastructure","10. Reduced Inequality","11. Sustainable Cities and Communities","12. Responsible Consumption and Production","13. Climate Action","14. Life Below Water","15. Life on Land","16. Peace and Justice Strong Institutions","17. Partnerships to achieve the Goal"]
 const types = {
   "AI Model": {
     name: "AI Model"
@@ -65,14 +65,11 @@ class Filters extends Component {
         concurrentClasses = elems[i].className.trim().split(' ').filter(function(a){ return a !== checkboxId });
       }
       //console.log("The elems ",elems[i])
-      let intersectionSet1 = concurrentClasses.filter(i => {
-        console.log("This is filter i",i)
-        return Object.keys(types).includes(i)
-      });
-      
+      let intersectionSet1 = concurrentClasses.filter(i => Object.keys(types).includes(i));
+      console.log("INtersections ",intersectionSet1)
       let intersectionSet2 = concurrentClasses.filter(i => sdgs.includes(i));
-      console.log("INtersections ",intersectionSet2)
-      let intersectionSet3 = []//concurrentClasses.filter(i => stage.includes(i));
+    
+      let intersectionSet3 = concurrentClasses.filter(i => stage.includes(i));
       
 
       let intersection1 = false;
@@ -89,15 +86,15 @@ class Filters extends Component {
           break;
         }
       }
-      /* let intersection3 = false;
+      let intersection3 = false;
       for(let j=0; j < intersectionSet3.length; j++) {
         if(document.getElementById(intersectionSet3[j]+'-checkbox').checked){
           intersection3 = true;
           break;
         }
-      } */
+      }
 
-      if (intersection1 && intersection2) {
+      if (intersection1 && intersection2 && intersection3) {
         elems[i].style.display = 'table-row';
       } else {
         elems[i].style.display = 'none';
