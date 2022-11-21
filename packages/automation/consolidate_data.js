@@ -25,12 +25,8 @@ async function start() {
   // Fetch all migrated DPGs from new app api at https://app.digitalpublicgoods.net/api/dpgs
   let dpgjson = await fetch("https://api.digitalpublicgoods.net/dpgs");
   dpgjson = await dpgjson.json();
-
-  let nomineejson = await fetch("https://api.digitalpublicgoods.net/nominees");
-  nomineejson = await nomineejson.json();
-
-  // const response = await fetch('https://app.digitalpublicgoods.net/api/dpgs');
-  const dpgs = [...dpgjson, ...nomineejson];
+  
+  const dpgs = [...dpgjson];
   let allData = [];
   //   Generate github activity
   for (dpg of dpgs) {
