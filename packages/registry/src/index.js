@@ -5,25 +5,25 @@ import * as serviceWorker from './serviceWorker';
 import Form from 'react-bootstrap/Form';
 import nominees from './nominees.json';
 
-const sdg_labels = ["1. No Poverty","2. Zero Hunger","3. Good Health and Well-being","4. Quality Education","5. Gender Equality","6. Clean Water and Sanitation","7. Affordable and Clean Energy","8. Decent Work and Economic Growth","9. Industry, Innovation and Infrastructure","10. Reduced Inequality","11. Sustainable Cities and Communities","12. Responsible Consumption and Production","13. Climate Action","14. Life Below Water","15. Life on Land","16. Peace and Justice Strong Institutions","17. Partnerships to achieve the Goal"]
+const sdg_labels = ["SDG1. No Poverty","SDG2. Zero Hunger","SDG3. Good Health and Well-being","SDG4. Quality Education","SDG5. Gender Equality","SDG6. Clean Water and Sanitation","SDG7. Affordable and Clean Energy","SDG8. Decent Work and Economic Growth","SDG9. Industry, Innovation and Infrastructure","SDG10. Reduced Inequality","SDG11. Sustainable Cities and Communities","SDG12. Responsible Consumption and Production","SDG13. Climate Action","SDG14. Life Below Water","SDG15. Life on Land","SDG16. Peace and Justice Strong Institutions","SDG17. Partnerships to achieve the Goal"]
 const types = {
-  "aimodel": {
+  "AI Model": {
     name: "AI Model"
   },
-  "content": {
+  "Content": {
     name: "Content"
   },
-  "data": {
+  "Data": {
     name: "Data"
   },
-  "software": {
+  "Software": {
     name: "Software"
   },
-  "standard": {
+  "Standard": {
     name: "Standard"
   }
 };
-const stage = [];//["nominee", "DPG"];
+const stage = ["nominee", "DPG"];
 const sdgs = ["SDG1", "SDG2", "SDG3", "SDG4", "SDG5", "SDG6", "SDG7", "SDG8", "SDG9", "SDG10", "SDG11", "SDG12", "SDG13", "SDG14", "SDG15", "SDG16", "SDG17"];
 
 function trunc(str, n){
@@ -45,8 +45,7 @@ class Filters extends Component {
       checkboxId = event.target.id.split('-')[0];
       
       display = event.target.checked;
-      console.log("Checkbox id is ",checkboxId)
-      console.log("checked is ",display)
+      
     } else {
       // When the page loads, handleChange() is called via componentDidMount()
       // We only want to display DPGs at page load, so nominees is unchecked
@@ -57,6 +56,7 @@ class Filters extends Component {
     
     var elems = document.getElementsByClassName(checkboxId);
 
+
     for(let i=0; i < elems.length; i++) {
       let concurrentClasses;
       if(display) {
@@ -64,10 +64,16 @@ class Filters extends Component {
       } else {
         concurrentClasses = elems[i].className.trim().split(' ').filter(function(a){ return a !== checkboxId });
       }
-      // console.log(concurrentClasses)
-      let intersectionSet1 = concurrentClasses.filter(i => Object.keys(types).includes(elems[i]));
-      let intersectionSet2 = concurrentClasses.filter(i => sdgs.includes(elems[i]));
-      let intersectionSet3 = concurrentClasses.filter(i => stage.includes(elems[i]));
+      //console.log("The elems ",elems[i])
+      let intersectionSet1 = concurrentClasses.filter(i => {
+        console.log("This is filter i",i)
+        return Object.keys(types).includes(i)
+      });
+      
+      let intersectionSet2 = concurrentClasses.filter(i => sdgs.includes(i));
+      console.log("INtersections ",intersectionSet2)
+      let intersectionSet3 = []//concurrentClasses.filter(i => stage.includes(i));
+      
 
       let intersection1 = false;
       for(let j=0; j < intersectionSet1.length; j++) {
@@ -83,15 +89,15 @@ class Filters extends Component {
           break;
         }
       }
-      let intersection3 = false;
+      /* let intersection3 = false;
       for(let j=0; j < intersectionSet3.length; j++) {
         if(document.getElementById(intersectionSet3[j]+'-checkbox').checked){
           intersection3 = true;
           break;
         }
-      }
+      } */
 
-      if (intersection1 && intersection2 && intersection3) {
+      if (intersection1 && intersection2) {
         elems[i].style.display = 'table-row';
       } else {
         elems[i].style.display = 'none';
@@ -141,7 +147,7 @@ class Filters extends Component {
             <p>Displaying {this.state.count} of <b>{nominees.length}</b> items</p>
           </div>
 
-          {/* <div className="filterSection">
+          <div className="filterSection">
             <div className="filterSectionTitle">
                <p className="filter_header">status</p>
                <div className="icon" onClick={this.toggleVisible} id="type-toggle">
@@ -169,7 +175,7 @@ class Filters extends Component {
                   ))}
                 </Form>
             </div>
-          </div> */}
+          </div>
 
           <div className="filterSection">
             <div className="filterSectionTitle">
@@ -213,7 +219,7 @@ class Filters extends Component {
                   <Form.Check 
                     key={index}
                     type='checkbox'
-                    id={`sdg${index+1}-checkbox`}
+                    id={`SDG${index+1}-checkbox`}
                     label={trunc(label, 25)}
                     defaultChecked
                     onChange = {this.handleChange}
