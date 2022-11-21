@@ -23,7 +23,7 @@ const types = {
     name: "Standard"
   }
 };
-const stage = ["nominee", "DPG"];
+const stage = [ "DPG"];
 const sdgs = ["SDG1", "SDG2", "SDG3", "SDG4", "SDG5", "SDG6", "SDG7", "SDG8", "SDG9", "SDG10", "SDG11", "SDG12", "SDG13", "SDG14", "SDG15", "SDG16", "SDG17"];
 
 function trunc(str, n){
@@ -43,7 +43,10 @@ class Filters extends Component {
     let display;
     if(event){
       checkboxId = event.target.id.split('-')[0];
+      
       display = event.target.checked;
+      console.log("Checkbox id is ",checkboxId)
+      console.log("checked is ",display)
     } else {
       // When the page loads, handleChange() is called via componentDidMount()
       // We only want to display DPGs at page load, so nominees is unchecked
@@ -51,7 +54,7 @@ class Filters extends Component {
       checkboxId='nominee'
       display=false
     }
-
+    
     var elems = document.getElementsByClassName(checkboxId);
 
     for(let i=0; i < elems.length; i++) {
@@ -61,10 +64,10 @@ class Filters extends Component {
       } else {
         concurrentClasses = elems[i].className.trim().split(' ').filter(function(a){ return a !== checkboxId });
       }
-
-      let intersectionSet1 = concurrentClasses.filter(i => Object.keys(types).includes(i));
-      let intersectionSet2 = concurrentClasses.filter(i => sdgs.includes(i));
-      let intersectionSet3 = concurrentClasses.filter(i => stage.includes(i));
+      // console.log(concurrentClasses)
+      let intersectionSet1 = concurrentClasses.filter(i => Object.keys(types).includes(elems[i]));
+      let intersectionSet2 = concurrentClasses.filter(i => sdgs.includes(elems[i]));
+      let intersectionSet3 = concurrentClasses.filter(i => stage.includes(elems[i]));
 
       let intersection1 = false;
       for(let j=0; j < intersectionSet1.length; j++) {
@@ -263,6 +266,17 @@ function ListItemBeta(props){
   }
 
   let itemClass='';
+   for (var j=0; j<item.sdgs.length; j++) {
+    
+    let thesdg = item.sdgs[j].sdg
+    thesdg = thesdg.split(':')[0]
+    itemClass += thesdg + " "
+    //itemClass += 'sdg'+item.sdgs[j].sdg.spilt(':',1)[0]+' '
+  }
+
+ for (var k=0; k<item.categories.length; k++) {
+    itemClass += item.categories[k] + ' ';
+  } 
   itemClass += item.stage;
 
   let license;
