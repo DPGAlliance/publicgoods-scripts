@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const glob = require("glob");
 const cheerio = require("cheerio");
+const fetch = require("node-fetch");
 
 const INDENT = 30;
 
@@ -189,7 +190,8 @@ function addElements(object, schema, level, html) {
 					html += '<ul>'
 					for(let i=0; i<object[key].length; i++){
 						if(object[key][i]!="") {
-							html += `<li>${parseURLs(object[key][i])}</li>`
+							// html += `<li>${parseURLs(object[key][i])}</li>`
+							html += `<li>${object[key][i]}</li>`
 						} else {
 							// do nothing, it's an empty array
 						}
@@ -211,9 +213,85 @@ function addElements(object, schema, level, html) {
 	return html;
 }
 
+/* 
 const dataScreeningSchema = fs.readFileSync('../../../publicgoods-candidates/screening-schema.json', {encoding:'utf8', flag:'r'}); 
-const screeningSchema = JSON.parse(dataScreeningSchema);
 
+const screeningSchema = JSON.parse(dataScreeningSchema);
+ */
+async function start() {
+
+// Fetch all migrated DPGs from new app api at https://app.digitalpublicgoods.net/api/dpgs
+const response = await fetch('https://app.digitalpublicgoods.net/api/dpgs');
+const dpgs = await response.json();
+
+// process html
+for (let i = 0; i < dpgs.length; i++) {
+	/* const dataNominee = fs.readFileSync(
+		path.join(nomineesPath, productFiles[i]), {encoding:'utf8', flag:'r'}); 
+	const nominee = JSON.parse(dataNominee); */
+
+	//const dataDPG = fs.readFileSync(path.join(dpgsPath, productFiles[i]), {encoding:'utf8', flag:'r'}); 
+	//const dpgs = JSON.parse(dataDPG);
+	let dpg = dpgs[i];
+	let html = `<div class="wp-block-buttons is-content-justification-center">
+	<div class="col-md-8 page-content-wrap col-md-offset-2">
+	<h2>${dpg.name}</h2>
+		<p>${dpg.description}</p>
+		<p><b>Website: </b><a href="${dpg.website}">${dpg.website}</a></p>
+		<p><b>Type of Digital Public Good</b>
+		<ul style="padding-left:0">
+	`
+	for(item of ["Open AI Model", "Open Content", "Open Data", "Open Software"]){
+		if(dpg.categories.includes(item)){
+			html += `<li style="list-style:none; margin-right: 1.5em; text-transform: capitalize;">✅&nbsp;&nbsp;Open ${item}`
+			if(dpg.repositories.length > 0){
+				html+=`: <a href="${dpg.repositories[0].url}" target="_blank">Source Code Repository</a>`
+			}
+			html += `</li>`
+		} else {
+			html += `<li style="display: block; list-style:none; margin-right: 1.5em; text-transform: capitalize;">
+			<svg width="20" height="20" style="margin-right:5px">
+	  <rect width="20" height="20" style="stroke-width:1;stroke:rgb(0,0,0)" fill-opacity="0"/>
+	</svg> ${item}</li>`
+		}
+	}
+
+	html+=`
+		</ul>
+		<p><b>1. Is it relevant to one of the Sustainable Development Goals?</b></p>
+		<ul>
+	`
+	dpg.sdgs.forEach((item) => {
+		html += `<li><b>${item.sdg}</b>`
+		if(item.relevance){
+			html += `<p><span style="color:grey; font-weight:bold">Evidence:</span> ${item.relevance}</p>`
+		}
+		/* if(item.evidenceURL){
+			html += `<p><span style="color:grey; font-weight:bold">Link to Evidence:</span> ${parseURLs(item.evidenceURL)}</p>`
+		} */
+		html += `</li>`
+	})
+
+	html += `</ul>
+	<p><b>2. Does it use an appropriate open license?</b></p>
+	<div style="padding-left: ${INDENT}px"><p>Yes, this project is licensed under the following license(s):</p>
+	<ul>`
+
+	dpg.openlicenses.forEach((item) => {
+		html += `<li>${item.openLicense}</li>`
+	})
+
+	html += `</ul></div>`
+
+	// html = addElements(dpg, screeningSchema, 0, html);
+
+	html += '</div></div>'
+
+	generateNewPage(html, path.join(htmlPath, dpg.name.replace(" ","_")+".html"));
+	console.log('HTML page generated for registry/' + dpg.name+".html");
+}
+
+/*
 glob("*.json", { cwd: dpgsPath }, async (err, productFiles) => {
 	for (let i = 0; i < productFiles.length; i++) {
 		const dataNominee = fs.readFileSync(
@@ -282,3 +360,7 @@ glob("*.json", { cwd: dpgsPath }, async (err, productFiles) => {
 		console.log('HTML page generated for registry/' + productFiles[i].replace(/.json/g, ".html"));
 	}
 })
+*/
+}
+
+start();

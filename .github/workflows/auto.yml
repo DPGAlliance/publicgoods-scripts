@@ -17,19 +17,21 @@ jobs:
         run: git clone https://github.com/unicef/publicgoods-candidates.git ../publicgoods-candidates
       - name: Run static.bash
         run: bash scripts/static.bash
-      - name: Generating DPG's
-        run: cd packages/automation && npm install && node generate_dpgs.js
+      # - name: Generating DPG's
+      #   run: cd packages/automation && npm install && node generate_dpgs.js
       # - name: Generating Nominees
       #   env:
       #       CLIENTID: ${{ secrets.CLIENTID}}
       #       CLIENTSECRET: ${{ secrets.CLIENTSECRET}}
       #   run: cd packages/automation && node generate_nominees.js
-      - name: Downloading nominees.json file into packages/registry/src
-        run:  curl --location --request GET 'https://api.digitalpublicgoods.net/nominees/' -o packages/registry/src/nominees.json 
-      - name: Generating registry, eligibility and map pages
-        run: cd packages/automation && node index.js
+      # - name: Downloading nominees.json file into packages/registry/src
+      #   run:  curl --location --request GET 'https://api.digitalpublicgoods.net/nominees/' -o packages/registry/src/nominees.json 
       - name: Run npm i at root for needed react-scripts package below
         run: npm install
+      - name: Consolidating DPG's and nominees from new API for registry page table
+        run: cd packages/automation && node consolidate_data.js
+      - name: Generating registry, eligibility and map pages
+        run: cd packages/automation && node index.js
       - name: Softlink required dependencies
         run:  |
           ln -s ../../../../publicgoods-website/wp-includes/ packages/eligibility/public/wp-includes;

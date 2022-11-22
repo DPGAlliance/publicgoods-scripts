@@ -7,24 +7,24 @@ import nominees from './nominees.json';
 
 const sdg_labels = ["1. No Poverty","2. Zero Hunger","3. Good Health and Well-being","4. Quality Education","5. Gender Equality","6. Clean Water and Sanitation","7. Affordable and Clean Energy","8. Decent Work and Economic Growth","9. Industry, Innovation and Infrastructure","10. Reduced Inequality","11. Sustainable Cities and Communities","12. Responsible Consumption and Production","13. Climate Action","14. Life Below Water","15. Life on Land","16. Peace and Justice Strong Institutions","17. Partnerships to achieve the Goal"]
 const types = {
-  "aimodel": {
+  "AI Model": {
     name: "AI Model"
   },
-  "content": {
+  "Content": {
     name: "Content"
   },
-  "data": {
+  "Data": {
     name: "Data"
   },
-  "software": {
+  "Software": {
     name: "Software"
   },
-  "standard": {
+  "Standard": {
     name: "Standard"
   }
 };
-const stage = ["nominee", "DPG"];
-const sdgs = ["sdg1", "sdg2", "sdg3", "sdg4", "sdg5", "sdg6", "sdg7", "sdg8", "sdg9", "sdg10", "sdg11", "sdg12", "sdg13", "sdg14", "sdg15", "sdg16", "sdg17"];
+const stage = ["DPG"];
+const sdgs = ["SDG1", "SDG2", "SDG3", "SDG4", "SDG5", "SDG6", "SDG7", "SDG8", "SDG9", "SDG10", "SDG11", "SDG12", "SDG13", "SDG14", "SDG15", "SDG16", "SDG17"];
 
 function trunc(str, n){
     return (str.length > n) ? str.substr(0, n-1) + '...' : str;
@@ -43,7 +43,9 @@ class Filters extends Component {
     let display;
     if(event){
       checkboxId = event.target.id.split('-')[0];
+      
       display = event.target.checked;
+      
     } else {
       // When the page loads, handleChange() is called via componentDidMount()
       // We only want to display DPGs at page load, so nominees is unchecked
@@ -51,8 +53,9 @@ class Filters extends Component {
       checkboxId='nominee'
       display=false
     }
-
+    
     var elems = document.getElementsByClassName(checkboxId);
+
 
     for(let i=0; i < elems.length; i++) {
       let concurrentClasses;
@@ -61,10 +64,13 @@ class Filters extends Component {
       } else {
         concurrentClasses = elems[i].className.trim().split(' ').filter(function(a){ return a !== checkboxId });
       }
-
+      
       let intersectionSet1 = concurrentClasses.filter(i => Object.keys(types).includes(i));
+      
       let intersectionSet2 = concurrentClasses.filter(i => sdgs.includes(i));
+    
       let intersectionSet3 = concurrentClasses.filter(i => stage.includes(i));
+      
 
       let intersection1 = false;
       for(let j=0; j < intersectionSet1.length; j++) {
@@ -140,7 +146,7 @@ class Filters extends Component {
 
           <div className="filterSection">
             <div className="filterSectionTitle">
-               <p className="filter_header">status</p>
+               <p className="filter_header"></p>
                <div className="icon" onClick={this.toggleVisible} id="type-toggle">
                 <svg viewBox="0 0 8 5" xmlns="http://www.w3.org/2000/svg" strokeLinejoin="round" strokeLinecap="round" strokeWidth="1.35">
                   <path d="M7 1.053L4.027 4 1 1" stroke="currentColor" fill="none"></path>
@@ -156,7 +162,7 @@ class Filters extends Component {
                     id={`${label}-checkbox`}
                   >
                   {(label==='DPG')?
-                    <Form.Check.Input type='checkbox' defaultChecked onChange = {this.handleChange}/>:
+                    <Form.Check.Input type='checkbox' disabled defaultChecked onChange = {this.handleChange}/>:
                     <Form.Check.Input type='checkbox' onChange = {this.handleChange}/>
                   }
                     <Form.Check.Label>
@@ -166,7 +172,7 @@ class Filters extends Component {
                   ))}
                 </Form>
             </div>
-          </div>
+          </div> 
 
           <div className="filterSection">
             <div className="filterSectionTitle">
@@ -210,7 +216,7 @@ class Filters extends Component {
                   <Form.Check 
                     key={index}
                     type='checkbox'
-                    id={`sdg${index+1}-checkbox`}
+                    id={`SDG${index+1}-checkbox`}
                     label={trunc(label, 25)}
                     defaultChecked
                     onChange = {this.handleChange}
@@ -225,36 +231,26 @@ class Filters extends Component {
   }
 }
 
-function ListItem(props){
+function ListItemBeta(props){
 
   let item = props.item;
   let index = props.index;
 
   let name;
-  let nameText;
-
-  if(item.hasOwnProperty('aliases') && item.aliases[0]) {
-    nameText = item.name + ' (' + item.aliases[0] + ')';
-  } else {
-    nameText = item.name;
-  }
+  let nameText = item.name;
 
   if(item.stage === 'DPG') {
-    name = <a href={'/registry/' + item.name.normalize('NFD')
-    .toLowerCase()
-    .replace(/\s{2,}/g, ' ')
-    .replace(/ /g, '-')
-    .replace(/[^A-Za-z0-9-.]/g, '')
-    .replace(/-{2,}/g, '-') +'.html'} target="_blank" rel="noopener noreferrer">{nameText}</a>;
+    name = <a href={'https://app.digitalpublicgoods.net/a/' + item.id} target="_blank" rel="noopener noreferrer">{nameText}</a>;
     if(item.dpgLink){
       name = <span>{name} <img src="dpgicon.svg" alt="DPG icon" height="25"/></span>
     } 
-    else {
+    /* else {
       name = <span><a href="/blog/announcing-the-first-vetted-digital-public-goods-for-foundational-literacy-and-early-grade-reading/" target="_blank" rel="noopener noreferrer">{nameText} <img src="dpgicon.svg" alt="DPG icon" height="25"/></a></span>;
-    }
+    } */
   }
   else{
-    if(item.hasOwnProperty('website') && item.website !== '') {
+    name = <a href={'https://app.digitalpublicgoods.net/a/' + item.id} target="_blank" rel="noopener noreferrer">{nameText}</a>;
+    /* if(item.hasOwnProperty('website') && item.website !== '') {
         name = <a href={item.website} target="_blank" rel="noopener noreferrer">{nameText}</a>;
       } else if(item.hasOwnProperty('repositories') && item.repositories.length) {
           let repoIndex = 0;
@@ -269,23 +265,30 @@ function ListItem(props){
           name = <a href={item.repositories[repoIndex].url} target="_blank" rel="noopener noreferrer">{nameText}</a>;
       } else {
           name = {nameText}
-      }
+      } */
   }
 
   let itemClass='';
-  for (var j=0; j<item.SDGs.length; j++) {
-    itemClass += 'sdg'+item.SDGs[j].SDGNumber+' '
+   for (var j=0; j<item.sdgs.length; j++) {
+    
+    let thesdg = item.sdgs[j].sdg
+    thesdg = thesdg.split(':')[0]
+    itemClass += thesdg + " "
+    //itemClass += 'sdg'+item.sdgs[j].sdg.spilt(':',1)[0]+' '
   }
 
-  for (var k=0; k<item.type.length; k++) {
-    itemClass += item.type[k] + ' ';
-  }
-
+ for (var k=0; k<item.categories.length; k++) {
+    itemClass += item.categories[k] + ' ';
+  } 
   itemClass += item.stage;
 
   let license;
-  for (let j=0; j<item.license.length; j++) {
-    license = <a href={item.license[j].licenseURL} target="_blank" rel="noopener noreferrer">{item.license[j].spdx} </a>
+  if (item.hasOwnProperty("openlicenses")) {
+    license = item.openlicenses[0].openLicense;
+  } else {
+    for (let j=0; j<item.license.length; j++) {
+      license = <a href={item.license[j].licenseURL} target="_blank" rel="noopener noreferrer">{item.license[j].spdx} </a>
+    }
   }
 
   let linkName = item.name.replace(/ /g,'_')
@@ -316,7 +319,7 @@ class List extends Component {
           </thead>
           <tbody>
             {nominees.map((item, index) => (
-              <ListItem item={item} index={index} key={index}/>
+              <ListItemBeta item={item} index={index} key={index}/>
             ))}
           </tbody>
         </table>
