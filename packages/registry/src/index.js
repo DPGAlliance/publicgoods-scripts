@@ -23,7 +23,7 @@ const types = {
     name: "Standard"
   }
 };
-const stage = ["DPG"];
+const stage = [];
 const sdgs = ["SDG1", "SDG2", "SDG3", "SDG4", "SDG5", "SDG6", "SDG7", "SDG8", "SDG9", "SDG10", "SDG11", "SDG12", "SDG13", "SDG14", "SDG15", "SDG16", "SDG17"];
 
 function trunc(str, n){
@@ -146,37 +146,7 @@ class Filters extends Component {
 
           <div className="filterSection">
             <div className="filterSectionTitle">
-               <p className="filter_header"></p>
-               <div className="icon" onClick={this.toggleVisible} id="type-toggle">
-                <svg viewBox="0 0 8 5" xmlns="http://www.w3.org/2000/svg" strokeLinejoin="round" strokeLinecap="round" strokeWidth="1.35">
-                  <path d="M7 1.053L4.027 4 1 1" stroke="currentColor" fill="none"></path>
-                </svg>
-               </div>
-            </div>
-            <div className="filteredContent" id="type-options">
-                <Form>
-                  {stage.map((label, index) => (
-                  <Form.Check 
-                    key={index}
-                    type='checkbox'
-                    id={`${label}-checkbox`}
-                  >
-                  {(label==='DPG')?
-                    <Form.Check.Input type='checkbox' disabled defaultChecked onChange = {this.handleChange}/>:
-                    <Form.Check.Input type='checkbox' onChange = {this.handleChange}/>
-                  }
-                    <Form.Check.Label>
-                      {(label==='DPG')?<span>digital public good <img src="dpgicon.svg" alt="DPG icon" height="30"/></span>:trunc(label,25)}
-                      </Form.Check.Label>
-                  </Form.Check>
-                  ))}
-                </Form>
-            </div>
-          </div> 
-
-          <div className="filterSection">
-            <div className="filterSectionTitle">
-               <p className="filter_header">type</p>
+               <p className="filter_header">Type</p>
                <div className="icon" onClick={this.toggleVisible} id="type-toggle">
                 <svg viewBox="0 0 8 5" xmlns="http://www.w3.org/2000/svg" strokeLinejoin="round" strokeLinecap="round" strokeWidth="1.35">
                   <path d="M7 1.053L4.027 4 1 1" stroke="currentColor" fill="none"></path>
