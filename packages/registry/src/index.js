@@ -205,7 +205,7 @@ function ListItemBeta(props){
 
   let item = props.item;
   let index = props.index;
-
+  
   let name;
   let nameText = item.name;
 
@@ -214,54 +214,39 @@ function ListItemBeta(props){
     if(item.dpgLink){
       name = <span>{name} <img src="dpgicon.svg" alt="DPG icon" height="25"/></span>
     } 
-    /* else {
+    else { 
       name = <span><a href="/blog/announcing-the-first-vetted-digital-public-goods-for-foundational-literacy-and-early-grade-reading/" target="_blank" rel="noopener noreferrer">{nameText} <img src="dpgicon.svg" alt="DPG icon" height="25"/></a></span>;
-    } */
+    }
   }
   else{
     name = <a href={'https://app.digitalpublicgoods.net/a/' + item.id} target="_blank" rel="noopener noreferrer">{nameText}</a>;
-    /* if(item.hasOwnProperty('website') && item.website !== '') {
-        name = <a href={item.website} target="_blank" rel="noopener noreferrer">{nameText}</a>;
-      } else if(item.hasOwnProperty('repositories') && item.repositories.length) {
-          let repoIndex = 0;
-          if(item.repositories.length > 1) {
-            for(let i in item.repositories) {
-              if(item.repositories[i].name === 'main'){
-                repoIndex = i
-                break
-              }
-            }
-          }
-          name = <a href={item.repositories[repoIndex].url} target="_blank" rel="noopener noreferrer">{nameText}</a>;
-      } else {
-          name = {nameText}
-      } */
   }
 
   let itemClass='';
-   for (var j=0; j<item.sdgs.length; j++) {
+  if(item.hasOwnProperty("sdgs")){
+    for (var j=0; j<item.sdgs.length; j++) {
     
-    let thesdg = item.sdgs[j].sdg
-    thesdg = thesdg.split(':')[0]
-    itemClass += thesdg + " "
-    //itemClass += 'sdg'+item.sdgs[j].sdg.spilt(':',1)[0]+' '
+      let thesdg = item.sdgs[j].sdg
+      thesdg = thesdg.split(':')[0]
+      itemClass += thesdg + " "
+      //itemClass += 'sdg'+item.sdgs[j].sdg.spilt(':',1)[0]+' '
+    }
   }
-
- for (var k=0; k<item.categories.length; k++) {
-    itemClass += item.categories[k] + ' ';
-  } 
+   
+  if(item.hasOwnProperty("categories")){
+    for (var k=0; k<item.categories.length; k++) {
+      itemClass += item.categories[k] + ' ';
+    } 
+  }
+ 
   itemClass += item.stage;
 
   let license;
   if (item.hasOwnProperty("openlicenses")) {
     license = item.openlicenses[0].openLicense;
-  } else {
-    for (let j=0; j<item.license.length; j++) {
-      license = <a href={item.license[j].licenseURL} target="_blank" rel="noopener noreferrer">{item.license[j].spdx} </a>
-    }
   }
 
-  let linkName = item.name.replace(/ /g,'_')
+  let linkName = item.name
 
   return(
     <tr key={index} className={itemClass}>
@@ -272,7 +257,7 @@ function ListItemBeta(props){
       <td><div dangerouslySetInnerHTML={{__html: item.githubActivity}} /></td>
     </tr>
   )
-
+  
 }
 
 class List extends Component {
