@@ -30,6 +30,15 @@ function trunc(str, n){
     return (str.length > n) ? str.substr(0, n-1) + '...' : str;
 };
 
+nominees.sort(function(a, b) {
+  if (!a.hasOwnProperty("id") || !b.hasOwnProperty("id")) {
+    return(<div></div>)
+  }
+  let textA = a.name.toUpperCase();
+  let textB = b.name.toUpperCase();
+  return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+});
+
 class Filters extends Component {
   constructor(props) {
     super(props);
@@ -205,6 +214,10 @@ function ListItemBeta(props){
 
   let item = props.item;
   let index = props.index;
+
+  if (!item.hasOwnProperty("id")) {
+    return(<div></div>)
+  }
   
   let name;
   let nameText = item.name;
@@ -247,6 +260,8 @@ function ListItemBeta(props){
   }
 
   let linkName = item.name
+
+  
 
   return(
     <tr key={index} className={itemClass}>
