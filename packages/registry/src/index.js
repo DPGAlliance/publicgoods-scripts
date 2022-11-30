@@ -30,6 +30,15 @@ function trunc(str, n){
     return (str.length > n) ? str.substr(0, n-1) + '...' : str;
 };
 
+nominees.sort(function(a, b) {
+  if (!a.hasOwnProperty("id") || !b.hasOwnProperty("id")) {
+    return(<div></div>)
+  }
+  let textA = a.name.toUpperCase();
+  let textB = b.name.toUpperCase();
+  return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+});
+
 class Filters extends Component {
   constructor(props) {
     super(props);
