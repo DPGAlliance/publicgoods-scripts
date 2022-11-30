@@ -205,6 +205,10 @@ function ListItemBeta(props){
 
   let item = props.item;
   let index = props.index;
+
+  if (!item.hasOwnProperty("id")) {
+    return(<div></div>)
+  }
   
   let name;
   let nameText = item.name;
@@ -247,6 +251,8 @@ function ListItemBeta(props){
   }
 
   let linkName = item.name
+
+  
 
   return(
     <tr key={index} className={itemClass}>
