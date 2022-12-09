@@ -73,10 +73,10 @@ let combos = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 // Initialize SDG array to count occurences in candidates
 let sdgs = new Array(17).fill(0);
 // Initialize type array to count occurences in candidates
-const TYPE1 = "Open software";
-const TYPE2 = "Open data";
-const TYPE3 = "Open standard";
-const TYPE4 = "Open content";
+const TYPE1 = "Open Software";
+const TYPE2 = "Open Data";
+const TYPE3 = "Open Standard";
+const TYPE4 = "Open Content";
 let types = {};
 types[TYPE1] = 0;
 types[TYPE2] = 0;
@@ -86,22 +86,22 @@ let vettedDPGs = 0;
 
 // Iterate over candidates, and over each nested array and count
 candidates.forEach(function (e) {
-  /* if (!e["sdgs"]) {
-    console.log(e)
-  } */
   if (e["sdgs"]) {
     e["sdgs"].forEach(function (d) {
       let goalString = SDGS.find((goal,index)=>goal.includes(d.sdg.substring(3,5)))
       let sdgNumber = SDGS.indexOf(goalString);
-      //console.log(d.sdg+" The SDG number is ", sdgNumber)
-      //sdgs[d["SDGNumber"] - 1]++;
+      
       sdgs[sdgNumber]++;
 
     });
-    console.log(sdgs)
     if (e["categories"]) {
       e["categories"].forEach(function (d) {
-        types[d]++;
+        if(types.hasOwnProperty(d)){
+          types[d]++;
+        }
+        else{
+          types[d]=0
+        }
       });
       
       if (
