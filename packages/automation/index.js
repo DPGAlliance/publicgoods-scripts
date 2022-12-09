@@ -356,7 +356,7 @@ htmlOutput += `
 textLine.each(function (d) {
   var fullText = sdg_labels[d.data.name - 1] + ": " + d.data.value;
   // add label of values to the first element
-  d.data.name == 1 ? (fullText += " DPGs") : null;
+  d.data.name == 1 ? (fullText += " DPGs") : "null";
 
   var rectWidth = d.x1 - d.x0;
   var rectHeight = d.y1 - d.y0;
@@ -442,7 +442,7 @@ textLine.each(function (d) {
     tool.style("left", d3.event.pageX + 10 + "px")
     tool.style("top", d3.event.pageY - 20 + "px")
     tool.style("display", "inline-block");
-    tool.html('SDG '+d.data.name+': '+sdg_labels[d.data.name-1]+'<br/>'+d.data.value+' DPGs');
+    tool.html(sdg_labels[d.data.name-1]+'<br/>'+d.data.value+' DPGs');
   }
 
   function handleMouseOut(d, i) {
