@@ -74,3 +74,5 @@ typings/
 **/map/public/templateClassName.txt
 .DS_Store
 rebuild.bash
+registryIndex.html
+wget-log
