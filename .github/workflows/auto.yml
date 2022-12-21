@@ -12,9 +12,9 @@ jobs:
         with:
           node-version: '16'
       - name: Clone publicgoods-website
-        run: git clone https://github.com/unicef/publicgoods-website.git ../publicgoods-website
+        run: git clone https://github.com/DPGAlliance/publicgoods-website.git ../publicgoods-website
       - name: Clone publicgoods-candidates
-        run: git clone https://github.com/unicef/publicgoods-candidates.git ../publicgoods-candidates
+        run: git clone https://github.com/DPGAlliance/publicgoods-candidates.git ../publicgoods-candidates
       - name: Run static.bash
         run: bash scripts/static.bash
       # - name: Generating DPG's
