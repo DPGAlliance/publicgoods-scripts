@@ -46,11 +46,11 @@ jobs:
         run: cd packages/eligibility && npm install && npm run build
       - name: Build packages/registry
         run: cd packages/registry && npm install && npm run build
-      - name: Build packages/map
-        run: cd packages/map && npm install && npm run build
-        env:
-          NEXT_PUBLIC_MAPBOX_TOKEN: ${{ secrets.NEXT_PUBLIC_MAPBOX_TOKEN }}
-          NEXT_PUBLIC_SHEET_ID: ${{ secrets.NEXT_PUBLIC_SHEET_ID }}
+      #- name: Build packages/map
+      #  run: cd packages/map && npm install && npm run build
+      #  env:
+      #    NEXT_PUBLIC_MAPBOX_TOKEN: ${{ secrets.NEXT_PUBLIC_MAPBOX_TOKEN }}
+      #    NEXT_PUBLIC_SHEET_ID: ${{ secrets.NEXT_PUBLIC_SHEET_ID }}
       - name: Build packages/roadmap
         run: cd packages/roadmap && npm install && npm run build
       - name: Run moveFiles.bash
