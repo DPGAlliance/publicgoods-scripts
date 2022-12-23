@@ -12,9 +12,9 @@ jobs:
         with:
           node-version: '16'
       - name: Clone publicgoods-website
-        run: git clone https://github.com/unicef/publicgoods-website.git ../publicgoods-website
+        run: git clone https://github.com/DPGAlliance/publicgoods-website.git ../publicgoods-website
       - name: Clone publicgoods-candidates
-        run: git clone https://github.com/unicef/publicgoods-candidates.git ../publicgoods-candidates
+        run: git clone https://github.com/DPGAlliance/publicgoods-candidates.git ../publicgoods-candidates
       - name: Run static.bash
         run: bash scripts/static.bash
       # - name: Generating DPG's
@@ -46,11 +46,11 @@ jobs:
         run: cd packages/eligibility && npm install && npm run build
       - name: Build packages/registry
         run: cd packages/registry && npm install && npm run build
-      - name: Build packages/map
-        run: cd packages/map && npm install && npm run build
-        env:
-          NEXT_PUBLIC_MAPBOX_TOKEN: ${{ secrets.NEXT_PUBLIC_MAPBOX_TOKEN }}
-          NEXT_PUBLIC_SHEET_ID: ${{ secrets.NEXT_PUBLIC_SHEET_ID }}
+      #- name: Build packages/map
+      #  run: cd packages/map && npm install && npm run build
+      #  env:
+      #    NEXT_PUBLIC_MAPBOX_TOKEN: ${{ secrets.NEXT_PUBLIC_MAPBOX_TOKEN }}
+      #    NEXT_PUBLIC_SHEET_ID: ${{ secrets.NEXT_PUBLIC_SHEET_ID }}
       - name: Build packages/roadmap
         run: cd packages/roadmap && npm install && npm run build
       - name: Run moveFiles.bash

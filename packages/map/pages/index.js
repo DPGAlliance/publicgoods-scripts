@@ -216,7 +216,7 @@ export async function getStaticProps() {
 
     const result = (page) =>
       fetch(
-        `https://api.github.com/search/code?q=repo:DPGAlliance/publicgoods-candidates+path:digitalpublicgoods+filename:.json&per_page=${perPage}&page=${page}`
+        encodeURI(`https://api.github.com/search/code?q=repo:DPGAlliance/publicgoods-candidates+path:digitalpublicgoods+filename:.json&per_page=${perPage}&page=${page}`)
       ).then((response) => response.json());
 
     const gitSearchRes = await result(1);
@@ -227,15 +227,14 @@ export async function getStaticProps() {
       await Promise.all(range(1, pageNumbers, 1).map(async (page) => await result(page)))
     ).reduce((res, v) => res.concat(v.items), []);
 
+    /*
     const digitalGoodsData = await goodsFileNames.map(async (filename) => {
       const res = await fetch(
-        "https://raw.githubusercontent.com/DPGAlliance/publicgoods-candidates/main/digitalpublicgoods/" +
-          filename.name
+        encodeURI("https://raw.githubusercontent.com/DPGAlliance/publicgoods-candidates/main/digitalpublicgoods/" +filename.name)
       );
       const fileContents = await res.text();
       const nomineeRes = await fetch(
-        "https://raw.githubusercontent.com/DPGAlliance/publicgoods-candidates/main/nominees/" +
-          filename.name
+        encodeURI("https://raw.githubusercontent.com/DPGAlliance/publicgoods-candidates/main/nominees/" +filename.name)
       );
       const nomineeFileContents = await nomineeRes.text();
       try {
@@ -246,23 +245,30 @@ export async function getStaticProps() {
       } catch (error) {
         // handle linked json
         const res = await fetch(
-          "https://raw.githubusercontent.com/DPGAlliance/publicgoods-candidates/main/digitalpublicgoods/" +
-            fileContents
+          encodeURI("https://raw.githubusercontent.com/DPGAlliance/publicgoods-candidates/main/digitalpublicgoods/"+fileContents)
         );
         const nestedFileContent = await res.text();
         const nnomineeRes = await fetch(
-          "https://raw.githubusercontent.com/DPGAlliance/publicgoods-candidates/main/nominees/" +
-            filename.name
+          encodeURI("https://raw.githubusercontent.com/DPGAlliance/publicgoods-candidates/main/nominees/" +filename.name)
         );
-        const nestedNomineeFileContents = await nnomineeRes.text();
-        let ngoodsData = JSON.parse(nestedFileContent);
-        ngoodsData.name = filename.name.replace(".json", "");
-        let nnomineeData = JSON.parse(nestedNomineeFileContents);
-        return {...handleCountries(ngoodsData), ...nnomineeData, search: "dpg"};
+        console.log("Nominee result status ",nomineeRes.status)
+        if(nomineeRes.status == 200){
+          const nestedNomineeFileContents = await nnomineeRes.text();
+          console.log(nestedNomineeFileContents)
+          let ngoodsData = JSON.parse(nestedFileContent);
+          ngoodsData.name = filename.name.replace(".json", "");
+          let nnomineeData = JSON.parse(nestedNomineeFileContents);
+          return {...handleCountries(ngoodsData), ...nnomineeData, search: "dpg"};
+        }
+        
       }
-    });
-
-    var digitalGoodsArr = await Promise.all(digitalGoodsData);
+    });*/
+    // Skipping a whole bunch of github work and using the New web app api
+    // var digitalGoodsArr = await Promise.all(digitalGoodsData);
+    let dpgres = await fetch("https://api.digitalpublicgoods.net/dpgs").then(response => response.json());
+    console.log("digital goods array",dpgres)
+    let digitalGoodsArr = dpgres
+    
     const addStory = (results) => {
       // replace all //n //r, FALSE
       for (let i = 0; i < results.length; i++) {
@@ -278,7 +284,7 @@ export async function getStaticProps() {
     };
     const loadGsheet = async (sheetId, sheetGidNumber) => {
       let sheetResponse = await nodefetch(
-        `https://docs.google.com/spreadsheets/u/1/d/${sheetId}/export?format=csv&id=${sheetId}&gid=${sheetGidNumber}`
+        encodeURI(`https://docs.google.com/spreadsheets/u/1/d/${sheetId}/export?format=csv&id=${sheetId}&gid=${sheetGidNumber}`)
       );
       let resultText = await sheetResponse.text();
       return await csv().fromString(resultText);
@@ -347,7 +353,7 @@ export async function getStaticProps() {
         polygon["features"].map((el) => {
           el.properties["text-field"] = digitalGoodsArr
             .filter((good) =>
-              Object.keys(good.locations[arrayOfCountries]).includes(el.properties.iso)
+              Object.keys(good.locations.developmentCountries[arrayOfCountries]).includes(el.properties.iso)
             )
             .length.toString();
           el.properties["height"] =
@@ -361,7 +367,7 @@ export async function getStaticProps() {
 
     const SDGs = SDGS.map((sdg, sdgindex) => {
       let totalDpgs = digitalGoodsArr.filter((good) =>
-        good.SDGs.some((sdg) => sdg.SDGNumber == sdgindex + 1)
+        good.sdgs.some((singleSDG) => singleSDG.sdg.includes(sdgindex + 1))
       );
       let opacity = [...totalDpgs]
         .reduce((accum, curr) => {
@@ -393,9 +399,12 @@ export async function getStaticProps() {
         search: "sdg",
       };
     });
+    function getSDGNumberFromString(sdgString) {
+      return sdgString.substring(sdgString.indexOf("G")+1,sdgString.indexOf(":"))
+    }
     const sdgsSum = Object.entries(
       digitalGoodsArr
-        .reduce((accum, curr) => [...accum, ...curr.SDGs.map((sdg) => sdg.SDGNumber)], [])
+        .reduce((accum, curr) => [...accum, ...curr.sdgs.map((singleSDG) => getSDGNumberFromString(singleSDG.sdg))], [])
         .reduce(
           (acc, curr) => {
             return acc[curr] ? ++acc[curr]["dpgs"] : (acc[curr]["dpgs"] = 1), acc;
