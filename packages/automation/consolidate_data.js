@@ -27,6 +27,7 @@ async function start() {
   dpgjson = await dpgjson.json();
   
   const dpgs = [...dpgjson];
+  console.log("DPG's in registry API - ",dpgs.length)
   let allData = [];
   //   Generate github activity
   for (dpg of dpgs) {
