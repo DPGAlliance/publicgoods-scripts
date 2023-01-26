@@ -56,7 +56,7 @@ class Filters extends Component {
       
       display = event.target.checked;
 
-      if(document.getElementById('selectAllToggle')){
+      if('selectAllToggle'==checkboxId){
         this.selectAll()
       }
       
