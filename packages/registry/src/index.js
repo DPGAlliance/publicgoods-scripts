@@ -23,7 +23,7 @@ const types = {
     name: "Standard"
   }
 };
-const stage = [];
+//const stage = [];
 const sdgs = ["SDG1", "SDG2", "SDG3", "SDG4", "SDG5", "SDG6", "SDG7", "SDG8", "SDG9", "SDG10", "SDG11", "SDG12", "SDG13", "SDG14", "SDG15", "SDG16", "SDG17"];
 let selectAlltoggle = true;
 function trunc(str, n){
@@ -56,7 +56,7 @@ class Filters extends Component {
       
       display = event.target.checked;
 
-      if('selectAllToggle'==checkboxId){
+      if('selectAllToggle'===checkboxId){
         this.selectAll()
       }
       
@@ -83,7 +83,7 @@ class Filters extends Component {
       
       let intersectionSet2 = concurrentClasses.filter(i => sdgs.includes(i));
     
-      let intersectionSet3 = concurrentClasses.filter(i => stage.includes(i));
+      //let intersectionSet3 = concurrentClasses.filter(i => stage.includes(i));
       
       let intersection1 = false;
       for(let j=0; j < intersectionSet1.length; j++) {
@@ -144,7 +144,7 @@ class Filters extends Component {
     if(selectAlltoggle){
       let ele=document.getElementsByClassName('form-check-input');  
       for(var i=0; i<ele.length; i++){ 
-          if(ele[i].type=='checkbox')  
+          if(ele[i].type==='checkbox')  
               ele[i].checked=true;  
       } 
       let elems = document.getElementsByClassName('DPG');
@@ -156,8 +156,8 @@ class Filters extends Component {
     } 
     else{
       let ele=document.getElementsByClassName('form-check-input');  
-      for(var i=0; i<ele.length; i++){ 
-          if(ele[i].type=='checkbox')  
+      for(let i=0; i<ele.length; i++){ 
+          if(ele[i].type==='checkbox')  
               ele[i].checked=false;  
       } 
       let elems = document.getElementsByClassName('DPG');
