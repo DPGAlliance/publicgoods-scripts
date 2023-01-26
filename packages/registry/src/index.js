@@ -48,6 +48,7 @@ class Filters extends Component {
   }
 
   handleChange(event) {
+    
     let checkboxId
     let display;
     if(event){
@@ -62,7 +63,7 @@ class Filters extends Component {
       checkboxId='nominee'
       display=false
     }
-    
+    console.log("Checkbox ID is checked",checkboxId)
     var elems = document.getElementsByClassName(checkboxId);
 
 
@@ -73,13 +74,14 @@ class Filters extends Component {
       } else {
         concurrentClasses = elems[i].className.trim().split(' ').filter(function(a){ return a !== checkboxId });
       }
-      
+      //console.log(concurrentClasses)
       let intersectionSet1 = concurrentClasses.filter(i => Object.keys(types).includes(i));
       
       let intersectionSet2 = concurrentClasses.filter(i => sdgs.includes(i));
     
       let intersectionSet3 = concurrentClasses.filter(i => stage.includes(i));
       
+      //console.log(intersectionSet2)
 
       let intersection1 = false;
       for(let j=0; j < intersectionSet1.length; j++) {
@@ -93,6 +95,7 @@ class Filters extends Component {
         if(document.getElementById(intersectionSet2[j]+'-checkbox').checked){
           intersection2 = true;
           break;
+          //console.log(intersectionSet2[j])
         }
       }
       let intersection3 = false;
@@ -102,10 +105,13 @@ class Filters extends Component {
           break;
         }
       }
-
-      if (intersection1 && intersection2 && intersection3) {
-        elems[i].style.display = 'table-row';
+      //console.log(intersectionSet2)
+      
+      if (intersection1 && intersection2) {
+        console.log("showing stuff")
+        elems[i].style.removeProperty('display');
       } else {
+        console.log("hiding stuff")
         elems[i].style.display = 'none';
       }
     }
@@ -113,6 +119,7 @@ class Filters extends Component {
   }
 
   toggleVisible(event) {
+    
     let parent;
     if(event.target.nodeName === 'path') {
       parent = event.target.parentNode.parentNode;
@@ -123,11 +130,13 @@ class Filters extends Component {
     }
     let splits = parent.id.split('-');
     if(parent.style.transform === ''){
+      //console.log("running SDG hide toggle")
       parent.style.transform = 'rotate(180deg)';
       document.getElementById(splits[0]+'-options').style.display='none';
     } else {
+      //console.log("Sdg show")
       parent.style.transform = '';
-      document.getElementById(splits[0]+'-options').style.display='block';
+      document.getElementById(splits[0]+'-options').style.removeProperty('display');
     }
   }
 
