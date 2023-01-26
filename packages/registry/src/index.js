@@ -66,7 +66,6 @@ class Filters extends Component {
     console.log("Checkbox ID is checked",checkboxId)
     var elems = document.getElementsByClassName(checkboxId);
 
-
     for(let i=0; i < elems.length; i++) {
       let concurrentClasses;
       if(display) {
@@ -74,15 +73,13 @@ class Filters extends Component {
       } else {
         concurrentClasses = elems[i].className.trim().split(' ').filter(function(a){ return a !== checkboxId });
       }
-      //console.log(concurrentClasses)
+      
       let intersectionSet1 = concurrentClasses.filter(i => Object.keys(types).includes(i));
       
       let intersectionSet2 = concurrentClasses.filter(i => sdgs.includes(i));
     
       let intersectionSet3 = concurrentClasses.filter(i => stage.includes(i));
       
-      //console.log(intersectionSet2)
-
       let intersection1 = false;
       for(let j=0; j < intersectionSet1.length; j++) {
         if(document.getElementById(intersectionSet1[j]+'-checkbox').checked){
@@ -95,18 +92,16 @@ class Filters extends Component {
         if(document.getElementById(intersectionSet2[j]+'-checkbox').checked){
           intersection2 = true;
           break;
-          //console.log(intersectionSet2[j])
         }
       }
-      let intersection3 = false;
+      /* let intersection3 = false;
       for(let j=0; j < intersectionSet3.length; j++) {
         if(document.getElementById(intersectionSet3[j]+'-checkbox').checked){
           intersection3 = true;
           break;
         }
-      }
-      //console.log(intersectionSet2)
-      
+      } */
+
       if (intersection1 && intersection2) {
         console.log("showing stuff")
         elems[i].style.removeProperty('display');
@@ -130,11 +125,9 @@ class Filters extends Component {
     }
     let splits = parent.id.split('-');
     if(parent.style.transform === ''){
-      //console.log("running SDG hide toggle")
       parent.style.transform = 'rotate(180deg)';
       document.getElementById(splits[0]+'-options').style.display='none';
     } else {
-      //console.log("Sdg show")
       parent.style.transform = '';
       document.getElementById(splits[0]+'-options').style.removeProperty('display');
     }
