@@ -25,7 +25,7 @@ const types = {
 };
 const stage = [];
 const sdgs = ["SDG1", "SDG2", "SDG3", "SDG4", "SDG5", "SDG6", "SDG7", "SDG8", "SDG9", "SDG10", "SDG11", "SDG12", "SDG13", "SDG14", "SDG15", "SDG16", "SDG17"];
-
+let selectAlltoggle = true;
 function trunc(str, n){
     return (str.length > n) ? str.substr(0, n-1) + '...' : str;
 };
@@ -55,6 +55,10 @@ class Filters extends Component {
       checkboxId = event.target.id.split('-')[0];
       
       display = event.target.checked;
+
+      if(document.getElementById('selectAllToggle')){
+        this.selectAll()
+      }
       
     } else {
       // When the page loads, handleChange() is called via componentDidMount()
@@ -63,10 +67,11 @@ class Filters extends Component {
       checkboxId='nominee'
       display=false
     }
-    console.log("Checkbox ID is checked",checkboxId)
+    
     var elems = document.getElementsByClassName(checkboxId);
 
     for(let i=0; i < elems.length; i++) {
+      
       let concurrentClasses;
       if(display) {
         concurrentClasses = elems[i].className.trim().split(' ');
@@ -103,10 +108,8 @@ class Filters extends Component {
       } */
 
       if (intersection1 && intersection2) {
-        console.log("showing stuff")
         elems[i].style.removeProperty('display');
       } else {
-        console.log("hiding stuff")
         elems[i].style.display = 'none';
       }
     }
@@ -137,6 +140,35 @@ class Filters extends Component {
     this.handleChange();
   }
 
+  selectAll(){ 
+    if(selectAlltoggle){
+      let ele=document.getElementsByClassName('form-check-input');  
+      for(var i=0; i<ele.length; i++){ 
+          if(ele[i].type=='checkbox')  
+              ele[i].checked=true;  
+      } 
+      let elems = document.getElementsByClassName('DPG');
+      for (let i = 0; i < elems.length; i++) {
+        elems[i].style.removeProperty('display');
+        
+      }
+      selectAlltoggle = false
+    } 
+    else{
+      let ele=document.getElementsByClassName('form-check-input');  
+      for(var i=0; i<ele.length; i++){ 
+          if(ele[i].type=='checkbox')  
+              ele[i].checked=false;  
+      } 
+      let elems = document.getElementsByClassName('DPG');
+      for (let i = 0; i < elems.length; i++) {
+        elems[i].style.display = 'none';
+        
+      }
+      selectAlltoggle = true
+    }
+  }    
+
   countActive() {
     const elems = document.getElementById('mytable').getElementsByTagName('tr');
     let count = 0;
@@ -156,19 +188,33 @@ class Filters extends Component {
           </div>
 
           <div className="filterSection">
+          <Form>
+          <Form.Check 
+                    key='selectAll'
+                    type='checkbox'
+                    id={`selectAllToggle`}
+                    label='Select All'
+                    defaultChecked={selectAlltoggle}
+                    onChange = {this.handleChange}
+                  />
+          </Form>
             <div className="filterSectionTitle">
+              
                <p className="filter_header">Type</p>
                <div className="icon" onClick={this.toggleVisible} id="type-toggle">
                 <svg viewBox="0 0 8 5" xmlns="http://www.w3.org/2000/svg" strokeLinejoin="round" strokeLinecap="round" strokeWidth="1.35">
                   <path d="M7 1.053L4.027 4 1 1" stroke="currentColor" fill="none"></path>
                 </svg>
+                
                </div>
             </div>
             <div className="filteredContent" id="type-options">
                 <Form>
+                
                   {Object.keys(types).map((label, index) => (
                   <Form.Check 
                     key={index}
+                    className='typeCheckbox'
                     type='checkbox'
                     id={`${label}-checkbox`}
                     label={trunc(types[label]['name'],25)}
@@ -199,6 +245,7 @@ class Filters extends Component {
                     type='checkbox'
                     id={`SDG${index+1}-checkbox`}
                     label={trunc(label, 25)}
+                    className='sdgs'
                     defaultChecked
                     onChange = {this.handleChange}
                   />
