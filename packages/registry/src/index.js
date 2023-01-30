@@ -23,9 +23,9 @@ const types = {
     name: "Standard"
   }
 };
-const stage = [];
+//const stage = [];
 const sdgs = ["SDG1", "SDG2", "SDG3", "SDG4", "SDG5", "SDG6", "SDG7", "SDG8", "SDG9", "SDG10", "SDG11", "SDG12", "SDG13", "SDG14", "SDG15", "SDG16", "SDG17"];
-
+let selectAlltoggle = true;
 function trunc(str, n){
     return (str.length > n) ? str.substr(0, n-1) + '...' : str;
 };
@@ -48,12 +48,17 @@ class Filters extends Component {
   }
 
   handleChange(event) {
+    
     let checkboxId
     let display;
     if(event){
       checkboxId = event.target.id.split('-')[0];
       
       display = event.target.checked;
+
+      if('selectAllToggle'===checkboxId){
+        this.selectAll()
+      }
       
     } else {
       // When the page loads, handleChange() is called via componentDidMount()
@@ -65,8 +70,8 @@ class Filters extends Component {
     
     var elems = document.getElementsByClassName(checkboxId);
 
-
     for(let i=0; i < elems.length; i++) {
+      
       let concurrentClasses;
       if(display) {
         concurrentClasses = elems[i].className.trim().split(' ');
@@ -78,9 +83,8 @@ class Filters extends Component {
       
       let intersectionSet2 = concurrentClasses.filter(i => sdgs.includes(i));
     
-      let intersectionSet3 = concurrentClasses.filter(i => stage.includes(i));
+      //let intersectionSet3 = concurrentClasses.filter(i => stage.includes(i));
       
-
       let intersection1 = false;
       for(let j=0; j < intersectionSet1.length; j++) {
         if(document.getElementById(intersectionSet1[j]+'-checkbox').checked){
@@ -95,16 +99,16 @@ class Filters extends Component {
           break;
         }
       }
-      let intersection3 = false;
+      /* let intersection3 = false;
       for(let j=0; j < intersectionSet3.length; j++) {
         if(document.getElementById(intersectionSet3[j]+'-checkbox').checked){
           intersection3 = true;
           break;
         }
-      }
+      } */
 
-      if (intersection1 && intersection2 && intersection3) {
-        elems[i].style.display = 'table-row';
+      if (intersection1 && intersection2) {
+        elems[i].style.removeProperty('display');
       } else {
         elems[i].style.display = 'none';
       }
@@ -113,6 +117,7 @@ class Filters extends Component {
   }
 
   toggleVisible(event) {
+    
     let parent;
     if(event.target.nodeName === 'path') {
       parent = event.target.parentNode.parentNode;
@@ -127,13 +132,42 @@ class Filters extends Component {
       document.getElementById(splits[0]+'-options').style.display='none';
     } else {
       parent.style.transform = '';
-      document.getElementById(splits[0]+'-options').style.display='block';
+      document.getElementById(splits[0]+'-options').style.removeProperty('display');
     }
   }
 
   componentDidMount() {
     this.handleChange();
   }
+
+  selectAll(){ 
+    if(selectAlltoggle){
+      let ele=document.getElementsByClassName('form-check-input');  
+      for(var i=0; i<ele.length; i++){ 
+          if(ele[i].type==='checkbox')  
+              ele[i].checked=true;  
+      } 
+      let elems = document.getElementsByClassName('DPG');
+      for (let i = 0; i < elems.length; i++) {
+        elems[i].style.removeProperty('display');
+        
+      }
+      selectAlltoggle = false
+    } 
+    else{
+      let ele=document.getElementsByClassName('form-check-input');  
+      for(let i=0; i<ele.length; i++){ 
+          if(ele[i].type==='checkbox')  
+              ele[i].checked=false;  
+      } 
+      let elems = document.getElementsByClassName('DPG');
+      for (let i = 0; i < elems.length; i++) {
+        elems[i].style.display = 'none';
+        
+      }
+      selectAlltoggle = true
+    }
+  }    
 
   countActive() {
     const elems = document.getElementById('mytable').getElementsByTagName('tr');
@@ -154,19 +188,33 @@ class Filters extends Component {
           </div>
 
           <div className="filterSection">
+          <Form>
+          <Form.Check 
+                    key='selectAll'
+                    type='checkbox'
+                    id={`selectAllToggle`}
+                    label='Select All'
+                    defaultChecked={selectAlltoggle}
+                    onChange = {this.handleChange}
+                  />
+          </Form>
             <div className="filterSectionTitle">
+              
                <p className="filter_header">Type</p>
                <div className="icon" onClick={this.toggleVisible} id="type-toggle">
                 <svg viewBox="0 0 8 5" xmlns="http://www.w3.org/2000/svg" strokeLinejoin="round" strokeLinecap="round" strokeWidth="1.35">
                   <path d="M7 1.053L4.027 4 1 1" stroke="currentColor" fill="none"></path>
                 </svg>
+                
                </div>
             </div>
             <div className="filteredContent" id="type-options">
                 <Form>
+                
                   {Object.keys(types).map((label, index) => (
                   <Form.Check 
                     key={index}
+                    className='typeCheckbox'
                     type='checkbox'
                     id={`${label}-checkbox`}
                     label={trunc(types[label]['name'],25)}
@@ -197,6 +245,7 @@ class Filters extends Component {
                     type='checkbox'
                     id={`SDG${index+1}-checkbox`}
                     label={trunc(label, 25)}
+                    className='sdgs'
                     defaultChecked
                     onChange = {this.handleChange}
                   />
