@@ -193,7 +193,7 @@ class Filters extends Component {
                     key='selectAll'
                     type='checkbox'
                     id={`selectAllToggle`}
-                    label='Select All'
+                    label='select all'
                     defaultChecked={selectAlltoggle}
                     onChange = {this.handleChange}
                   />
