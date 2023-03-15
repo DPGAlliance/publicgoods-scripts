@@ -31,3 +31,8 @@ pushd ../publicgoods-website/roadmap && \
     git add static/* && \
     cp ../../publicgoods-scripts/packages/roadmap/build/index.html . && \
 popd
+
+pushd ../publicgoods-website/community && \
+    cp -a ../../publicgoods-scripts/packages/community/* . && \
+    git add . && \
+popd
