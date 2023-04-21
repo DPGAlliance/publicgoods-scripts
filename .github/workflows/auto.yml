@@ -1,6 +1,9 @@
 name: Automatic Build
 
-on: [push, pull_request]
+on: 
+  push:
+    branches:
+      [test-deployment]
 
 jobs:
   build:
@@ -12,9 +15,9 @@ jobs:
         with:
           node-version: '16'
       - name: Clone publicgoods-website
-        run: git clone https://github.com/DPGAlliance/publicgoods-website.git ../publicgoods-website
-      - name: Clone publicgoods-candidates
-        run: git clone https://github.com/DPGAlliance/publicgoods-candidates.git ../publicgoods-candidates
+        run: git clone https://github.com/DPGAlliance/DPGAlliance.github.io.git ../publicgoods-website-test
+      # - name: Clone publicgoods-candidates
+      #   run: git clone https://github.com/DPGAlliance/publicgoods-candidates.git ../publicgoods-candidates
       - name: Run static.bash
         run: bash scripts/static.bash
       # - name: Generating DPG's
@@ -34,14 +37,14 @@ jobs:
         run: cd packages/automation && node index.js
       - name: Softlink required dependencies
         run:  |
-          ln -s ../../../../publicgoods-website/wp-includes/ packages/eligibility/public/wp-includes;
-          ln -s ../../../../publicgoods-website/wp-content/ packages/eligibility/public/wp-content;
-          ln -s ../../../../publicgoods-website/wp-includes/ packages/registry/public/wp-includes;
-          ln -s ../../../../publicgoods-website/wp-content/ packages/registry/public/wp-content;
-          ln -s ../../../../publicgoods-website/wp-includes/ packages/map/public/wp-includes;
-          ln -s ../../../../publicgoods-website/wp-content/ packages/map/public/wp-content;
-          ln -s ../../../../publicgoods-website/wp-includes/ packages/roadmap/public/wp-includes;
-          ln -s ../../../../publicgoods-website/wp-content/ packages/roadmap/public/wp-content;
+          ln -s ../../../../publicgoods-website-test/wp-includes/ packages/eligibility/public/wp-includes;
+          ln -s ../../../../publicgoods-website-test/wp-content/ packages/eligibility/public/wp-content;
+          ln -s ../../../../publicgoods-website-test/wp-includes/ packages/registry/public/wp-includes;
+          ln -s ../../../../publicgoods-website-test/wp-content/ packages/registry/public/wp-content;
+          ln -s ../../../../publicgoods-website-test/wp-includes/ packages/map/public/wp-includes;
+          ln -s ../../../../publicgoods-website-test/wp-content/ packages/map/public/wp-content;
+          ln -s ../../../../publicgoods-website-test/wp-includes/ packages/roadmap/public/wp-includes;
+          ln -s ../../../../publicgoods-website-test/wp-content/ packages/roadmap/public/wp-content;
       - name: Build packages/eligibility
         run: cd packages/eligibility && npm install && npm run build
       - name: Build packages/registry
@@ -53,6 +56,44 @@ jobs:
       #    NEXT_PUBLIC_SHEET_ID: ${{ secrets.NEXT_PUBLIC_SHEET_ID }}
       - name: Build packages/roadmap
         run: cd packages/roadmap && npm install && npm run build
-      - name: Run moveFiles.bash
-        run: bash scripts/moveFiles.bash
+      - name: run movefiles.bash
+        run: bash scripts/movefiles.bash
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: artifacts
+          path: /home/runner/work/publicgoods-scripts/publicgoods-website-test
+
+
+  deploy_to_test:
+    needs: build
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUBTOKEN}}
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Configuring commit Author
+        run: |
+          git config --global user.email "96251909+dpgabot@users.noreply.github.com"
+          git config --global user.name "dpgabot" 
+
+      - name: Download Artifacts
+        uses: actions/download-artifact@v3
+        with: 
+            name: artifacts
+            path: artifacts/
       
+      - name: Checkout Dev Target
+        uses: actions/checkout@v2
+        with:
+          repository: DPGAlliance/DPGAlliance.github.io
+          path: "testenv"
+      
+      - name: Push to Test Environment 
+        run: |
+          cp -r artifacts/* testenv/
+          git remote set-url origin https://${GITHUB_TOKEN}@github.com/DPGAlliance/DPGAlliance.github.io.git 
+          git add . 
+          git commit -am "BLD: $GITHUB_SHA" || true && \
+          git push --set-upstream origin main

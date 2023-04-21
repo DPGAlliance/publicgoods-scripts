@@ -53,14 +53,14 @@ const sdgColors = [
   "#19486A",
 ];
 
-path = "../../../publicgoods-candidates/nominees";
-pathHtml = "../../../publicgoods-website/registry/index.html";
+path = "../registry/src/nominees.json";
+pathHtml = "../../../publicgoods-website-test/registry/index.html";
 destHtml = "../registry/public/index.html";
-pathFormHtml = "../../../publicgoods-website/eligibility/index.html";
+pathFormHtml = "../../../publicgoods-website-test/eligibility/index.html";
 destFormHtml = "../eligibility/public/index.html";
-pathMapHtml = "../../../publicgoods-website/map/index.html";
+pathMapHtml = "../../../publicgoods-website-test/map/index.html";
 destMapHtml = "../map/public/";
-pathRoadmapHtml = "../../../publicgoods-website/roadmap/index.html";
+pathRoadmapHtml = "../../../publicgoods-website-test/roadmap/index.html";
 destRoadmapHtml = "../roadmap/public/index.html";
 
 function sleep(ms) {

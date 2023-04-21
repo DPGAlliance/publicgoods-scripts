@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DOMAIN="https://digitalpublicgoods.net"
+DOMAIN=" https://dpgalliance.github.io/"
 
 # source a static version of the site
 wget --no-host-directories --recursive --page-requisites --no-parent --timestamping -e robots=off -w 1 --random-wait --retry-on-http-error=503 -P static http://dpgwebsite.herokuapp.com http://dpgwebsite.herokuapp.com/submission-guide/
@@ -37,5 +37,5 @@ else
 	find . -name '*.html' -exec sed -i -e "s,http://dpgwebsite.herokuapp.com,$DOMAIN,g" {} \;
 fi
 popd
-cp -a static/* ../publicgoods-website
+cp -a static/* ../publicgoods-website-test
 rm -rf static
