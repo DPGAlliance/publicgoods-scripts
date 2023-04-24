@@ -14,11 +14,11 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '16'
-      - name: Setup SSH
-        uses: MrSquaare/ssh-setup-action@v1
-        with:
-          host: github.com
-          private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      # - name: Setup SSH
+      #   uses: MrSquaare/ssh-setup-action@v1
+      #   with:
+      #     host: github.com
+      #     private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       # - name: Clone publicgoods-website
       #   run: git clone https://github.com/DPGAlliance/DPGAlliance.github.io.git ../publicgoods-website-test
