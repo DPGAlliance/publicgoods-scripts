@@ -20,8 +20,13 @@ jobs:
           host: github.com
           private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Clone publicgoods-website
-        run: git clone https://github.com/DPGAlliance/DPGAlliance.github.io.git ../publicgoods-website-test
+      # - name: Clone publicgoods-website
+      #   run: git clone https://github.com/DPGAlliance/DPGAlliance.github.io.git ../publicgoods-website-test
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          repository: DPGAlliance/DPGAlliance.github.io
+          ref: refs/heads/main
       # - name: Clone publicgoods-candidates
       #   run: git clone https://github.com/DPGAlliance/publicgoods-candidates.git ../publicgoods-candidates
       - name: Run static.bash
