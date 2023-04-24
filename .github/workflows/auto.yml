@@ -69,7 +69,10 @@ jobs:
       - name: Build packages/roadmap
         run: cd packages/roadmap && npm install && npm run build
       - name: run movefiles.bash
-        run: bash scripts/movefiles.bash
+        run: |
+             cd .. 
+             cd .. 
+             bash scripts/movefiles.bash
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:
