@@ -27,7 +27,7 @@ jobs:
         with:
           repository: DPGAlliance/DPGAlliance.github.io
           ref: refs/heads/main
-          token: ${{ secrets.GITHUBTOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
       # - name: Clone publicgoods-candidates
       #   run: git clone https://github.com/DPGAlliance/publicgoods-candidates.git ../publicgoods-candidates
       - name: Run static.bash
