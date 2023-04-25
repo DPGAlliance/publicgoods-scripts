@@ -17,15 +17,19 @@ jobs:
         with:
           node-version: '16'
       
+      - name: SSH Setup 
+        uses: webfactory/ssh-agent@v0.5.4 
+        with:
+          ssh-key: ${{ secrets.PRIVATE_DEPENDENCY }}
 
       - name: Clone publicgoods-website-test
-        uses: actions/checkout@v2 
-        with:
-          repository: DPGAlliance/DPGAlliance.github.io
-          ref: refs/heads/main
-          ssh-key: ${{ secrets.PRIVATE_DEPENDENCY }}
-          path: publicgoods-website-test
-        # run: git clone https://github.com/DPGAlliance/DPGAlliance.github.io.git ../publicgoods-website-test 
+        # uses: actions/checkout@v2 
+        # with:
+        #   repository: DPGAlliance/DPGAlliance.github.io
+        #   ref: refs/heads/main
+        #   ssh-key: ${{ secrets.PRIVATE_DEPENDENCY }}
+        #   path: publicgoods-website-test
+        run: git clone git@github.com:DPGAlliance/DPGAlliance.github.io.git ../publicgoods-website-test 
       # - name: Checkout
       #   uses: actions/checkout@v2
       #   with:
