@@ -105,7 +105,9 @@ jobs:
       - name: Push to Test Environment 
         run: |
           cp -r artifacts/* testenv/
+          cd testenv 
+          touch .nojekyll
           git remote set-url origin https://${GITHUB_TOKEN}@github.com/DPGAlliance/DPGAlliance.github.io.git 
           git add . 
-          git commit -am "BLD: $GITHUB_SHA" || true && \
+          git commit -am "BLD: $GITHUB_SHA" || true 
           git push --set-upstream origin main
