@@ -11,6 +11,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with: 
+         path: publicgoods-scripts
       - uses: actions/setup-node@v2
         with:
           node-version: '16'
@@ -22,7 +24,8 @@ jobs:
           repository: DPGAlliance/DPGAlliance.github.io
           ref: refs/heads/main
           ssh-key: ${{ secrets.PRIVATE_DEPENDENCY }}
-          path: /home/runner/work/publicgoods-scripts/publicgoods-website-test/
+          path: publicgoods-website-test
+        # run: git clone https://github.com/DPGAlliance/DPGAlliance.github.io.git ../publicgoods-website-test 
       # - name: Checkout
       #   uses: actions/checkout@v2
       #   with:
