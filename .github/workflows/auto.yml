@@ -20,7 +20,7 @@ jobs:
       - name: SSH Setup 
         uses: webfactory/ssh-agent@v0.5.4 
         with:
-          ssh-key: ${{ secrets.PRIVATE_DEPENDENCY }}
+          ssh-private-key: ${{ secrets.PRIVATE_DEPENDENCY }}
 
       - name: Clone publicgoods-website-test
         # uses: actions/checkout@v2 
