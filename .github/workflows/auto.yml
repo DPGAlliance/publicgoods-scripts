@@ -80,6 +80,8 @@ jobs:
   deploy_to_test:
     needs: build
     runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUBTOKEN}}
 
     steps:
       - uses: actions/checkout@v2
@@ -105,7 +107,7 @@ jobs:
           cp -r artifacts/* testenv/
           cd testenv 
           touch .nojekyll
-          git remote set-url origin https://github.com/DPGAlliance/DPGAlliance.github.io.git 
+          git remote set-url origin https://${GITHUB_TOKEN}@github.com/DPGAlliance/DPGAlliance.github.io.git 
           git add . 
           git commit -am "BLD: $GITHUB_SHA" || true 
           git push --set-upstream origin main
