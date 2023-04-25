@@ -104,8 +104,8 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: DPGAlliance/DPGAlliance.github.io
-          ssh-key:  ${{ secrets.PRIVATE_DEPENDENCY }}
           path: "testenv"
+          token: ${{secrets.PAT }}
       
       - name: Push to Test Environment 
         run: |
