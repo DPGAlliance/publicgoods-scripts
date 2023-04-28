@@ -83,6 +83,30 @@ jobs:
           path: /home/runner/work/publicgoods-scripts/publicgoods-website-test
 
 
+  push_to_artifactory:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      
+      - name: Download Artifacts
+        uses: actions/download-artifact@v3
+        with: 
+          name: artifacts
+          path: artifacts${{ github.run_number}}/
+      
+      - name: Setup JFrog CLI
+        id: setup_JFrog_CLI
+        uses: jfrog/setup-jfrog-cli@v3
+        env:
+          JF_URL: ${{ secrets.JF_URL }}
+          JF_USER: ${{secrets.JF_USER}}
+          JF_PASSWORD: ${{secrets.JF_PASSWORD}}
+
+
+      - run: jf rt  u "artifacts${{ github.run_number}}/*" dpga-website-artifacts
+
+
+
   deploy_to_test:
     needs: build
     runs-on: ubuntu-latest
