@@ -61,6 +61,11 @@ typings/
 # next.js build output
 .next
 
+# talisman
+.talismanrc
+
+.idea
+
 **/build/
 **/static/
 **/src/nominees.*
