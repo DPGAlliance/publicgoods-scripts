@@ -141,7 +141,7 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-  <profiles>
+  <!-- <profiles>
     <profile>
       <id>testngReport</id>
       <build>
@@ -161,7 +161,7 @@
         </pluginManagement>
       </build>
     </profile>
-  </profiles>
+  </profiles> -->
 
 
   <build>
