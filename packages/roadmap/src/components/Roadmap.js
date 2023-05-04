@@ -333,18 +333,11 @@ function Roadmap() {
           </g>
         </svg>
       </div>
-      <div
-        style={{
-          height: "1000",
-          // width: "1000",
-          overflowY: "scroll",
-        }}
-      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="1020"
-          height={150 + 40 * search(data).length}
-          margin="auto"
+          height="100"
+          style={{ marginBottom: '10px' }}
         >
           {console.log("length", search(data).length)}
           <g id="roadmap">
@@ -468,6 +461,24 @@ function Roadmap() {
                 and implement DPGs locally
               </tspan>
             </text>
+            </g>
+            </svg>
+        <div
+          style={{
+          height: "1000",
+          // width: "1000",
+          overflowY: "scroll",
+          
+          }}
+        >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="1020"
+          height={150 + 40 * search(data).length}
+          style={{ marginTop: '-100px' }}
+        >
+          {console.log("length", search(data).length)}
+          <g id="roadmap-scroll">
             {search(data).map((element, index, array) => (
               <Fragment key={index}>
                 <rect
