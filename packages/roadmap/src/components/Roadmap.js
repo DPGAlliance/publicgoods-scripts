@@ -64,8 +64,8 @@ function Roadmap() {
   }
 
   function truncateText(text, maxLength) {
-    if (text.length > maxLength ) {
-      return `${text.substring(0, maxLength-10)}...`;
+    if (text.length +15 > maxLength ) {
+      return `${text.substring(0, maxLength-18)}...`;
     } else {
       return text;
     }
@@ -245,7 +245,7 @@ function Roadmap() {
         <text
           x="300"
           y={`${80 + 40 * (i + 1) + 22}`}
-          fontSize="12px"
+          fontSize="14px"
           textAnchor="middle"
         >
           {renderLink(row.Activity, row.Link, cx, getWidthInTextUnits(width))}
