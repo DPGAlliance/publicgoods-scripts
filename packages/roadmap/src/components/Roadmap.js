@@ -63,7 +63,14 @@ function Roadmap() {
     });
   }
 
-  function renderLink(text, link, x) {
+  function truncateText(text, maxLength) {
+    if (text.length > maxLength ) {
+      return `${text.substring(0, maxLength-10)}...`;
+    } else {
+      return text;
+    }
+  }
+  function renderLink(text, link, x,width) {
     if (link) {
       return (
         <tspan x={x}>
@@ -74,12 +81,12 @@ function Roadmap() {
             fill="#212180"
             style={{ textDecoration: "underline" }}
           >
-            {text}
+            {truncateText(text,width)}
           </a>
         </tspan>
       );
     } else {
-      return <tspan x={x}>{text}</tspan>;
+      return <tspan x={x}>{truncateText(text,width)}</tspan>;
     }
   }
 
@@ -167,6 +174,18 @@ function Roadmap() {
       );
     }
   }
+  function getWidthInTextUnits(width) {
+    const text = "Lorem ipsum dolor sit amet";
+    const textNode = document.createElement("span");
+    textNode.style.fontSize = "12px";
+    textNode.style.fontFamily = "sans-serif";
+    textNode.textContent = text;
+    document.body.appendChild(textNode);
+    const textWidth = textNode.getBoundingClientRect().width;
+    document.body.removeChild(textNode);
+    const ratio = textWidth / text.length;
+    return width / ratio;
+  }
 
   function renderCell(data, row, i) {
     let x, cx, width;
@@ -223,7 +242,7 @@ function Roadmap() {
           fontSize="12px"
           textAnchor="middle"
         >
-          {renderLink(row.Activity, row.Link, cx)}
+          {renderLink(row.Activity, row.Link, cx,getWidthInTextUnits(width))}
         </text>
         {renderCategory(data, i, row.Category)}
       </>
