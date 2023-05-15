@@ -36,3 +36,8 @@ pushd ../publicgoods-website-test/community && \
     cp -a ../../publicgoods-scripts/packages/community/* . && \
     git add . && \
 popd
+
+pushd ../publicgoods-website-test/helpcenter && \
+    cp -a ../../publicgoods-scripts/packages/helpcenter/* . && \
+    git add . && \
+popd
