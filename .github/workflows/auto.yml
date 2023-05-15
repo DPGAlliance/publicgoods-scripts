@@ -52,8 +52,8 @@ jobs:
         run: npm install
       - name: Consolidating DPG's and nominees from new API for registry page table
         run: cd packages/automation && node consolidate_data.js
-      # - name: Generating registry, eligibility and map pages
-      #   run: cd packages/automation && node index.js
+      - name: Generating registry, eligibility and map pages
+        run: cd packages/automation && node index.js
       - name: Softlink required dependencies
         run: |
           ln -s ../../../../publicgoods-website-test/wp-includes/ packages/eligibility/public/wp-includes;
@@ -75,6 +75,9 @@ jobs:
       #    NEXT_PUBLIC_SHEET_ID: ${{ secrets.NEXT_PUBLIC_SHEET_ID }}
       - name: Build packages/roadmap
         run: cd packages/roadmap && npm install && npm run build
+
+      - name: run movefiles.bash
+        run: bash scripts/moveFiles.bash
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
@@ -118,9 +121,6 @@ jobs:
         with:
           name: artifacts
           path: artifacts/
-
-      - name: run movefiles.bash
-        run: bash scripts/moveFiles.bash
 
       - name: Checkout Dev Target
         uses: actions/checkout@v2

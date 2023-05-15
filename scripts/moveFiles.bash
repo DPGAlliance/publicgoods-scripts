@@ -1,5 +1,5 @@
 #!/bin/bash
-pushd artifacts/registry && \
+pushd ../publicgoods-website-test/registry && \
 	git rm -rf static/* || true && \
     mkdir static && \
     cp -a ../../publicgoods-scripts/packages/registry/build/static/* static && \
@@ -7,7 +7,7 @@ pushd artifacts/registry && \
     cp ../../publicgoods-scripts/packages/registry/build/index.html . && \
 popd
 
-pushd artifacts/eligibility && \
+pushd ../publicgoods-website-test/eligibility && \
 	git rm -rf static/* || true && \
     mkdir static && \
     cp -a ../../publicgoods-scripts/packages/eligibility/build/static/* static && \
@@ -24,7 +24,7 @@ popd
 #     cp ../../publicgoods-scripts/packages/map/build/index.html . && \
 # popd
 
-pushd artifacts/roadmap && \
+pushd ../publicgoods-website-test/roadmap && \
     git rm -rf static/* || true && \
     mkdir static && \
     cp -a ../../publicgoods-scripts/packages/roadmap/build/static/* static && \
@@ -32,7 +32,7 @@ pushd artifacts/roadmap && \
     cp ../../publicgoods-scripts/packages/roadmap/build/index.html . && \
 popd
 
-pushd artifacts/community && \
+pushd ../publicgoods-website-test/community && \
     cp -a ../../publicgoods-scripts/packages/community/* . && \
     git add . && \
 popd
