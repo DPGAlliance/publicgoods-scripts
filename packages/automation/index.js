@@ -87,23 +87,24 @@ let vettedDPGs = 0;
 // Iterate over candidates, and over each nested array and count
 candidates.forEach(function (e) {
   if (e["sdgs"]) {
-    e["sdgs"].forEach(function (d) {
-      let goalString = SDGS.find((goal,index)=>goal.includes(d.sdg.substring(3,5)))
+    sdgsArray = Array.from(e["sdgs"]);
+    sdgsArray.forEach(function (d) {
+      let goalString = SDGS.find((goal, index) =>
+        goal.includes(d.sdg.substring(3, 5))
+      );
       let sdgNumber = SDGS.indexOf(goalString);
-      
-      sdgs[sdgNumber]++;
 
+      sdgs[sdgNumber]++;
     });
     if (e["categories"]) {
       e["categories"].forEach(function (d) {
-        if(types.hasOwnProperty(d)){
+        if (types.hasOwnProperty(d)) {
           types[d]++;
-        }
-        else{
-          types[d]=0
+        } else {
+          types[d] = 0;
         }
       });
-      
+
       if (
         e["categories"].includes(TYPE1) &&
         !e["categories"].includes(TYPE2) &&
@@ -263,7 +264,7 @@ let htmlOutput =
 htmlOutput +=
   '<div class="col-xs-1"><img src="https://dpg-website.s3.amazonaws.com/img/right-arrows.svg" style="height:50px; margin-top:20px; display:block"></div>';
   */
-  htmlOutput +=
+htmlOutput +=
   '<div class="col-xs-2"><span class="big-details">' +
   vettedDPGs +
   '</span><span class="small-title">Digital<br/>Public<br/>Goods</span></div>';
