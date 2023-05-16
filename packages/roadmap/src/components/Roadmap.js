@@ -1,16 +1,10 @@
-import React, { useEffect, useState, Fragment } from 'react';
+import React, { useEffect, useState, Fragment } from "react";
 import "./style.css";
 
 const nodefetch = require("node-fetch");
 const csv = require("csvtojson");
 
-const SHEET_ID="1DOQ_NRcX5myEx9FWSjqszfVpJmFQVeuUvVLKHMyLZ9s"
-
-const colorCategory = {
-  Core: "#212180",
-  Coordinated: "#82DBE1",
-  Aligned: "#FF942B"
-}
+const SHEET_ID = "1DOQ_NRcX5myEx9FWSjqszfVpJmFQVeuUvVLKHMyLZ9s";
 
 const loadGsheet = async (sheetId, sheetGidNumber) => {
   let sheetResponse = await nodefetch(
@@ -64,13 +58,16 @@ function Roadmap() {
   }
 
   function truncateText(text, maxLength) {
-    if (text.length +15 > maxLength ) {
-      return `${text.substring(0, maxLength-18)}...`;
+    if (text.length +17 > maxLength ) {
+      const truncatedText = `${text.substring(0, maxLength - 18)}...`;
+      const truncatedLength = truncatedText.length;
+      const requiredLength = maxLength-truncatedLength
+      return requiredLength > 15.1 && requiredLength < 15.15 ? `${text.substring(0, truncatedLength + 4)}...` : `${text.substring(0, truncatedLength - 3)}...`;
     } else {
       return text;
     }
   }
-  function renderLink(text, link, x,width) {
+  function renderLink(text, link, x, width) {
     if (link) {
       return (
         <tspan x={x}>
@@ -157,27 +154,6 @@ function Roadmap() {
       while (data[i + rowspan] && data[i + rowspan].Category === category) {
         rowspan++;
       }
-      return (
-        <>
-          <rect
-            x="1000"
-            y={`${80 + 40 * (i + 1)}`}
-            width="20"
-            height={30 * rowspan + 10 * (rowspan - 1)}
-            fill={colorCategory[category]}
-          />
-          <text
-            fontSize="16px"
-            textAnchor="middle"
-            transform={`translate(1005,${
-              90 + 40 * (i + 1) + 20 * (rowspan - 1)
-            }) rotate(90)`}
-            style={{ fill: "white" }}
-          >
-            {category}
-          </text>
-        </>
-      );
     }
   }
   function getWidthInTextUnits(width) {
@@ -298,65 +274,6 @@ function Roadmap() {
             <span className="sr-only">Search countries here</span>
           </label>
         </div>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="470"
-          height="120"
-          margin="auto"
-        >
-          <g id="legend">
-            <rect
-              x="0"
-              y="0"
-              width="130"
-              height="30"
-              fill={colorCategory["Core"]}
-            />
-            <rect
-              x="0"
-              y="40"
-              width="130"
-              height="30"
-              fill={colorCategory["Coordinated"]}
-            />
-            <rect
-              x="0"
-              y="80"
-              width="130"
-              height="30"
-              fill={colorCategory["Aligned"]}
-            />
-            <text x="65" y="20" textAnchor="middle" style={{ fill: "white" }}>
-              Core
-            </text>
-            <text x="65" y="60" textAnchor="middle" style={{ fill: "white" }}>
-              Coordinated
-            </text>
-            <text x="65" y="100" textAnchor="middle" style={{ fill: "white" }}>
-              Aligned
-            </text>
-            <text fontSize="0.8em">
-              <tspan x="140" y="12">
-                Activities driven wholly by the DPGA Secretariat,
-              </tspan>
-              <tspan x="140" dy="1em">
-                usually convening or operational functions.
-              </tspan>
-              <tspan x="140" y="52">
-                Activities driven byt stakeholder in partnership
-              </tspan>
-              <tspan x="140" dy="1em">
-                or close coordination with the Secretariat.
-              </tspan>
-              <tspan x="140" y="92">
-                Activities driven by stakeholder in alignment with
-              </tspan>
-              <tspan x="140" dy="1em">
-                DPG strategic objective but independent of the Secretariat.
-              </tspan>
-            </text>
-          </g>
-        </svg>
       </div>
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -491,7 +408,7 @@ function Roadmap() {
       <div
         style={{
           height: "1000",
-          // width: "1000",
+          width: "1020",
           overflowY: "scroll",
         }}
       >
