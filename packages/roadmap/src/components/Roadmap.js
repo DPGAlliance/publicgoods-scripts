@@ -1,16 +1,16 @@
-import React, { useEffect, useState, Fragment } from 'react';
+import React, { useEffect, useState, Fragment } from "react";
 import "./style.css";
 
 const nodefetch = require("node-fetch");
 const csv = require("csvtojson");
 
-const SHEET_ID="1DOQ_NRcX5myEx9FWSjqszfVpJmFQVeuUvVLKHMyLZ9s"
+const SHEET_ID = "1DOQ_NRcX5myEx9FWSjqszfVpJmFQVeuUvVLKHMyLZ9s";
 
 const colorCategory = {
   Core: "#212180",
   Coordinated: "#82DBE1",
-  Aligned: "#FF942B"
-}
+  Aligned: "#FF942B",
+};
 
 const loadGsheet = async (sheetId, sheetGidNumber) => {
   let sheetResponse = await nodefetch(
@@ -64,13 +64,13 @@ function Roadmap() {
   }
 
   function truncateText(text, maxLength) {
-    if (text.length +15 > maxLength ) {
-      return `${text.substring(0, maxLength-18)}...`;
+    if (text.length + 15 > maxLength) {
+      return `${text.substring(0, maxLength - 18)}...`;
     } else {
       return text;
     }
   }
-  function renderLink(text, link, x,width) {
+  function renderLink(text, link, x, width) {
     if (link) {
       return (
         <tspan x={x}>
@@ -491,7 +491,7 @@ function Roadmap() {
       <div
         style={{
           height: "1000",
-          // width: "1000",
+          width: "1020",
           overflowY: "scroll",
         }}
       >
