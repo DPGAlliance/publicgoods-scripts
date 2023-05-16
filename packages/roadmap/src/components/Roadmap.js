@@ -58,8 +58,11 @@ function Roadmap() {
   }
 
   function truncateText(text, maxLength) {
-    if (text.length + 15 > maxLength) {
-      return `${text.substring(0, maxLength - 18)}...`;
+    if (text.length +17 > maxLength ) {
+      const truncatedText = `${text.substring(0, maxLength - 18)}...`;
+      const truncatedLength = truncatedText.length;
+      const requiredLength = maxLength-truncatedLength
+      return requiredLength > 15.1 && requiredLength < 15.15 ? `${text.substring(0, truncatedLength + 4)}...` : `${text.substring(0, truncatedLength - 3)}...`;
     } else {
       return text;
     }
