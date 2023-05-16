@@ -6,11 +6,6 @@ const csv = require("csvtojson");
 
 const SHEET_ID="1DOQ_NRcX5myEx9FWSjqszfVpJmFQVeuUvVLKHMyLZ9s"
 
-const colorCategory = {
-  Core: "#212180",
-  Coordinated: "#82DBE1",
-  Aligned: "#FF942B"
-}
 
 const loadGsheet = async (sheetId, sheetGidNumber) => {
   let sheetResponse = await nodefetch(
@@ -159,13 +154,6 @@ function Roadmap() {
       }
       return (
         <>
-          <rect
-            x="1000"
-            y={`${80 + 40 * (i + 1)}`}
-            width="20"
-            height={30 * rowspan + 10 * (rowspan - 1)}
-            fill={colorCategory[category]}
-          />
           <text
             fontSize="16px"
             textAnchor="middle"
@@ -298,7 +286,7 @@ function Roadmap() {
             <span className="sr-only">Search countries here</span>
           </label>
         </div>
-        <svg
+        {/* <svg
           xmlns="http://www.w3.org/2000/svg"
           width="470"
           height="120"
@@ -356,7 +344,7 @@ function Roadmap() {
               </tspan>
             </text>
           </g>
-        </svg>
+        </svg> */}
       </div>
       <svg
         xmlns="http://www.w3.org/2000/svg"
