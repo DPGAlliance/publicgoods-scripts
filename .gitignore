@@ -76,3 +76,4 @@ typings/
 rebuild.bash
 registryIndex.html
 wget-log
+packages/registry/src/nominees_preMay2023.json
