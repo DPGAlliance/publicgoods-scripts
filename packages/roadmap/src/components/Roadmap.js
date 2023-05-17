@@ -407,8 +407,10 @@ function Roadmap() {
       </svg>
       <div
         style={{
-          height: "1000",
+          height: "800",
           width: "1020",
+          marginBottom: "50px",
+          marginLeft: "390px",
           overflowY: "scroll",
         }}
       >
