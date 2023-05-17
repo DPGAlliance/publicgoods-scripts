@@ -407,7 +407,7 @@ function Roadmap() {
       </svg>
       <div
         style={{
-          height: "800",
+          maxHeight: "800",
           width: "1020",
           marginBottom: "50px",
           marginLeft: "390px",
