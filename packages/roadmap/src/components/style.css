@@ -1,12 +1,13 @@
 /* search input */
 .flex-container-roadmap {
     display: flex;
-    justify-content: space-between;
-    width: 995px;
-    padding-right: 10px;
-    margin: auto;
+    /* justify-content: space-between; */
+    margin: 30;
     padding-bottom: 1em;
 }
+.flex-container-roadmap > *:not(:last-child) {
+    margin-right: 150px; /* Adjust the spacing as needed */
+  }
 
 @media (max-width: 375px) {
     .search-input {
@@ -30,7 +31,7 @@
 }
 
 .search-select {
-    width: 220px;
+    width: 350px;
     padding-left: 20px;
     border: 1px solid grey;
     height: 42px;
