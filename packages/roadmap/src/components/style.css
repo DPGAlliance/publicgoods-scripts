@@ -2,7 +2,7 @@
 .flex-container-roadmap {
     display: flex;
     /* justify-content: space-between; */
-    margin: 30;
+    margin-left: 400;
     padding-bottom: 1em;
 }
 .flex-container-roadmap > *:not(:last-child) {

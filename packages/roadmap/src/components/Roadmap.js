@@ -275,6 +275,136 @@ function Roadmap() {
           </label>
         </div>
       </div>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="1020"
+        height="100"
+        style={{ marginBottom: "10px" }}
+      >
+        {console.log("length", search(data).length)}
+        <g id="roadmap">
+          <rect
+            x="0"
+            y="0"
+            width="190"
+            height="50"
+            style={{
+              fill: "rgb(255,255,255)",
+              strokeWidth: 1,
+              stroke: "#2AA8A8",
+            }}
+          />
+          <rect
+            x="0"
+            y="50"
+            width="190"
+            height="50"
+            style={{
+              fill: "rgb(255,255,255)",
+              strokeWidth: 1,
+              stroke: "#2AA8A8",
+            }}
+          />
+          <rect x="200" y="0" width="190" height="100" fill="#212180" />
+          <rect x="400" y="0" width="190" height="100" fill="#212180" />
+          <rect x="600" y="0" width="190" height="100" fill="#212180" />
+          <rect x="800" y="0" width="190" height="100" fill="#212180" />
+          <text textAnchor="middle" style={{ fill: "#2AA8A8" }}>
+            <tspan x="100" y="20">
+              DPGA
+            </tspan>
+            <tspan x="100" dy="1em">
+              Strategic Objectives
+            </tspan>
+            <tspan x="100" y="70">
+              DPGA
+            </tspan>
+            <tspan x="100" dy="1em">
+              Organizations
+            </tspan>
+          </text>
+          <text
+            x="300"
+            y="0"
+            fontSize="13px"
+            textAnchor="middle"
+            style={{ fill: "white" }}
+          >
+            <tspan x="295" dy="3em">
+              1) DPGs are discoverable,
+            </tspan>
+            <tspan x="295" dy="1.2em">
+              sustainably managed, and
+            </tspan>
+            <tspan x="295" dy="1.2em">
+              accessible
+            </tspan>
+          </text>
+          <text
+            x="500"
+            y="0"
+            fontSize="13px"
+            textAnchor="middle"
+            style={{ fill: "white" }}
+          >
+            <tspan x="495" dy="1.5em">
+              2) UN-institutions, multilateral
+            </tspan>
+            <tspan x="495" dy="1.2em">
+              development banks and other
+            </tspan>
+            <tspan x="495" dy="1.2em">
+              public and private institutions
+            </tspan>
+            <tspan x="495" dy="1.2em">
+              have capacity to promote and
+            </tspan>
+            <tspan x="495" dy="1.2em">
+              support DPG adoption
+            </tspan>
+          </text>
+          <text
+            x="700"
+            y="0"
+            fontSize="13px"
+            textAnchor="middle"
+            style={{ fill: "white" }}
+          >
+            <tspan x="695" dy="2em">
+              3) LMIC Governments have
+            </tspan>
+            <tspan x="695" dy="1.2em">
+              capacity to deploy, maintain
+            </tspan>
+            <tspan x="695" dy="1.2em">
+              and evolve DPGs for{" "}
+            </tspan>
+            <tspan x="695" dy="1.2em">
+              digital public infrastructure
+            </tspan>
+          </text>
+          <text
+            x="900"
+            y="0"
+            fontSize="13px"
+            textAnchor="middle"
+            style={{ fill: "white" }}
+          >
+            <tspan x="895" dy="2em">
+              4) LMICs have vibrant
+            </tspan>
+            <tspan x="895" dy="1.2em">
+              commercial ecosystems
+            </tspan>
+            <tspan x="895" dy="1.2em">
+              capacity to create, maintain,
+            </tspan>
+            <tspan x="895" dy="1.2em">
+              and implement DPGs locally
+            </tspan>
+          </text>
+        </g>
+      </svg>
       <div
         style={{
           height: "1000",
