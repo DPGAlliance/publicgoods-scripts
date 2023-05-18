@@ -96,7 +96,7 @@ jobs:
           JF_PASSWORD: ${{secrets.JF_PASSWORD}}
 
       - name: Upload to Jfrog Artifactory
-        run: jf rt  u "artifacts${{ github.run_number}}/*" dpga-website-artifacts
+        run: jf rt  u "artifacts${{ github.run_number}}/*" dpga-website-artifacts --exclusions=".git/**"
 
   deploy_to_test:
     needs: push_to_artifactory
@@ -118,7 +118,7 @@ jobs:
           JF_PASSWORD: ${{secrets.JF_PASSWORD}}
 
       - name: Download Artifacts from Artifactory
-        run: jf rt dl dpga-website-artifacts/artifacts${{github.run_number}}/ artifacts/
+        run: jf rt dl dpga-website-artifacts/artifacts${{github.run_number}}/* artifacts/
 
       - name: Checkout Dev Target
         uses: actions/checkout@v2
