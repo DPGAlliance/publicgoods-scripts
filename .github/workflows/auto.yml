@@ -103,7 +103,8 @@ jobs:
           JF_USER: ${{secrets.JF_USER}}
           JF_PASSWORD: ${{secrets.JF_PASSWORD}}
 
-      - run: jf rt  u "artifacts${{ github.run_number}}/*" dpga-website-artifacts
+      - name: Upload to Jfrog Artifactory
+        run: jf rt  u "artifacts${{ github.run_number}}/*" dpga-website-artifacts
 
   deploy_to_test:
     needs: build
@@ -116,11 +117,16 @@ jobs:
           git config --global user.email "96251909+dpgabot@users.noreply.github.com"
           git config --global user.name "dpgabot"
 
-      - name: Download Artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: artifacts
-          path: artifacts/
+      - name: Setup JFrog CLI
+        id: setup_JFrog_CLI
+        uses: jfrog/setup-jfrog-cli@v3
+        env:
+          JF_URL: ${{ secrets.JF_URL }}
+          JF_USER: ${{secrets.JF_USER}}
+          JF_PASSWORD: ${{secrets.JF_PASSWORD}}
+
+      - name: Download Artifacts from Artifactory
+        run: jf rt dl dpga-website-artifacts/artifacts${{github.run_number}}/ artifacts/
 
       - name: Checkout Dev Target
         uses: actions/checkout@v2
