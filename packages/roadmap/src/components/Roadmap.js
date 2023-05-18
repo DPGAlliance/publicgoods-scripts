@@ -233,7 +233,8 @@ function Roadmap() {
 
   return (
     <>
-      <div width="1020" margin="auto" className="flex-container-roadmap">
+    <div position="fixed">
+    <div width="1020" margin="auto" className="flex-container-roadmap">
         <select
           className="search-select"
           /*
@@ -458,6 +459,8 @@ function Roadmap() {
           </g>
         </svg>
       </div>
+    </div>
+      
     </>
   );
 }
