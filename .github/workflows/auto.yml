@@ -118,7 +118,7 @@ jobs:
           JF_PASSWORD: ${{secrets.JF_PASSWORD}}
 
       - name: Download Artifacts from Artifactory
-        run: jf rt dl dpga-website-artifacts/artifacts${{github.run_number}}/* artifacts/
+        run: jf rt dl "dpga-website-artifacts/artifacts${{github.run_number}}/*" artifacts/
 
       - name: Checkout Dev Target
         uses: actions/checkout@v2
@@ -129,7 +129,10 @@ jobs:
 
       - name: Push to Test Environment
         run: |
-          cp -r artifacts/* testenv/
+          cd artifacts
+          ls
+          cd ..
+          cp -r artifacts/artifacts${{github.run_number}}/* testenv/
           cd testenv 
           touch .nojekyll
           git remote set-url origin https://github.com/DPGAlliance/DPGAlliance.github.io.git 
