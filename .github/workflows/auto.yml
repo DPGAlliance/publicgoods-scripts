@@ -3,6 +3,7 @@ name: Build and Deploy to Test Environment
 on:
   push:
     branches: [test-deployment]
+  workflow-dispatch:
 
 jobs:
   build:
@@ -129,9 +130,6 @@ jobs:
 
       - name: Push to Test Environment
         run: |
-          cd artifacts
-          ls
-          cd ..
           cp -r artifacts/artifacts${{github.run_number}}/* testenv/
           cd testenv 
           touch .nojekyll
