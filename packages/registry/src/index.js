@@ -229,7 +229,7 @@ class Filters extends Component {
           <div className="filterSection">
             <div className="filterHead">
               <div className="filterSectionTitle">
-               <p className="filter_header">SDG</p>
+               <p className="filter_header">SDGs</p>
                <div className="icon" onClick={this.toggleVisible} id="sdg-toggle">
                 <svg viewBox="0 0 8 5" xmlns="http://www.w3.org/2000/svg" strokeLinejoin="round" strokeLinecap="round" strokeWidth="1.35">
                   <path d="M7 1.053L4.027 4 1 1" stroke="currentColor" fill="none"></path>
