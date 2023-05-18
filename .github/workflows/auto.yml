@@ -3,7 +3,7 @@ name: Build and Deploy to Test Environment
 on:
   push:
     branches: [test-deployment]
-  workflow-dispatch:
+  workflow_dispatch:
 
 jobs:
   build:
