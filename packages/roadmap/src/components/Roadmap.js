@@ -62,7 +62,7 @@ function Roadmap() {
       const truncatedText = `${text.substring(0, maxLength - 18)}...`;
       const truncatedLength = truncatedText.length;
       const requiredLength = maxLength-truncatedLength
-      return requiredLength > 15.1 && requiredLength < 15.15 ? `${text.substring(0, truncatedLength + 4)}...` : `${text.substring(0, truncatedLength - 3)}...`;
+      return requiredLength > 15.1 && requiredLength < 15.16 ? `${text.substring(0, truncatedLength + 4)}...` : `${text.substring(0, truncatedLength - 3)}...`;
     } else {
       return text;
     }
@@ -407,8 +407,10 @@ function Roadmap() {
       </svg>
       <div
         style={{
-          height: "1000",
+          maxHeight: "800",
           width: "1020",
+          marginBottom: "50px",
+          marginLeft: "390px",
           overflowY: "scroll",
         }}
       >
