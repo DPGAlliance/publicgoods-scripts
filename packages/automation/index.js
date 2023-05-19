@@ -87,11 +87,8 @@ let vettedDPGs = 0;
 // Iterate over candidates, and over each nested array and count
 candidates.forEach(function (e) {
   if (e["sdgs"]) {
-    //sdgsArray = Array.from(e["sdgs"]);
-    e["sdgs"]["sdg"].forEach(function (d) {
-      let goalString = SDGS.find((goal, index) =>
-        goal.includes(d.substring(3, 5))
-      );
+    e["sdgs"]['sdg'].forEach(function (d) {
+      let goalString = SDGS.find((goal,index)=>goal.includes(d.substring(3,5)))
       let sdgNumber = SDGS.indexOf(goalString);
 
       sdgs[sdgNumber]++;
