@@ -277,7 +277,7 @@ function Roadmap() {
           </label>
         </div>
       </div>
-      <div style={{ marginLeft: "20%", marginRight: "20%" }}>
+      <div style={{ width: "100%" }}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="1020"
@@ -408,60 +408,59 @@ function Roadmap() {
             </text>
           </g>
         </svg>
-      </div>
-      <div
-        style={{
-          maxHeight: "800",
-          width: "1020px",
-          marginBottom: "50px",
-          marginLeft: "20%",
-          marginRight: "20%",
-          overflowY: "scroll",
-        }}
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="1020"
-          height={150 + 40 * search(data).length}
-          style={{ marginTop: "-100px" }}
+
+        <div
+          style={{
+            maxHeight: "800",
+            width: "1020",
+            marginBottom: "50px",
+            overflowY: "scroll",
+          }}
         >
-          {console.log("length", search(data).length)}
-          <g id="roadmap-scroll">
-            {search(data).map((element, index, array) => (
-              <Fragment key={index}>
-                <rect
-                  x="200"
-                  y={`${80 + 40 * (index + 1)}`}
-                  width="190"
-                  height="30"
-                  fill="#C2C3CC"
-                />
-                <rect
-                  x="400"
-                  y={`${80 + 40 * (index + 1)}`}
-                  width="190"
-                  height="30"
-                  fill="#C2C3CC"
-                />
-                <rect
-                  x="600"
-                  y={`${80 + 40 * (index + 1)}`}
-                  width="190"
-                  height="30"
-                  fill="#C2C3CC"
-                />
-                <rect
-                  x="800"
-                  y={`${80 + 40 * (index + 1)}`}
-                  width="190"
-                  height="30"
-                  fill="#C2C3CC"
-                />
-                {renderCell(array, array[index], index)}
-              </Fragment>
-            ))}
-          </g>
-        </svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="1020"
+            height={150 + 40 * search(data).length}
+            style={{ marginTop: "-100px" }}
+          >
+            {console.log("length", search(data).length)}
+            <g id="roadmap-scroll">
+              {search(data).map((element, index, array) => (
+                <Fragment key={index}>
+                  <rect
+                    x="200"
+                    y={`${80 + 40 * (index + 1)}`}
+                    width="190"
+                    height="30"
+                    fill="#C2C3CC"
+                  />
+                  <rect
+                    x="400"
+                    y={`${80 + 40 * (index + 1)}`}
+                    width="190"
+                    height="30"
+                    fill="#C2C3CC"
+                  />
+                  <rect
+                    x="600"
+                    y={`${80 + 40 * (index + 1)}`}
+                    width="190"
+                    height="30"
+                    fill="#C2C3CC"
+                  />
+                  <rect
+                    x="800"
+                    y={`${80 + 40 * (index + 1)}`}
+                    width="190"
+                    height="30"
+                    fill="#C2C3CC"
+                  />
+                  {renderCell(array, array[index], index)}
+                </Fragment>
+              ))}
+            </g>
+          </svg>
+        </div>
       </div>
     </>
   );
