@@ -414,6 +414,8 @@ function Roadmap() {
             maxHeight: "800",
             width: "1020",
             marginBottom: "50px",
+            marginLeft: "auto",
+            marginRight: "auto",
             overflowY: "scroll",
           }}
         >
