@@ -4,6 +4,8 @@ on:
   push:
     branches: [test-deployment]
   workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * *"
 
 jobs:
   build:
@@ -155,3 +157,43 @@ jobs:
         run: |
           cd TestAutomation/DPGAUIAutomation
           mvn -B package --file pom.xml test
+
+    # deploy_to_prod:
+    # needs: run_tests
+    # runs-on: ubuntu-latest
+
+    # steps:
+    #   - uses: actions/checkout@v2
+    #   - name: Configuring commit Author
+    #     run: |
+    #       git config --global user.email "96251909+dpgabot@users.noreply.github.com"
+    #       git config --global user.name "dpgabot"
+
+    #   - name: Setup JFrog CLI
+    #     id: setup_JFrog_CLI
+    #     uses: jfrog/setup-jfrog-cli@v3
+    #     env:
+    #       JF_URL: ${{ secrets.JF_URL }}
+    #       JF_USER: ${{secrets.JF_USER}}
+    #       JF_PASSWORD: ${{secrets.JF_PASSWORD}}
+
+    #   - name: Download Artifacts from Artifactory
+    #     run: jf rt dl "dpga-website-artifacts/artifacts${{github.run_number}}/*" artifacts/
+
+    #   - name: Checkout Dev Target
+    #     uses: actions/checkout@v2
+    #     with:
+    #       repository: DPGAlliance/DPGAlliance.github.io
+    #       path: "testenv"
+    #       token: ${{secrets.PAT }}
+
+    #   - name: Push to Test Environment
+    #     run: |
+    #       cp -r artifacts/artifacts${{github.run_number}}/* testenv/
+    #       cd testenv
+    #       find . -name '*.html' -exec sed -i '' -e "s,http://dpgwebsite.herokuapp.com,https://dpgalliance.github.io/,g" {} \;
+    #       touch .nojekyll
+    #       git remote set-url origin https://github.com/DPGAlliance/DPGAlliance.github.io.git
+    #       git add .
+    #       git commit -am "BLD: $GITHUB_SHA" || true
+    #       git push --set-upstream origin main
