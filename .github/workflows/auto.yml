@@ -132,6 +132,7 @@ jobs:
         run: |
           cp -r artifacts/artifacts${{github.run_number}}/* testenv/
           cd testenv 
+          find . -name '*.html' -exec sed -i '' -e "s,http://dpgwebsite.herokuapp.com,https://dpgalliance.github.io/,g" {} \;
           touch .nojekyll
           git remote set-url origin https://github.com/DPGAlliance/DPGAlliance.github.io.git 
           git add . 
