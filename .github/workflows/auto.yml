@@ -197,3 +197,21 @@ jobs:
     #       git add .
     #       git commit -am "BLD: $GITHUB_SHA" || true
     #       git push --set-upstream origin main
+
+  artifactory_cleanup:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup JFrog CLI
+        id: setup_JFrog_CLI
+        uses: jfrog/setup-jfrog-cli@v3
+        env:
+          JF_URL: ${{ secrets.JF_URL }}
+          JF_USER: ${{secrets.JF_USER}}
+          JF_PASSWORD: ${{secrets.JF_PASSWORD}}
+
+      - name: Install cleanup plugin
+        run: jf plugin install rt-cleanup
+
+      - name: Run cleanup
+        run: jf rt-cleanup clean example-repo-local --time-unit=day --no-dl=14
