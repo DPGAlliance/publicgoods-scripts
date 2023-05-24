@@ -183,17 +183,17 @@ jobs:
     #   - name: Checkout Dev Target
     #     uses: actions/checkout@v2
     #     with:
-    #       repository: DPGAlliance/DPGAlliance.github.io
-    #       path: "testenv"
+    #       repository: DPGAlliance/publicgoods-website
+    #       path: "prodenv"
     #       token: ${{secrets.PAT }}
 
-    #   - name: Push to Test Environment
+    #   - name: Push to Production Environment
     #     run: |
-    #       cp -r artifacts/artifacts${{github.run_number}}/* testenv/
-    #       cd testenv
+    #       cp -r artifacts/artifacts${{github.run_number}}/* prodenv/
+    #       cd prodenv
     #       find . -name '*.html' -exec sed -i '' -e "s,http://dpgwebsite.herokuapp.com,https://dpgalliance.github.io/,g" {} \;
     #       touch .nojekyll
-    #       git remote set-url origin https://github.com/DPGAlliance/DPGAlliance.github.io.git
+    #       git remote set-url origin https://github.com/DPGAlliance/publicgoods-website.git
     #       git add .
     #       git commit -am "BLD: $GITHUB_SHA" || true
     #       git push --set-upstream origin main
