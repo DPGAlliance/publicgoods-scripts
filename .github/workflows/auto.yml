@@ -104,6 +104,8 @@ jobs:
   deploy_to_test:
     needs: push_to_artifactory
     runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUBTOKEN}}
 
     steps:
       - uses: actions/checkout@v2
@@ -136,7 +138,7 @@ jobs:
           cd testenv 
           find . -name '*.html' -exec sed -i '' -e "s,http://dpgwebsite.herokuapp.com,https://dpgalliance.github.io/,g" {} \;
           touch .nojekyll
-          git remote set-url origin https://github.com/DPGAlliance/DPGAlliance.github.io.git 
+          git remote set-url origin https://${GITHUB_TOKEN}@github.com/DPGAlliance/DPGAlliance.github.io.git 
           git add . 
           git commit -am "BLD: $GITHUB_SHA" || true 
           git push --set-upstream origin main
