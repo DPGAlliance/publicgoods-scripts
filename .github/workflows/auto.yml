@@ -184,9 +184,9 @@ jobs:
     #   - name: Checkout Dev Target
     #     uses: actions/checkout@v2
     #     with:
-    #       repository: DPGAlliance/publicgoods-website
-    #       path: "prodenv"
-    #       token: ${{secrets.PAT }}
+    #       repository: DPGAlliance/DPGAlliance.github.io
+    #       path: "testenv"
+    #       token: ${{secrets.GITHUBTOKEN }}
 
     #   - name: Push to Production Environment
     #     run: |

@@ -7,4 +7,8 @@
             <class name="uiscripts.DpgaPage"/>
         </classes>
     </test>
+    <test name="API Tests">
+        <class name="APIScripts.DpgaListCall"/>
+        <class name="APIScripts.listDpgs"/>
+    </test>
 </suite>
