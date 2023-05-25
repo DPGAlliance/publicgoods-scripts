@@ -125,10 +125,11 @@ jobs:
 
       - name: Checkout Dev Target
         uses: actions/checkout@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUBTOKEN}}
         with:
           repository: DPGAlliance/DPGAlliance.github.io
           path: "testenv"
-          token: ${{secrets.PAT }}
 
       - name: Push to Test Environment
         run: |
