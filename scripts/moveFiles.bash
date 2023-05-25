@@ -1,5 +1,5 @@
 #!/bin/bash
-pushd ../publicgoods-website/registry && \
+pushd ../publicgoods-website-test/registry && \
 	git rm -rf static/* || true && \
     mkdir static && \
     cp -a ../../publicgoods-scripts/packages/registry/build/static/* static && \
@@ -7,7 +7,7 @@ pushd ../publicgoods-website/registry && \
     cp ../../publicgoods-scripts/packages/registry/build/index.html . && \
 popd
 
-pushd ../publicgoods-website/eligibility && \
+pushd ../publicgoods-website-test/eligibility && \
 	git rm -rf static/* || true && \
     mkdir static && \
     cp -a ../../publicgoods-scripts/packages/eligibility/build/static/* static && \
@@ -24,7 +24,7 @@ popd
 #     cp ../../publicgoods-scripts/packages/map/build/index.html . && \
 # popd
 
-pushd ../publicgoods-website/roadmap && \
+pushd ../publicgoods-website-test/roadmap && \
     git rm -rf static/* || true && \
     mkdir static && \
     cp -a ../../publicgoods-scripts/packages/roadmap/build/static/* static && \
@@ -32,7 +32,12 @@ pushd ../publicgoods-website/roadmap && \
     cp ../../publicgoods-scripts/packages/roadmap/build/index.html . && \
 popd
 
-pushd ../publicgoods-website/community && \
+pushd ../publicgoods-website-test/community && \
     cp -a ../../publicgoods-scripts/packages/community/* . && \
+    git add . && \
+popd
+
+pushd ../publicgoods-website-test/helpcenter && \
+    cp -a ../../publicgoods-scripts/packages/helpcenter/* . && \
     git add . && \
 popd

@@ -1,0 +1,14 @@
+<suite name="DPGA Application Test">
+    <test name="UI Tests">
+        <classes>
+            <class name="uiscripts.BaseTest"/>
+            <class name="uiscripts.RegistryPage"/>
+            <class name="uiscripts.RoadmapPage"/>
+            <class name="uiscripts.DpgaPage"/>
+        </classes>
+    </test>
+    <test name="API Tests">
+        <class name="APIScripts.DpgaListCall"/>
+        <class name="APIScripts.listDpgs"/>
+    </test>
+</suite>

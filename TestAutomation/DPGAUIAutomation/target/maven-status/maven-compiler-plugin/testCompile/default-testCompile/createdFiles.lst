@@ -1,0 +1,6 @@
+uiscripts/BaseTest.class
+org/example/AppTest.class
+utilities/BrowserConfig.class
+uiscripts/DpgaPage.class
+uiscripts/RegistryPage.class
+uiscripts/RoadmapPage.class

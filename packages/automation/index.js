@@ -53,14 +53,14 @@ const sdgColors = [
   "#19486A",
 ];
 
-path = "../../../publicgoods-candidates/nominees";
-pathHtml = "../../../publicgoods-website/registry/index.html";
+path = "../registry/src/nominees.json";
+pathHtml = "../../../publicgoods-website-test/registry/index.html";
 destHtml = "../registry/public/index.html";
-pathFormHtml = "../../../publicgoods-website/eligibility/index.html";
+pathFormHtml = "../../../publicgoods-website-test/eligibility/index.html";
 destFormHtml = "../eligibility/public/index.html";
-pathMapHtml = "../../../publicgoods-website/map/index.html";
+pathMapHtml = "../../../publicgoods-website-test/map/index.html";
 destMapHtml = "../map/public/";
-pathRoadmapHtml = "../../../publicgoods-website/roadmap/index.html";
+pathRoadmapHtml = "../../../publicgoods-website-test/roadmap/index.html";
 destRoadmapHtml = "../roadmap/public/index.html";
 
 function sleep(ms) {
@@ -90,20 +90,18 @@ candidates.forEach(function (e) {
     e["sdgs"]['sdg'].forEach(function (d) {
       let goalString = SDGS.find((goal,index)=>goal.includes(d.substring(3,5)))
       let sdgNumber = SDGS.indexOf(goalString);
-      
-      sdgs[sdgNumber]++;
 
+      sdgs[sdgNumber]++;
     });
     if (e["categories"]) {
       e["categories"].forEach(function (d) {
-        if(types.hasOwnProperty(d)){
+        if (types.hasOwnProperty(d)) {
           types[d]++;
-        }
-        else{
-          types[d]=0
+        } else {
+          types[d] = 0;
         }
       });
-      
+
       if (
         e["categories"].includes(TYPE1) &&
         !e["categories"].includes(TYPE2) &&
@@ -263,7 +261,7 @@ let htmlOutput =
 htmlOutput +=
   '<div class="col-xs-1"><img src="https://dpg-website.s3.amazonaws.com/img/right-arrows.svg" style="height:50px; margin-top:20px; display:block"></div>';
   */
-  htmlOutput +=
+htmlOutput +=
   '<div class="col-xs-2"><span class="big-details">' +
   vettedDPGs +
   '</span><span class="small-title">Digital<br/>Public<br/>Goods</span></div>';
