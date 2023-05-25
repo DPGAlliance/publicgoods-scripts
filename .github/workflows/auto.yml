@@ -1,8 +1,8 @@
-name: Build and Deploy to Test Environment
+name: Build and Deploy
 
 on:
   push:
-    branches: [test-deployment]
+    branches: [main]
   workflow_dispatch:
   schedule:
     - cron: "0 0 * * *"
@@ -123,7 +123,7 @@ jobs:
       - name: Download Artifacts from Artifactory
         run: jf rt dl "dpga-website-artifacts/artifacts${{github.run_number}}/*" artifacts/
 
-      - name: Checkout Dev Target
+      - name: Checkout Test Repository
         uses: actions/checkout@v2
         with:
           repository: DPGAlliance/DPGAlliance.github.io
@@ -158,45 +158,45 @@ jobs:
           cd TestAutomation/DPGAUIAutomation
           mvn -B package --file pom.xml test
 
-    # deploy_to_prod:
-    # needs: run_tests
-    # runs-on: ubuntu-latest
+  deploy_to_prod:
+    needs: run_tests
+    runs-on: ubuntu-latest
 
-    # steps:
-    #   - uses: actions/checkout@v2
-    #   - name: Configuring commit Author
-    #     run: |
-    #       git config --global user.email "96251909+dpgabot@users.noreply.github.com"
-    #       git config --global user.name "dpgabot"
+    steps:
+      - uses: actions/checkout@v2
+      - name: Configuring commit Author
+        run: |
+          git config --global user.email "96251909+dpgabot@users.noreply.github.com"
+          git config --global user.name "dpgabot"
 
-    #   - name: Setup JFrog CLI
-    #     id: setup_JFrog_CLI
-    #     uses: jfrog/setup-jfrog-cli@v3
-    #     env:
-    #       JF_URL: ${{ secrets.JF_URL }}
-    #       JF_USER: ${{secrets.JF_USER}}
-    #       JF_PASSWORD: ${{secrets.JF_PASSWORD}}
+      - name: Setup JFrog CLI
+        id: setup_JFrog_CLI
+        uses: jfrog/setup-jfrog-cli@v3
+        env:
+          JF_URL: ${{ secrets.JF_URL }}
+          JF_USER: ${{secrets.JF_USER}}
+          JF_PASSWORD: ${{secrets.JF_PASSWORD}}
 
-    #   - name: Download Artifacts from Artifactory
-    #     run: jf rt dl "dpga-website-artifacts/artifacts${{github.run_number}}/*" artifacts/
+      - name: Download Artifacts from Artifactory
+        run: jf rt dl "dpga-website-artifacts/artifacts${{github.run_number}}/*" artifacts/
 
-    #   - name: Checkout Dev Target
-    #     uses: actions/checkout@v2
-    #     with:
-    #       repository: DPGAlliance/DPGAlliance.github.io
-    #       path: "testenv"
-    #       token: ${{secrets.GITHUBTOKEN }}
+      - name: Checkout Prod Repository
+        uses: actions/checkout@v2
+        with:
+          repository: DPGAlliance/publicgoods-website
+          path: "prodenv"
+          token: ${{secrets.GITHUBTOKEN }}
 
-    #   - name: Push to Production Environment
-    #     run: |
-    #       cp -r artifacts/artifacts${{github.run_number}}/* prodenv/
-    #       cd prodenv
-    #       find . -name '*.html' -exec sed -i '' -e "s,http://dpgwebsite.herokuapp.com,https://dpgalliance.github.io/,g" {} \;
-    #       touch .nojekyll
-    #       git remote set-url origin https://github.com/DPGAlliance/publicgoods-website.git
-    #       git add .
-    #       git commit -am "BLD: $GITHUB_SHA" || true
-    #       git push --set-upstream origin main
+      - name: Push to Production Environment
+        run: |
+          cp -r artifacts/artifacts${{github.run_number}}/* prodenv/
+          cd prodenv
+          find . -name '*.html' -exec sed -i -e "s,http://dpgwebsite.herokuapp.com,https://digitalpublicgoods.net,g" {} \;
+          touch .nojekyll
+          git remote set-url origin https://github.com/DPGAlliance/publicgoods-website.git
+          git add .
+          git commit -am "BLD: $GITHUB_SHA" || true
+          git push --set-upstream origin main
 
   artifactory_cleanup:
     runs-on: ubuntu-latest
