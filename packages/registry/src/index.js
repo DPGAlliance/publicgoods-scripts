@@ -313,7 +313,8 @@ function ListItemBeta(props){
   
 
   return(
-    <tr key={index} className={itemClass}>
+    
+       <tr key={index} className={itemClass}>
       <td>{name}</td>
       {/* eslint-disable-next-line */}
       <td><a id={linkName} className="anchor"></a>{item.description}</td>
@@ -327,7 +328,8 @@ function ListItemBeta(props){
 class List extends Component {
   render() {
     return(
-        <table className="table"> 
+      <div className = "sdg-table">
+      <table className="table">
           <thead>
             <tr>
               <th>Name</th>
@@ -336,12 +338,14 @@ class List extends Component {
               <th>Past year of activity</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="table-content">
             {nominees.map((item, index) => (
               <ListItemBeta item={item} index={index} key={index}/>
             ))}
           </tbody>
         </table>
+      </div>
+        
       )
   }
 }
