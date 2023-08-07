@@ -159,6 +159,7 @@ jobs:
           mvn -B package --file pom.xml test
 
   deploy_to_prod:
+    needs: deploy_to_test
     runs-on: ubuntu-latest
 
     steps:
