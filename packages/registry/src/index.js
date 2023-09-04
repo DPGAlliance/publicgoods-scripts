@@ -48,7 +48,7 @@ class Filters extends Component {
   }
 
   handleChange(event) {
-    
+
     let checkboxId
     let display;
     if(event){
@@ -286,9 +286,9 @@ function ListItemBeta(props){
 
   let itemClass='';
   if(item.hasOwnProperty("sdgs")){
-    for (var j=0; j<item.sdgs.length; j++) {
+    for (var j=0; j<item.sdgs.sdg.length; j++) {
     
-      let thesdg = item.sdgs[j].sdg
+      let thesdg = item.sdgs.sdg[j];
       thesdg = thesdg.split(':')[0]
       itemClass += thesdg + " "
       //itemClass += 'sdg'+item.sdgs[j].sdg.spilt(':',1)[0]+' '
