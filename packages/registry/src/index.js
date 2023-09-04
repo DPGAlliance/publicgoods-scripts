@@ -25,8 +25,8 @@ const types = {
 };
 //const stage = [];
 const sdgs = ["SDG1", "SDG2", "SDG3", "SDG4", "SDG5", "SDG6", "SDG7", "SDG8", "SDG9", "SDG10", "SDG11", "SDG12", "SDG13", "SDG14", "SDG15", "SDG16", "SDG17"];
-let selectAllTypesToggle = true,
-  selectAllSDGsToggle = true;
+let selectAllTypesToggle = true;
+let selectAllSDGsToggle = true;
 function trunc(str, n){
     return (str.length > n) ? str.substr(0, n-1) + '...' : str;
 };
