@@ -25,7 +25,8 @@ const types = {
 };
 //const stage = [];
 const sdgs = ["SDG1", "SDG2", "SDG3", "SDG4", "SDG5", "SDG6", "SDG7", "SDG8", "SDG9", "SDG10", "SDG11", "SDG12", "SDG13", "SDG14", "SDG15", "SDG16", "SDG17"];
-let selectAlltoggle = true;
+let selectAllTypesToggle = true;
+let selectAllSDGsToggle = true;
 function trunc(str, n){
     return (str.length > n) ? str.substr(0, n-1) + '...' : str;
 };
@@ -48,7 +49,7 @@ class Filters extends Component {
   }
 
   handleChange(event) {
-    
+
     let checkboxId
     let display;
     if(event){
@@ -56,8 +57,11 @@ class Filters extends Component {
       
       display = event.target.checked;
 
-      if('selectAllToggle'===checkboxId){
-        this.selectAll()
+      if (checkboxId === 'selectAllTypesToggle') {
+        this.selectAllTypes();
+      }
+      if (checkboxId === 'selectAllSDGsToggle') {
+        this.selectAllSDGs();
       }
       
     } else {
@@ -68,6 +72,10 @@ class Filters extends Component {
       display=false
     }
     
+    this.doFilter(checkboxId, display);
+  }
+
+  doFilter(checkboxId, display) {
     var elems = document.getElementsByClassName(checkboxId);
 
     for(let i=0; i < elems.length; i++) {
@@ -78,11 +86,10 @@ class Filters extends Component {
       } else {
         concurrentClasses = elems[i].className.trim().split(' ').filter(function(a){ return a !== checkboxId });
       }
-      
       let intersectionSet1 = concurrentClasses.filter(i => Object.keys(types).includes(i));
       
       let intersectionSet2 = concurrentClasses.filter(i => sdgs.includes(i));
-    
+
       //let intersectionSet3 = concurrentClasses.filter(i => stage.includes(i));
       
       let intersection1 = false;
@@ -140,34 +147,24 @@ class Filters extends Component {
     this.handleChange();
   }
 
-  selectAll(){ 
-    if(selectAlltoggle){
-      let ele=document.getElementsByClassName('form-check-input');  
-      for(var i=0; i<ele.length; i++){ 
-          if(ele[i].type==='checkbox')  
-              ele[i].checked=true;  
-      } 
-      let elems = document.getElementsByClassName('DPG');
-      for (let i = 0; i < elems.length; i++) {
-        elems[i].style.removeProperty('display');
-        
-      }
-      selectAlltoggle = false
-    } 
-    else{
-      let ele=document.getElementsByClassName('form-check-input');  
-      for(let i=0; i<ele.length; i++){ 
-          if(ele[i].type==='checkbox')  
-              ele[i].checked=false;  
-      } 
-      let elems = document.getElementsByClassName('DPG');
-      for (let i = 0; i < elems.length; i++) {
-        elems[i].style.display = 'none';
-        
-      }
-      selectAlltoggle = true
+  selectAllTypes() {
+    selectAllTypesToggle = !selectAllTypesToggle;
+    let ele = document.getElementsByClassName('js-typeCheckbox');
+    for (let i = 0; i < ele.length; i++) {
+      ele[i].checked = selectAllTypesToggle;
+      this.doFilter(ele[i].id.split('-')[0], selectAllTypesToggle);
     }
-  }    
+
+  }
+
+  selectAllSDGs() {
+    selectAllSDGsToggle = !selectAllSDGsToggle;
+    let ele = document.getElementsByClassName('js-SDGCheckbox');
+    for (let i = 0; i < ele.length; i++) {
+      ele[i].checked = selectAllSDGsToggle;
+      this.doFilter(ele[i].id.split('-')[0], selectAllSDGsToggle);
+    }
+  }
 
   countActive() {
     const elems = document.getElementById('mytable').getElementsByTagName('tr');
@@ -190,11 +187,10 @@ class Filters extends Component {
           <div className="filterSection">
           <Form>
           <Form.Check 
-                    key='selectAll'
                     type='checkbox'
-                    id={`selectAllToggle`}
-                    label='select all'
-                    defaultChecked={selectAlltoggle}
+                    id={`selectAllTypesToggle`}
+                    label='Select all types'
+                    defaultChecked={selectAllTypesToggle}
                     onChange = {this.handleChange}
                   />
           </Form>
@@ -215,12 +211,17 @@ class Filters extends Component {
                   <Form.Check 
                     key={index}
                     className='typeCheckbox'
-                    type='checkbox'
-                    id={`${label}-checkbox`}
-                    label={trunc(types[label]['name'],25)}
-                    defaultChecked
                     onChange = {this.handleChange}
-                  />
+                  >
+                    <Form.Check.Input 
+                      type="checkbox" 
+                      className="js-typeCheckbox" 
+                      id={`${label}-checkbox`} 
+                      onChange={this.handleChange} 
+                      defaultChecked
+                    />
+                    <Form.Check.Label>{trunc(types[label]['name'],25)}</Form.Check.Label>
+                  </Form.Check>
                   ))}
                 </Form>
             </div>
@@ -228,6 +229,15 @@ class Filters extends Component {
 
           <div className="filterSection">
             <div className="filterHead">
+              <Form>
+              <Form.Check 
+                      type='checkbox'
+                      id={`selectAllSDGsToggle`}
+                      label='Select all SDGs'
+                      defaultChecked={selectAllSDGsToggle}
+                      onChange = {this.handleChange}
+                    />
+              </Form>
               <div className="filterSectionTitle">
                <p className="filter_header">SDGs</p>
                <div className="icon" onClick={this.toggleVisible} id="sdg-toggle">
@@ -242,13 +252,17 @@ class Filters extends Component {
                   {sdg_labels.map((label, index) => (
                   <Form.Check 
                     key={index}
-                    type='checkbox'
-                    id={`SDG${index+1}-checkbox`}
-                    label={trunc(label, 25)}
                     className='sdgs'
-                    defaultChecked
-                    onChange = {this.handleChange}
-                  />
+                  >
+                    <Form.Check.Input
+                      type="checkbox"
+                      className="js-SDGCheckBox"
+                      id={`SDG${index+1}-checkbox`}
+                      defaultChecked={selectAllSDGsToggle}
+                      onChange={this.handleChange}
+                    />
+                    <Form.Check.Label>{trunc(label, 25)}</Form.Check.Label>
+                  </Form.Check>
                   ))}
                 </Form>
             </div>
@@ -286,9 +300,9 @@ function ListItemBeta(props){
 
   let itemClass='';
   if(item.hasOwnProperty("sdgs")){
-    for (var j=0; j<item.sdgs.length; j++) {
+    for (var j=0; j<item.sdgs.sdg.length; j++) {
     
-      let thesdg = item.sdgs[j].sdg
+      let thesdg = item.sdgs.sdg[j];
       thesdg = thesdg.split(':')[0]
       itemClass += thesdg + " "
       //itemClass += 'sdg'+item.sdgs[j].sdg.spilt(':',1)[0]+' '
