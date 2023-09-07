@@ -73,7 +73,8 @@
     .style("fill", function (d) { return sdg_colors[d.data.name - 1]; })
     .on("mouseover", handleMouseOver)
     .on("mousemove", handleMouseMove)
-    .on("mouseout", handleMouseOut);
+    .on("mouseout", handleMouseOut)
+    .on('click', handleClick);
 
   // and to add the text labels
   var textLine = svg
@@ -189,6 +190,21 @@
 
     // Select text by id and then remove
     tool.style("display", "none");
+  }
+
+  function handleClick(d) {
+    const allcb = document.getElementById('selectAllSDGsToggle');
+
+    // sorry for this ugly hack, react swallows change events and I can't access methods of the react component
+    if (allcb.checked) {
+      allcb.click();
+    }
+    else {
+      allcb.click();
+      allcb.click();
+    }
+
+    document.getElementById('SDG' + d.data.name + '-checkbox').click();
   }
 
   var color = d3.scaleOrdinal()
