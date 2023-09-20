@@ -54,12 +54,17 @@ const sdgColors = [
 ];
 
 path = "../registry/src/nominees.json";
+
 pathHtml = "../../../publicgoods-website-test/registry/index.html";
 destHtml = "../registry/public/index.html";
+pathRegistryTemplateHtml = "./registry_template.html";
+
 pathFormHtml = "../../../publicgoods-website-test/eligibility/index.html";
 destFormHtml = "../eligibility/public/index.html";
+
 pathMapHtml = "../../../publicgoods-website-test/map/index.html";
 destMapHtml = "../map/public/";
+
 pathRoadmapHtml = "../../../publicgoods-website-test/roadmap/index.html";
 destRoadmapHtml = "../roadmap/public/index.html";
 
@@ -251,340 +256,83 @@ for (var key in types) {
   typeData.push({ name: key, value: Math.round((types[key] / t) * 100) });
 }
 
-let htmlOutput =
-  '<div id="topDistributionRow" class="row wp-block-buttons is-content-justification-center">';
-/* 
-  htmlOutput +=
-  '<div class="col-xs-2 col-xs-offset-1"><span class="big-details">' +
-  candidates.length +
-  '</span><span class="small-title">nominees</span></div>';
-htmlOutput +=
-  '<div class="col-xs-1"><img src="https://dpg-website.s3.amazonaws.com/img/right-arrows.svg" style="height:50px; margin-top:20px; display:block"></div>';
-  */
-htmlOutput +=
-  '<div class="col-xs-2"><span class="big-details">' +
-  vettedDPGs +
-  '</span><span class="small-title">Digital<br/>Public<br/>Goods</span></div>';
-htmlOutput +=
-  '<div class="col-xs-4" id="venn"><span class="small-title">distribution by type</span></div></div>';
-htmlOutput +=
-  '<div class="row wp-block-buttons is-content-justification-center" style="margin-bottom:5em"><div class="col-xs-10" id="treemap"><span class="small-title">distribution by SDG</span><div id="treemap"></div></div>';
-htmlOutput += "</div>";
-
-htmlOutput += ` 
-
-<!-- Load d3.js -->
-<script src="https://d3js.org/d3.v4.js" charset="utf-8"></script>
-<script src="/wp-content/themes/hestia/js/venn.js"></script>
-<script>
-
-// set the dimensions and margins of the graph
-var width = 960, height = 500;
-
-// append the svg object to the body of the page
-var svg = d3.select("#treemap")
-.append("svg")
-  .attr("preserveAspectRatio", "xMinYMin meet")
-  .attr("viewBox", "0 0 " + width + " " + height)
-`;
-htmlOutput += "var data_sdg = " + JSON.stringify(sdgData) + ";";
-htmlOutput += "var data_type = " + JSON.stringify(typeData) + ";";
-htmlOutput += "var sdg_labels = " + JSON.stringify(SDGS) + ";";
-htmlOutput += "var sdg_colors = " + JSON.stringify(sdgColors) + ";";
-htmlOutput += "var sets = " + JSON.stringify(sets) + ";";
-
-htmlOutput += `
-
-  // Give the data to this cluster layout:
-  var root = d3.hierarchy(data_sdg).sum(function(d){ return d.value}) // Here the size of each leave is given in the 'value' field in input data
-
-  var tool = d3.select("body").append("div").attr("class", "toolTip");
-
-  const textLenght = (node, string) => {
-    let prevText = node.textContent;
-    node.textContent = string;
-    let textWidth = node.getComputedTextLength();
-    node.textContent = prevText;
-    return textWidth;
-  };
-  // Then d3.treemap computes the position of each element of the hierarchy
-  d3.treemap()
-    .size([width, height])
-    .padding(2)
-    (root)
-
-  // use this information to add rectangles:
-  svg
-    .selectAll("rect")
-    .data(root.leaves())
-    .enter()
-    .append("rect")
-      .attr('x', function (d) { return d.x0; })
-      .attr('y', function (d) { return d.y0; })
-      .attr('width', function (d) { return d.x1 - d.x0; })
-      .attr('height', function (d) { return d.y1 - d.y0; })
-      .style("stroke", "white")
-      .style("fill", function (d) { return sdg_colors[d.data.name-1]; })
-      .on("mouseover", handleMouseOver)
-      .on("mousemove", handleMouseMove)
-      .on("mouseout", handleMouseOut);
-
-  // and to add the text labels
-  var textLine = svg
-  .selectAll("text")
-  .data(root.leaves())
-  .enter()
-  .append("text")
-  .attr("x", function (e) {
-    return e.x0 + 10;
-  })
-  .attr("y", function (e) {
-    return e.y0 + 20;
-  })
-  .attr("font-size", "16px")
-  .attr("font-weight", "bold")
-  .text(function (e) {
-    return e.data.name;
-  })
-  .attr("fill", "white")
-  .attr("display", function (e) {
-    return this.getBoundingClientRect().height * 0.9 < e.y1 - e.y0 ? "inline" : "none";
-  });
-
-textLine.each(function (d) {
-  var fullText = sdg_labels[d.data.name - 1] + ": " + d.data.value;
-  // add label of values to the first element
-  d.data.name == 1 ? (fullText += " DPGs") : "null";
-
-  var rectWidth = d.x1 - d.x0;
-  var rectHeight = d.y1 - d.y0;
-  var offset = d.data.name > 9 ? 30 : 25
-  var lineHeight = this.getBoundingClientRect().height * 2;
-  var textWidth = textLenght(this, fullText);
-  var maxLines = 3;
-
-  var textLines = [];
-  // try to fit full text into 1 line
-  if (rectWidth - offset - 10 > textWidth && rectHeight > lineHeight) {
-    textLines.push(fullText);
-  } else {
-    // try to fit text without value
-    fullText = fullText.substring(0, fullText.lastIndexOf(" "));
-    textWidth = textLenght(this, fullText);
-    if (
-      (rectWidth - offset - 10 > textWidth && rectHeight > lineHeight * 2)
-    ) {
-      textLines.push(fullText);
-    } else {
-      var countLines = Math.ceil(textWidth / rectWidth) + 1;
-      countLines = countLines > maxLines ? -1 : countLines;
-      countLines = rectHeight > countLines * lineHeight ? countLines: -1;
-      // iterate over text to split it into lines
-      for (var j = 0; j < countLines; j++) {
-        var fullTextArr = fullText.split(" ");
-        if (fullTextArr.length == 1) {
-          textLines.push(fullText);
-          break;
-        }
-        for (let i = fullTextArr.length - 1; i > 0; i--) {
-          
-          var firstText = fullText.substring(
-            0,
-            fullText.lastIndexOf(fullTextArr[i])
-          );
-          
-          var nextText = fullText.substring(
-            fullText.lastIndexOf(fullTextArr[i])
-          );
-          textWidth = textLenght(this, firstText);
-          if (rectWidth - offset - 10 > textWidth) {
-            textLines.push(firstText);
-            fullText = nextText;
-            break;
-          }
-        }
-      }
-    }
-    // push value to last line
-    textLines.length == 0 
-      ? rectHeight < lineHeight && rectWidth - offset - 10 > textLenght(this, ": " + d.data.value) && textLines.push(": " + d.data.value)
-      : textLines.push(d.data.value);
-    textLines.length == 0 
-      ? rectHeight > lineHeight && textLines.push(":", d.data.value)
-      : null;
+fs.readFile(pathRegistryTemplateHtml, 'utf-8', (err, data) => {
+  if (err) {
+    return console.error("Error occurred:", err);
   }
+  let htmlOutput = data
+    .replace('$vettedDPGs$', vettedDPGs)
+    .replace('$sdgData$', JSON.stringify(sdgData))
+    .replace('$typeData$', JSON.stringify(typeData))
+    .replace('$SDGS$', JSON.stringify(SDGS))
+    .replace('$sdgColors$', JSON.stringify(sdgColors))
+    .replace('$sets$', JSON.stringify(sets));
 
-  // add lines of text to the chart
-  textLines.map((text, i) => {
-    d3.select(this)
-      .append("tspan")
-      .attr("x", (e) =>
-        textLines[i - 1] == ":"
-          ? e.x0 + 10
-          : e.x0 + offset
-      )
-      .attr("y", function (e) {
-        return e.y0 + (i + 1) * 20;
-      })
-      .attr("font-weight", "normal")
-      .text(text);
-  });
+  replace(
+    { 
+      files: pathHtml, 
+      from: "<p>Placeholder</p>", 
+      to: htmlOutput 
+    },
+    (error, changedFiles) => {
+      if (error) {
+        return console.error("Error occurred:", error);
+      }
+      console.log("Modified files:", changedFiles.join(", "));
+  
+      replace(
+        {
+          files: pathHtml,
+          from: 'class="col-md-8 page-content-wrap  col-md-offset-2"',
+          to: 'class="col-lg-12 page-content-wrap"',
+        },
+        (error, changedFiles) => {
+          if (error) {
+            return console.error("Error occurred:", error);
+          }
+          console.log("Modified files:", changedFiles.join(", "));
+  
+          replace(
+            {
+              files: pathHtml, 
+              from: "</body>", 
+              to: `
+                <script type="text/javascript" src="./ResizeSensor.js"></script>
+                <script type='text/javascript' src="./sticky-sidebar.min.js"></script>
+            
+                <script type='text/javascript'>
+                  var sidebar = new StickySidebar('#sidebar', {
+                      containerSelector: '#main-content',
+                      innerWrapperSelector: '.sidebar__inner',
+                      topSpacing: 60,
+                      bottomSpacing: 0,
+                  });
+                </script>
+                </body>
+              ` 
+            },
+            (error, changedFiles) => {
+              if (error) {
+                return console.error("Error occurred:", error);
+              }
+  
+              fs.copyFileSync(pathHtml, destHtml);
+            }
+          );
+        }
+      );
+    }
+  );
 });
 
-  function handleMouseOver(d) {  // Add interactivity
-    // Use D3 to select element, change color and size
-    d3.select(this).style('fill','grey');
-  }
-
-  function handleMouseMove(d) {
-    tool.style("left", d3.event.pageX + 10 + "px")
-    tool.style("top", d3.event.pageY - 20 + "px")
-    tool.style("display", "inline-block");
-    tool.html(sdg_labels[d.data.name-1]+'<br/>'+d.data.value+' DPGs');
-  }
-
-  function handleMouseOut(d, i) {
-    // Use D3 to select element, change color back to normal
-    d3.select(this).style('fill', function (d) { return sdg_colors[d.data.name-1]; }); 
-
-    // Select text by id and then remove
-    tool.style("display", "none");
-  }
-
-  var color = d3.scaleOrdinal()
-      .range(['#48b8d0', '#e91e63', '#4b5c73', '#FCC30B']);
-
-  var colort = d3.scaleOrdinal()
-      .range(['white', 'black', 'black', 'black']);
-
-  var chart = venn.VennDiagram()
-    .width(350)
-    .height(200);
-  var div = d3.select("#venn")
-    .datum(sets)
-    .call(chart);
-
-  d3.selectAll("#venn .venn-circle path")
-    .style("stroke", function(d,i) { return color[i]; })
-    .style("fill-opacity", .8)
-    .style('fill', (d,i) => color(i))
-
-  d3.selectAll("#venn .venn-circle text")
-    .style('fill', (d,i) => colort(i));
-
-  div.selectAll("path")
-      .style("stroke-opacity", 0)
-      .style("stroke", "#fff")
-      .style("stroke-width", 3)
-
-  div.selectAll('g')
-    .on("mouseover", handleVennMouseOver)
-    .on("mousemove", handleVennMouseMove)
-    .on("mouseout", handleVennMouseOut);
-
-  function handleVennMouseOver(d) {  // Add interactivity
-    venn.sortAreas(div, d);
-    // Use D3 to select element, change color and size
-    d3.select(this)
-      .style("fill-opacity", 1)
-      .select("path")
-        .style("stroke-opacity", 1);
-  }
-
-  function handleVennMouseMove(d) {
-    tool.style("left", d3.event.pageX + 10 + "px")
-    tool.style("top", d3.event.pageY - 20 + "px")
-    tool.style("display", "inline-block");
-    tool.html(d.value+' DPGs');
-  }
-
-  function handleVennMouseOut(d, i) {
-      venn.sortAreas(div, d);
-
-    // Use D3 to select element, change color back to normal
-    d3.select(this)
-      .style("fill-opacity", 0.9)
-      .select("path")
-        .style("stroke-opacity", 0);
-
-
-    // Select text by id and then remove
-    tool.style("display", "none");
-  }
-
-
-</script>
-
-`;
-
-htmlOutput += `
-    <div id="main-content" class="container clearfix" style="position: relative">
-      <div id="sidebar">
-        <div class="sidebar__inner" id="filters" style="position:relative">
-            
-        </div>
-      </div>
-      <div id="content" style="margin-left: 240px; min-height:700px">
-        <div id="mytable">
-                
-        </div>
-      </div>
-    </div>
-`;
-
-const endHtml = `
-  <script type="text/javascript" src="./ResizeSensor.js"></script>
-    <script type='text/javascript' src="./sticky-sidebar.min.js"></script>
-
-    <script type='text/javascript'>
-       var sidebar = new StickySidebar('#sidebar', {
-           containerSelector: '#main-content',
-           innerWrapperSelector: '.sidebar__inner',
-           topSpacing: 60,
-           bottomSpacing: 0,
-       });
-    </script>
-  </body>
-  `;
 let formHtmlOutput = '<div id="form-content"> </div>';
 
 replace(
-  { files: pathHtml, from: "<p>Placeholder</p>", to: htmlOutput },
-  (error, changedFiles) => {
-    if (error) {
-      return console.error("Error occurred:", error);
-    }
-    console.log("Modified files:", changedFiles.join(", "));
-
-    replace(
-      {
-        files: pathHtml,
-        from: 'class="col-md-8 page-content-wrap  col-md-offset-2"',
-        to: 'class="col-lg-12 page-content-wrap"',
-      },
-      (error, changedFiles) => {
-        if (error) {
-          return console.error("Error occurred:", error);
-        }
-        console.log("Modified files:", changedFiles.join(", "));
-
-        replace(
-          { files: pathHtml, from: "</body>", to: endHtml },
-          (error, changedFiles) => {
-            if (error) {
-              return console.error("Error occurred:", error);
-            }
-
-            fs.copyFileSync(pathHtml, destHtml);
-          }
-        );
-      }
-    );
-  }
-);
-
-replace(
-  { files: pathFormHtml, from: "<p>Placeholder</p>", to: formHtmlOutput },
+  { 
+    files: pathFormHtml, 
+    from: "<p>Placeholder</p>", 
+    to: formHtmlOutput 
+  },
   (error, changedFiles) => {
     if (error) {
       return console.error("Error occurred:", error);
@@ -595,7 +343,11 @@ replace(
 );
 
 replace(
-  { files: pathRoadmapHtml, from: "<p>Placeholder</p>", to: formHtmlOutput },
+  { 
+    files: pathRoadmapHtml, 
+    from: "<p>Placeholder</p>", 
+    to: formHtmlOutput 
+  },
   (error, changedFiles) => {
     if (error) {
       return console.error("Error occurred:", error);
