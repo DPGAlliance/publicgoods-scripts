@@ -49,7 +49,7 @@
     <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
-      <version>7.5</version>
+      <version>7.5.1</version>
       <scope>test</scope>
     </dependency>
     <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
@@ -138,7 +138,7 @@
     <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
-      <version>7.5</version>
+      <version>7.5.1</version>
       <scope>test</scope>
     </dependency>
     <dependency>
