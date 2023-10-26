@@ -41,22 +41,18 @@ code {
 }
 
 #sidebar{
-  float: left;
+  position: sticky;
+  top: 10px;
   width: 240px;
   will-change: min-height;
 }
 
-#sidebar .sidebar__inner {
+#content {
   padding: 10px;
-  position: relative;
-  transform: translate(0, 0); /* For browsers don't support translate3d. */
-  transform: translate3d(0, 0, 0);
-  will-change: position, transform;
 }
 
-#content {
-  margin-left: 250px;
-  padding: 10px;
+#main-content {
+  display: flex;
 }
 
 #main-content p {
