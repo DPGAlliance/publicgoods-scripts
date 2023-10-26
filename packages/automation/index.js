@@ -291,34 +291,8 @@ fs.readFile(pathRegistryTemplateHtml, 'utf-8', (err, data) => {
             return console.error("Error occurred:", error);
           }
           console.log("Modified files:", changedFiles.join(", "));
-  
-          replace(
-            {
-              files: pathHtml, 
-              from: "</body>", 
-              to: `
-                <script type="text/javascript" src="./ResizeSensor.js"></script>
-                <script type='text/javascript' src="./sticky-sidebar.min.js"></script>
-            
-                <script type='text/javascript'>
-                  var sidebar = new StickySidebar('#sidebar', {
-                      containerSelector: '#main-content',
-                      innerWrapperSelector: '.sidebar__inner',
-                      topSpacing: 60,
-                      bottomSpacing: 0,
-                  });
-                </script>
-                </body>
-              ` 
-            },
-            (error, changedFiles) => {
-              if (error) {
-                return console.error("Error occurred:", error);
-              }
-  
-              fs.copyFileSync(pathHtml, destHtml);
-            }
-          );
+          
+          fs.copyFileSync(pathHtml, destHtml);
         }
       );
     }
