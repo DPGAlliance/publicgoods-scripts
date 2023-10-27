@@ -91,6 +91,8 @@
         .attr("viewBox", [0, 0, width, height])
         .attr("preserveAspectRatio", "xMinYMin meet");
 
+    const tool = d3.select("body").append("div").attr("class", "toolTip");
+
     var data_sdg = $sdgData$;
     var data_type = $typeData$;
     var sdg_labels = $SDGS$;
