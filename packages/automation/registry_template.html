@@ -1,18 +1,9 @@
 <div id="topDistributionRow" class="row wp-block-buttons is-content-justification-center">
-
-    <!--div class="col-xs-2 col-xs-offset-1">
-      <span class="big-details"> candidates.length </span>
-      <span class="small-title">nominees</span>
-    </div>
-    <div class="col-xs-1">
-      <img src="https://dpg-website.s3.amazonaws.com/img/right-arrows.svg" style="height:50px; margin-top:20px; display:block">
-    </div-->
-
     <div class="col-xs-2">
         <span class="big-details">$vettedDPGs$</span>
         <span class="small-title">Digital<br/>Public<br/>Goods</span>
     </div>
-    <div class="col-xs-4" id="venn">
+    <div class="col-xs-half" id="venn">
         <span class="small-title">distribution by type</span>
     </div>
 </div>
@@ -90,8 +81,6 @@
     const svg = d3.select("#treemap").append("svg")
         .attr("viewBox", [0, 0, width, height])
         .attr("preserveAspectRatio", "xMinYMin meet");
-
-    const tool = d3.select("body").append("div").attr("class", "toolTip");
 
     var data_sdg = $sdgData$;
     var data_type = $typeData$;
@@ -176,8 +165,8 @@
         .range(['white', 'black', 'black', 'black']);
 
     var chart = venn.VennDiagram()
-        .width(350)
-        .height(200);
+        .width(475)
+        .height(300);
 
     var div = d3.select("#venn")
         .datum(sets)
@@ -198,10 +187,14 @@
         .style("stroke", "#fff")
         .style("stroke-width", 3)
 
-    div.selectAll('g')
+    const venncircles = div.selectAll("g");
+    venncircles
         .on("mouseover", handleVennMouseOver)
-        .on("mousemove", handleVennMouseMove)
         .on("mouseout", handleVennMouseOut);
+
+    venncircles
+        .append('title')
+        .text(d => d.value + ' DPGs');
 
     function handleVennMouseOver(d) {  // Add interactivity
         venn.sortAreas(div, d);
@@ -212,13 +205,6 @@
             .style("stroke-opacity", 1);
     }
 
-    function handleVennMouseMove(d) {
-        tool.style("left", d3.event.pageX + 10 + "px")
-        tool.style("top", d3.event.pageY - 20 + "px")
-        tool.style("display", "inline-block");
-        tool.html(d.value + ' DPGs');
-    }
-
     function handleVennMouseOut(d, i) {
         venn.sortAreas(div, d);
 
@@ -227,13 +213,7 @@
             .style("fill-opacity", 0.9)
             .select("path")
             .style("stroke-opacity", 0);
-
-
-        // Select text by id and then remove
-        tool.style("display", "none");
     }
-
-
 </script>
 
 <div id="main-content" class="container clearfix">
