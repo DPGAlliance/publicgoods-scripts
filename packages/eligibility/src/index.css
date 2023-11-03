@@ -55,7 +55,7 @@ a {
 
 @media (max-width: 680px) {
     .question {
-        height: 127px;
+        min-height: 127px;
         font-size: 25px;
     }
 
@@ -84,7 +84,7 @@ a {
 
 @media (min-width: 680px) and (max-width: 950px) {
     .question {
-        height: 100px;
+        min-height: 100px;
     }
 
     .card {
@@ -112,7 +112,7 @@ a {
 
 @media (min-width: 950px) {
     .question {
-        height: 100px;
+        min-height: 100px;
     }
 
     .card {
@@ -169,8 +169,7 @@ a {
 
 /* Question Component */
 .question {
-    margin: 0;
-    padding: 0.5rem 2.5rem 1.5rem 2.5rem;
+    margin: 1.5rem 0;
 }
 
 /* Result Component */

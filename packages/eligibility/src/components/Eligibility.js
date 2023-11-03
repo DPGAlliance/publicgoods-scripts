@@ -264,7 +264,7 @@ function Eligibility() {
                                             total={total}
                                         />
 
-                                        <h4 className="question pl-4">{question} {counter !== 6 && (
+                                        <h4 className="question">{question} {counter !== 6 && (
                                             <a href="#FAQ" style={{fontSize: 13, textDecoration: "underline", color: "#4D29BA"}}> Not sure? </a>)} </h4>
 
                                         <ul className="answerOptions">
