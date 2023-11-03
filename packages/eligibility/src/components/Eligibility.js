@@ -25,7 +25,6 @@ function Eligibility() {
   const [maybeQuestions, setMaybeQuestions] = useState([]);
   const [resultClick, setResultClick] = useState(null);
   const [cookies, setCookie] = useCookies(["uuid"]);
-  const [values, setValues] = useState({});
   const [startQuiz, setStartQuiz] = useState(false);
   const [isOwner, setIsOwner] = useState(true);
   const [total, setTotal] = useState(7);
@@ -165,7 +164,6 @@ function Eligibility() {
     setScore(scoreValue);
     setWrongQuestions(questionsList);
     setMaybeQuestions(maybeList);
-    setValues(valueList);
 
     if(scoreValue === 7 || scoreValue + maybeList.length - 3 === 7) {
       setButtonName("Proceed");
@@ -212,7 +210,6 @@ function Eligibility() {
     setScore(scoreValue);
     setWrongQuestions(questionsList);
     setMaybeQuestions(maybeList);
-    setValues(valueList);
 
     if(scoreValue === quizQuestions.length || scoreValue + maybeList.length === quizQuestions.length) {
       setButtonName("Proceed");
