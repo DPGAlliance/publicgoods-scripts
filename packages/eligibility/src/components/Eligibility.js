@@ -30,6 +30,7 @@ function Eligibility() {
     const [isOwner, setIsOwner] = useState(true);
     const [total, setTotal] = useState(7);
     const formRef = useRef(null);
+    const [needToScroll, setNeedToScroll] = useState(false);
 
     React.useEffect(() => {
         document.addEventListener('keydown', handleKeys);
@@ -40,10 +41,15 @@ function Eligibility() {
             setCookie("uuid", userId, {path: "/", maxAge: 2592000}); // maxAge: 30 days
         }
 
+        if (needToScroll) {
+            setNeedToScroll(false);
+            formRef.current.scrollIntoView();
+        }
+
         return () => {
             document.removeEventListener('keydown', handleKeys);
         };
-    });
+    }, [cookies.uuid, needToScroll, setCookie]);
 
     function handleKeys(e) {
         e.keyCode === 37 && document.querySelector('#backButton') && document.querySelector('#backButton').click() && e.preventDefault();
@@ -52,7 +58,7 @@ function Eligibility() {
 
     const setQuestionId = (questionId) => {
         _setQuestionId(questionId);
-        setTimeout(() => {formRef.current.scrollIntoView()}, 100);
+        setNeedToScroll(true);
     }
 
     function setUserAnswer(ans) {
