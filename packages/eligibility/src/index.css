@@ -30,7 +30,9 @@ a {
   color: #2b209a;
 }
 
-
+.card {
+  margin: 1.5rem 0;
+}
 
 .quiz {
   position: relative;
@@ -144,18 +146,18 @@ a {
 }
 
 #backButton {
-  margin-bottom:30; 
+  margin-bottom:30;
   border-radius:0;
-  border-color:#4D29BA; 
-  background-color: white; 
-  color: #4D29BA; 
+  border-color:#4D29BA;
+  background-color: white;
+  color: #4D29BA;
   font-family:'NowAlt-Light'
 }
 
 #nextButton {
-  margin-bottom:30; 
-  border-radius:0; 
-  background-color:#4D29BA; 
+  margin-bottom:30;
+  border-radius:0;
+  background-color:#4D29BA;
   font-family:'NowAlt-Light'
 }
 

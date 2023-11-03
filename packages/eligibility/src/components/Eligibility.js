@@ -230,7 +230,7 @@ function Eligibility() {
           />
         </div>
 
-      <Paper className="pt-4 m-4 card" variant="outlined" elevation={5}>
+      <Paper className="pt-4 card" variant="outlined" elevation={5}>
         <div>
         {!startQuiz && (
         <>
