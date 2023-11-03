@@ -290,23 +290,27 @@ function Eligibility() {
                                     </div>
                                 </div>
 
-                                <div className="text-center">
+                                <div className="actionContainer">
+                                    <div className="backButtonContainer">
                                     <Button
-                                        className="ml-2"
+                                        className=""
                                         variant="secondary"
                                         onClick={(e) => handleClick(false)}
                                         disabled={!prev}
                                         id="backButton">
                                         Back
                                     </Button>
+                                    </div>
+                                    <div className="nextButtonContainer">
                                     <Button
-                                        className="mr-2"
+                                        className=""
                                         variant="secondary"
                                         onClick={(e) => handleClick(true)}
                                         disabled={!next}
                                         id="nextButton">
                                         Next
                                     </Button>
+                                    </div>
                                 </div>
 
                                 {counter !== 6 && (
