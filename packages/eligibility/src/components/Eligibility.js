@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import {useRef} from "react";
 import {useCookies} from "react-cookie";
 import {v4 as uuidv4} from "uuid";
 import Result from './Result';
@@ -15,7 +16,7 @@ function Eligibility() {
     const [counter, setCounter] = useState(0);
     const [prev, setPrev] = useState(false);
     const [next, setNext] = useState(false);
-    const [questionId, setQuestionId] = useState(0);
+    const [questionId, _setQuestionId] = useState(0);
     const [question, setQuestion] = useState(quizQuestions[0].question);
     const [answer, setAnswer] = useState('');
     const [answersList, setAnswerList] = useState({});
@@ -28,6 +29,7 @@ function Eligibility() {
     const [startQuiz, setStartQuiz] = useState(false);
     const [isOwner, setIsOwner] = useState(true);
     const [total, setTotal] = useState(7);
+    const formRef = useRef(null);
 
     React.useEffect(() => {
         document.addEventListener('keydown', handleKeys);
@@ -46,6 +48,11 @@ function Eligibility() {
     function handleKeys(e) {
         e.keyCode === 37 && document.querySelector('#backButton') && document.querySelector('#backButton').click() && e.preventDefault();
         e.keyCode === 39 && document.querySelector('#nextButton') && document.querySelector('#nextButton').click() && e.preventDefault();
+    }
+
+    const setQuestionId = (questionId) => {
+        _setQuestionId(questionId);
+        setTimeout(() => {formRef.current.scrollIntoView()}, 100);
     }
 
     function setUserAnswer(ans) {
@@ -217,7 +224,7 @@ function Eligibility() {
 
     return (
         <>
-            <center>
+            <center ref={formRef}>
                 <div className="pt-2 pb-3" style={{width: "60%"}}>
                     <ProgressBar
                         filledBackground="linear-gradient(to right, #cdbdff, #4d29ba)"
