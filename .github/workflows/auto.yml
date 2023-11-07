@@ -134,7 +134,7 @@ jobs:
         run: |
           cp -r artifacts/artifacts${{github.run_number}}/* testenv/
           cd testenv 
-          find . -name '*.html' -exec sed -i -e "s,http://dpgwebsite.herokuapp.com,https://dpgalliance.github.io/,g" {} \;
+          find . -name '*.html' -exec sed -i -e "s,https://sourcewp.digitalpublicgoods.net,https://dpgalliance.github.io/,g" {} \;
           touch .nojekyll
           git remote set-url origin https://github.com/DPGAlliance/DPGAlliance.github.io.git 
           git add . 
@@ -191,7 +191,7 @@ jobs:
         run: |
           cp -r artifacts/artifacts${{github.run_number}}/* prodenv/
           cd prodenv
-          find . -name '*.html' -exec sed -i -e "s,http://dpgwebsite.herokuapp.com,https://digitalpublicgoods.net,g" {} \;
+          find . -name '*.html' -exec sed -i -e "s,https://sourcewp.digitalpublicgoods.net,https://digitalpublicgoods.net,g" {} \;
           touch .nojekyll
           git remote set-url origin https://github.com/DPGAlliance/publicgoods-website.git
           git add .
