@@ -4,6 +4,7 @@ import './index.css';
 import * as serviceWorker from './serviceWorker';
 import Form from 'react-bootstrap/Form';
 import nominees from './nominees.json';
+import {FormControl} from "react-bootstrap";
 
 const sdg_labels = ["1. No Poverty","2. Zero Hunger","3. Good Health and Well-being","4. Quality Education","5. Gender Equality","6. Clean Water and Sanitation","7. Affordable and Clean Energy","8. Decent Work and Economic Growth","9. Industry, Innovation and Infrastructure","10. Reduced Inequality","11. Sustainable Cities and Communities","12. Responsible Consumption and Production","13. Climate Action","14. Life Below Water","15. Life on Land","16. Peace and Justice Strong Institutions","17. Partnerships to achieve the Goal"]
 const types = {
@@ -360,6 +361,114 @@ class List extends Component {
   }
 }
 
+class MobileFilters extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { liked: false, count: 0};
+    this.typeFilter = '';
+    this.sdgFilter = '';
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(event) {
+
+    if(event) {
+      if (event.target.id === 'mobileTypeFilter') {
+        this.typeFilter = event.target.value;
+      }
+      else if (event.target.id === 'mobileSdgFilter') {
+        this.sdgFilter = event.target.value;
+      }
+
+    } else {
+      this.typeFilter = '';
+      this.sgdFilter = '';
+    }
+
+    this.doFilter();
+  }
+
+  doFilter() {
+    let elems,
+        classFilter = this.typeFilter + ' ' + this.sdgFilter;
+    classFilter = classFilter.trim();
+    elems = document.getElementsByClassName('mobile-dpg-row');
+    if (!classFilter) {
+      for(let i = 0; i < elems.length; i++) {
+        elems[i].style.removeProperty('display');
+      }
+    }
+    else {
+      for(let i = 0; i < elems.length; i++) {
+        elems[i].style.display = 'none';
+      }
+      elems = document.getElementsByClassName(classFilter);
+      for(let i = 0; i < elems.length; i++) {
+        elems[i].style.removeProperty('display');
+      }
+    }
+    this.countActive();
+  }
+
+  componentDidMount() {
+    this.handleChange();
+  }
+
+  countActive() {
+    const elems = document.getElementById('mobiledpgalist').getElementsByTagName('tr');
+    let count = 0;
+    for(let i=0; i<elems.length; i++) {
+      if(elems[i].style.display !== 'none'){
+        count++;
+      }
+    }
+    this.setState({count: count-1});
+  }
+
+  render() {
+    return (
+        <div>
+          <div className="filterSection">
+            <p>Displaying {this.state.count} of <b>{nominees.length}</b> items</p>
+          </div>
+
+          <div className="filterSection">
+            <div className="filteredContent" id="type-options">
+              <Form.Control
+                  id="mobileTypeFilter"
+                  as="select"
+                  size="sm"
+                  onChange={this.handleChange}
+              >
+                <option value="">Select type</option>
+              {Object.keys(types).map((label, index) => (
+                  <option value={`${label}`}>{label}</option>
+              ))}
+              </Form.Control>
+            </div>
+          </div>
+
+          <div className="filterSection">
+            <div className="filteredContent" id="sdg-options">
+              <Form.Control
+                  id="mobileSdgFilter"
+                  as="select"
+                  size="sm"
+                  onChange={this.handleChange}
+              >
+                <option value="">Select SDG</option>
+                {sdg_labels.map((label, index) => (
+                    <option value={`SDG${index+1}`}>{label}</option>
+                ))}
+              </Form.Control>
+            </div>
+          </div>
+
+        </div>
+    );
+  }
+}
+
 function MobileListItemBeta(props){
 
   let item = props.item;
@@ -407,7 +516,7 @@ function MobileListItemBeta(props){
   let linkName = item.name
 
   return(
-      <tr key={index} className={itemClass}>
+      <tr key={index} className={`${itemClass} mobile-dpg-row`}>
         <td>{name}</td>
         {/* eslint-disable-next-line */}
         <td><a id={linkName} className="anchor"></a>{item.description}</td>
@@ -440,6 +549,7 @@ ReactDOM.render(<List />, document.querySelector('#mytable'));
 ReactDOM.render(<Filters />, document.querySelector('#filters'));
 
 ReactDOM.render(<MobileList />, document.querySelector('#mobiledpgalist'));
+ReactDOM.render(<MobileFilters />, document.querySelector('#mobilefilters'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
