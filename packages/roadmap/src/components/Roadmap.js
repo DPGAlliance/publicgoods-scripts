@@ -235,10 +235,10 @@ function Roadmap() {
 
   return (
       <div>
-        <div className="showonmobile">
+        <div className="hide-on-desktop-block">
 
         </div>
-        <div className="showondesktop">
+        <div className="hide-on-mobile-block">
           <div width="1020" margin="auto" className="flex-container-roadmap">
             <select
                 className="search-select"

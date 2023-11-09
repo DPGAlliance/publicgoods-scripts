@@ -9,18 +9,18 @@
     margin-right: 150px; /* Adjust the spacing as needed */
   }
 
-.showonmobile {
+.hide-on-desktop-block {
     display: none;
 }
-.showondesktop {
+.hide-on-mobile-block {
     display: block;
 }
 
 @media (max-width: 375px) {
-    .showonmobile {
+    .hide-on-desktop-block {
         display: block;
     }
-    .showondesktop {
+    .hide-on-mobile-block {
         display: none;
     }
     .search-input {
