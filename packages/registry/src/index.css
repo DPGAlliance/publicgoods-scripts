@@ -140,3 +140,21 @@ label {
   border: 1px solid #d0cccc;
   padding: 0.5rem;
 }
+
+@media (max-width: 991.98px) {
+    .hide-on-mobile {
+        display: none;
+    }
+    .hide-on-desktop {
+        display: block;
+    }
+}
+
+@media (min-width: 992px) {
+    .hide-on-mobile {
+        display: block;
+    }
+    .hide-on-desktop {
+        display: none;
+    }
+}

@@ -54,7 +54,7 @@ class Filters extends Component {
     let display;
     if(event){
       checkboxId = event.target.id.split('-')[0];
-      
+
       display = event.target.checked;
 
       if (checkboxId === 'selectAllTypesToggle') {
@@ -63,7 +63,7 @@ class Filters extends Component {
       if (checkboxId === 'selectAllSDGsToggle') {
         this.selectAllSDGs();
       }
-      
+
     } else {
       // When the page loads, handleChange() is called via componentDidMount()
       // We only want to display DPGs at page load, so nominees is unchecked
@@ -71,7 +71,7 @@ class Filters extends Component {
       checkboxId='nominee'
       display=false
     }
-    
+
     this.doFilter(checkboxId, display);
   }
 
@@ -79,7 +79,7 @@ class Filters extends Component {
     var elems = document.getElementsByClassName(checkboxId);
 
     for(let i=0; i < elems.length; i++) {
-      
+
       let concurrentClasses;
       if(display) {
         concurrentClasses = elems[i].className.trim().split(' ');
@@ -87,11 +87,11 @@ class Filters extends Component {
         concurrentClasses = elems[i].className.trim().split(' ').filter(function(a){ return a !== checkboxId });
       }
       let intersectionSet1 = concurrentClasses.filter(i => Object.keys(types).includes(i));
-      
+
       let intersectionSet2 = concurrentClasses.filter(i => sdgs.includes(i));
 
       //let intersectionSet3 = concurrentClasses.filter(i => stage.includes(i));
-      
+
       let intersection1 = false;
       for(let j=0; j < intersectionSet1.length; j++) {
         if(document.getElementById(intersectionSet1[j]+'-checkbox').checked){
@@ -124,7 +124,7 @@ class Filters extends Component {
   }
 
   toggleVisible(event) {
-    
+
     let parent;
     if(event.target.nodeName === 'path') {
       parent = event.target.parentNode.parentNode;
@@ -186,7 +186,7 @@ class Filters extends Component {
 
           <div className="filterSection">
           <Form>
-          <Form.Check 
+          <Form.Check
                     type='checkbox'
                     id={`selectAllTypesToggle`}
                     label='Select all types'
@@ -195,29 +195,29 @@ class Filters extends Component {
                   />
           </Form>
             <div className="filterSectionTitle">
-              
+
                <p className="filter_header">Type</p>
                <div className="icon" onClick={this.toggleVisible} id="type-toggle">
                 <svg viewBox="0 0 8 5" xmlns="http://www.w3.org/2000/svg" strokeLinejoin="round" strokeLinecap="round" strokeWidth="1.35">
                   <path d="M7 1.053L4.027 4 1 1" stroke="currentColor" fill="none"></path>
                 </svg>
-                
+
                </div>
             </div>
             <div className="filteredContent" id="type-options">
                 <Form>
-                
+
                   {Object.keys(types).map((label, index) => (
-                  <Form.Check 
+                  <Form.Check
                     key={index}
                     className='typeCheckbox'
                     onChange = {this.handleChange}
                   >
-                    <Form.Check.Input 
-                      type="checkbox" 
-                      className="js-typeCheckbox" 
-                      id={`${label}-checkbox`} 
-                      onChange={this.handleChange} 
+                    <Form.Check.Input
+                      type="checkbox"
+                      className="js-typeCheckbox"
+                      id={`${label}-checkbox`}
+                      onChange={this.handleChange}
                       defaultChecked
                     />
                     <Form.Check.Label>{trunc(types[label]['name'],25)}</Form.Check.Label>
@@ -230,7 +230,7 @@ class Filters extends Component {
           <div className="filterSection">
             <div className="filterHead">
               <Form>
-              <Form.Check 
+              <Form.Check
                       type='checkbox'
                       id={`selectAllSDGsToggle`}
                       label='Select all SDGs'
@@ -250,7 +250,7 @@ class Filters extends Component {
             <div className="filteredContent" id="sdg-options">
                 <Form>
                   {sdg_labels.map((label, index) => (
-                  <Form.Check 
+                  <Form.Check
                     key={index}
                     className='sdgs'
                   >
@@ -267,9 +267,9 @@ class Filters extends Component {
                 </Form>
             </div>
         </div>
-       
+
       </div>
-        ); 
+        );
   }
 }
 
@@ -281,7 +281,7 @@ function ListItemBeta(props){
   if (!item.hasOwnProperty("id")) {
     return(<div></div>)
   }
-  
+
   let name;
   let nameText = item.name;
 
@@ -289,8 +289,8 @@ function ListItemBeta(props){
     name = <a href={'https://app.digitalpublicgoods.net/a/' + item.id} target="_blank" rel="noopener noreferrer">{nameText}</a>;
     if(item.dpgLink){
       name = <span>{name} <img src="dpgicon.svg" alt="DPG icon" height="25"/></span>
-    } 
-    else { 
+    }
+    else {
       name = <span><a href="/blog/announcing-the-first-vetted-digital-public-goods-for-foundational-literacy-and-early-grade-reading/" target="_blank" rel="noopener noreferrer">{nameText} <img src="dpgicon.svg" alt="DPG icon" height="25"/></a></span>;
     }
   }
@@ -301,20 +301,20 @@ function ListItemBeta(props){
   let itemClass='';
   if(item.hasOwnProperty("sdgs")){
     for (var j=0; j<item.sdgs.sdg.length; j++) {
-    
+
       let thesdg = item.sdgs.sdg[j];
       thesdg = thesdg.split(':')[0]
       itemClass += thesdg + " "
       //itemClass += 'sdg'+item.sdgs[j].sdg.spilt(':',1)[0]+' '
     }
   }
-   
+
   if(item.hasOwnProperty("categories")){
     for (var k=0; k<item.categories.length; k++) {
       itemClass += item.categories[k] + ' ';
-    } 
+    }
   }
- 
+
   itemClass += item.stage;
 
   let license;
@@ -324,7 +324,7 @@ function ListItemBeta(props){
 
   let linkName = item.name
 
-  
+
 
   return(
     <tr key={index} className={itemClass}>
@@ -335,13 +335,13 @@ function ListItemBeta(props){
       <td><div dangerouslySetInnerHTML={{__html: item.githubActivity}} /></td>
     </tr>
   )
-  
+
 }
 
 class List extends Component {
   render() {
     return(
-        <table className="table"> 
+        <table className="table">
           <thead>
             <tr>
               <th>Name</th>
@@ -360,8 +360,86 @@ class List extends Component {
   }
 }
 
+function MobileListItemBeta(props){
+
+  let item = props.item;
+  let index = props.index;
+
+  if (!item.hasOwnProperty("id")) {
+    return(<div></div>)
+  }
+
+  let name;
+  let nameText = item.name;
+
+  if(item.stage === 'DPG') {
+    name = <a href={'https://app.digitalpublicgoods.net/a/' + item.id} target="_blank" rel="noopener noreferrer">{nameText}</a>;
+    if(item.dpgLink){
+      name = <span>{name} <img src="dpgicon.svg" alt="DPG icon" height="25"/></span>
+    }
+    else {
+      name = <span><a href="/blog/announcing-the-first-vetted-digital-public-goods-for-foundational-literacy-and-early-grade-reading/" target="_blank" rel="noopener noreferrer">{nameText} <img src="dpgicon.svg" alt="DPG icon" height="25"/></a></span>;
+    }
+  }
+  else{
+    name = <a href={'https://app.digitalpublicgoods.net/a/' + item.id} target="_blank" rel="noopener noreferrer">{nameText}</a>;
+  }
+
+  let itemClass='';
+  if(item.hasOwnProperty("sdgs")){
+    for (var j=0; j<item.sdgs.sdg.length; j++) {
+
+      let thesdg = item.sdgs.sdg[j];
+      thesdg = thesdg.split(':')[0]
+      itemClass += thesdg + " "
+      //itemClass += 'sdg'+item.sdgs[j].sdg.spilt(':',1)[0]+' '
+    }
+  }
+
+  if(item.hasOwnProperty("categories")){
+    for (var k=0; k<item.categories.length; k++) {
+      itemClass += item.categories[k] + ' ';
+    }
+  }
+
+  itemClass += item.stage;
+
+  let linkName = item.name
+
+  return(
+      <tr key={index} className={itemClass}>
+        <td>{name}</td>
+        {/* eslint-disable-next-line */}
+        <td><a id={linkName} className="anchor"></a>{item.description}</td>
+      </tr>
+  )
+
+}
+
+class MobileList extends Component {
+  render() {
+    return(
+        <table className="table">
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+          </tr>
+          </thead>
+          <tbody>
+          {nominees.map((item, index) => (
+              <MobileListItemBeta item={item} index={index} key={index}/>
+          ))}
+          </tbody>
+        </table>
+    )
+  }
+}
+
 ReactDOM.render(<List />, document.querySelector('#mytable'));
 ReactDOM.render(<Filters />, document.querySelector('#filters'));
+
+ReactDOM.render(<MobileList />, document.querySelector('#mobiledpgalist'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
