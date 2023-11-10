@@ -3,7 +3,7 @@
 # DOMAIN=" https://dpgalliance.github.io/"
 
 # source a static version of the site
-wget --no-host-directories --recursive --page-requisites --no-parent --timestamping -e robots=off -w 1 --random-wait --retry-on-http-error=503 -P static http://sourcewp.digitalpublicgoods.net http://sourcewp.digitalpublicgoods.net/submission-guide/
+wget --no-host-directories --recursive --page-requisites --no-parent --timestamping -e robots=off -w 1 --random-wait --retry-on-http-error=503 -P static https://sourcewp.digitalpublicgoods.net https://sourcewp.digitalpublicgoods.net/submission-guide/
 
 # cd into the folder
 pushd static
