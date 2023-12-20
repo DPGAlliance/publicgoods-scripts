@@ -1,11 +1,9 @@
-name: Production Build and Deploy
+name: Test Build and Deploy
 
 on:
   push:
-    branches: [main]
+    branches: [test]
   workflow_dispatch:
-  schedule:
-    - cron: "0 0 * * *"
 
 jobs:
   build:
@@ -66,7 +64,7 @@ jobs:
           name: artifacts
           path: /home/runner/work/publicgoods-scripts/publicgoods-website-test
 
-  deploy_to_prod:
+  deploy_to_test:
     needs: build
     runs-on: ubuntu-latest
 
@@ -83,20 +81,20 @@ jobs:
           name: artifacts
           path: artifacts${{ github.run_number }}/
 
-      - name: Checkout Prod Repository
+      - name: Checkout Test Repository
         uses: actions/checkout@v2
         with:
-          repository: DPGAlliance/publicgoods-website
-          path: "prodenv"
+          repository: DPGAlliance/DPGAlliance.github.io
+          path: "testenv"
           token: ${{ secrets.GITHUBTOKEN }}
 
-      - name: Push to Production Environment
+      - name: Push to Test Environment
         run: |
-          cp -r artifacts${{ github.run_number }}/* prodenv/
-          cd prodenv
-          find . -name '*.html' -exec sed -i -e "s,https://sourcewp.digitalpublicgoods.net,https://digitalpublicgoods.net,g" {} \;
+          cp -r artifacts${{ github.run_number }}/* testenv/
+          cd testenv 
+          find . -name '*.html' -exec sed -i -e "s,https://sourcewp.digitalpublicgoods.net,https://dpgalliance.github.io/,g" {} \;
           touch .nojekyll
-          git remote set-url origin https://github.com/DPGAlliance/publicgoods-website.git
-          git add .
-          git commit -am "BLD: $GITHUB_SHA" || true
+          git remote set-url origin https://github.com/DPGAlliance/DPGAlliance.github.io.git 
+          git add . 
+          git commit -am "BLD: $GITHUB_SHA" || true 
           git push --set-upstream origin main
