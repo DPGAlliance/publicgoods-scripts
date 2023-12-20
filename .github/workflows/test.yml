@@ -1,4 +1,4 @@
-name: Build and Deploy
+name: Test Build and Deploy
 
 on:
   push:
@@ -90,7 +90,7 @@ jobs:
 
       - name: Push to Test Environment
         run: |
-          cp -r artifacts/artifacts${{ github.run_number }}/* testenv/
+          cp -r artifacts${{ github.run_number }}/* testenv/
           cd testenv 
           find . -name '*.html' -exec sed -i -e "s,https://sourcewp.digitalpublicgoods.net,https://dpgalliance.github.io/,g" {} \;
           touch .nojekyll
