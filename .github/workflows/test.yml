@@ -1,0 +1,100 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches: [test]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: TruffleHog OSS
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: ./
+          base: ${{ github.ref }}
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+
+      - name: SSH Setup
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.PRIVATE_DEPENDENCY }}
+
+      - name: Clone publicgoods-website-test
+        run: git clone git@github.com:DPGAlliance/DPGAlliance.github.io.git ../publicgoods-website-test
+
+      - name: Run static.bash
+        run: bash scripts/static.bash
+      - name: Run npm i at root for needed react-scripts package below
+        run: npm install
+      - name: Consolidating DPG's and nominees from new API for registry page table
+        run: cd packages/automation && node consolidate_data.js
+      - name: Generating registry, eligibility and map pages
+        run: cd packages/automation && node index.js
+      - name: Softlink required dependencies
+        run: |
+          ln -s ../../../../publicgoods-website-test/wp-includes/ packages/eligibility/public/wp-includes;
+          ln -s ../../../../publicgoods-website-test/wp-content/ packages/eligibility/public/wp-content;
+          ln -s ../../../../publicgoods-website-test/wp-includes/ packages/registry/public/wp-includes;
+          ln -s ../../../../publicgoods-website-test/wp-content/ packages/registry/public/wp-content;
+          ln -s ../../../../publicgoods-website-test/wp-includes/ packages/map/public/wp-includes;
+          ln -s ../../../../publicgoods-website-test/wp-content/ packages/map/public/wp-content;
+          ln -s ../../../../publicgoods-website-test/wp-includes/ packages/roadmap/public/wp-includes;
+          ln -s ../../../../publicgoods-website-test/wp-content/ packages/roadmap/public/wp-content;
+      - name: Build packages/eligibility
+        run: cd packages/eligibility && npm install && npm run build
+      - name: Build packages/registry
+        run: cd packages/registry && npm install && npm run build
+      - name: Build packages/roadmap
+        run: cd packages/roadmap && npm install && npm run build
+
+      - name: run movefiles.bash
+        run: bash scripts/moveFiles.bash
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: artifacts
+          path: /home/runner/work/publicgoods-scripts/publicgoods-website-test
+
+  deploy_to_test:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Configuring commit Author
+        run: |
+          git config --global user.email "96251909+dpgabot@users.noreply.github.com"
+          git config --global user.name "dpgabot"
+
+      - name: Download Artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: artifacts
+          path: artifacts${{ github.run_number }}/
+
+      - name: Checkout Test Repository
+        uses: actions/checkout@v2
+        with:
+          repository: DPGAlliance/DPGAlliance.github.io
+          path: "testenv"
+          token: ${{ secrets.GITHUBTOKEN }}
+
+      - name: Push to Test Environment
+        run: |
+          cp -r artifacts/artifacts${{ github.run_number }}/* testenv/
+          cd testenv 
+          find . -name '*.html' -exec sed -i -e "s,https://sourcewp.digitalpublicgoods.net,https://dpgalliance.github.io/,g" {} \;
+          touch .nojekyll
+          git remote set-url origin https://github.com/DPGAlliance/DPGAlliance.github.io.git 
+          git add . 
+          git commit -am "BLD: $GITHUB_SHA" || true 
+          git push --set-upstream origin main
