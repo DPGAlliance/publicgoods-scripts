@@ -1,4 +1,4 @@
-name: Build and Deploy
+name: Production Build and Deploy
 
 on:
   push:
@@ -34,15 +34,6 @@ jobs:
 
       - name: Run static.bash
         run: bash scripts/static.bash
-      # - name: Generating DPG's
-      #   run: cd packages/automation && npm install && node generate_dpgs.js
-      # - name: Generating Nominees
-      #   env:
-      #       CLIENTID: ${{ secrets.CLIENTID}}
-      #       CLIENTSECRET: ${{ secrets.CLIENTSECRET}}
-      #   run: cd packages/automation && node generate_nominees.js
-      # - name: Downloading nominees.json file into packages/registry/src
-      #   run:  curl --location --request GET 'https://api.digitalpublicgoods.net/nominees/' -o packages/registry/src/nominees.json
       - name: Run npm i at root for needed react-scripts package below
         run: npm install
       - name: Consolidating DPG's and nominees from new API for registry page table
@@ -63,11 +54,6 @@ jobs:
         run: cd packages/eligibility && npm install && npm run build
       - name: Build packages/registry
         run: cd packages/registry && npm install && npm run build
-      #- name: Build packages/map
-      #  run: cd packages/map && npm install && npm run build
-      #  env:
-      #    NEXT_PUBLIC_MAPBOX_TOKEN: ${{ secrets.NEXT_PUBLIC_MAPBOX_TOKEN }}
-      #    NEXT_PUBLIC_SHEET_ID: ${{ secrets.NEXT_PUBLIC_SHEET_ID }}
       - name: Build packages/roadmap
         run: cd packages/roadmap && npm install && npm run build
 
@@ -80,99 +66,33 @@ jobs:
           name: artifacts
           path: /home/runner/work/publicgoods-scripts/publicgoods-website-test
 
-  push_to_artifactory:
+  deploy_to_prod:
     needs: build
     runs-on: ubuntu-latest
+
     steps:
+      - uses: actions/checkout@v2
+      - name: Configuring commit Author
+        run: |
+          git config --global user.email "96251909+dpgabot@users.noreply.github.com"
+          git config --global user.name "dpgabot"
+
       - name: Download Artifacts
         uses: actions/download-artifact@v3
         with:
           name: artifacts
-          path: artifacts${{ github.run_number}}/
-
-      - name: Setup JFrog CLI
-        id: setup_JFrog_CLI
-        uses: jfrog/setup-jfrog-cli@v3
-        env:
-          JF_URL: ${{ secrets.JF_URL }}
-          JF_USER: ${{secrets.JF_USER}}
-          JF_PASSWORD: ${{secrets.JF_PASSWORD}}
-
-      - name: Upload to Jfrog Artifactory
-        run: jf rt  u "artifacts${{ github.run_number}}/*" dpga-website-artifacts --exclusions=".git/**"
-
-  deploy_to_test:
-    needs: push_to_artifactory
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-      - name: Configuring commit Author
-        run: |
-          git config --global user.email "96251909+dpgabot@users.noreply.github.com"
-          git config --global user.name "dpgabot"
-
-      - name: Setup JFrog CLI
-        id: setup_JFrog_CLI
-        uses: jfrog/setup-jfrog-cli@v3
-        env:
-          JF_URL: ${{ secrets.JF_URL }}
-          JF_USER: ${{secrets.JF_USER}}
-          JF_PASSWORD: ${{secrets.JF_PASSWORD}}
-
-      - name: Download Artifacts from Artifactory
-        run: jf rt dl "dpga-website-artifacts/artifacts${{github.run_number}}/*" artifacts/
-
-      - name: Checkout Test Repository
-        uses: actions/checkout@v2
-        with:
-          repository: DPGAlliance/DPGAlliance.github.io
-          path: "testenv"
-          token: ${{secrets.GITHUBTOKEN }}
-
-      - name: Push to Test Environment
-        run: |
-          cp -r artifacts/artifacts${{github.run_number}}/* testenv/
-          cd testenv 
-          find . -name '*.html' -exec sed -i -e "s,https://sourcewp.digitalpublicgoods.net,https://dpgalliance.github.io/,g" {} \;
-          touch .nojekyll
-          git remote set-url origin https://github.com/DPGAlliance/DPGAlliance.github.io.git 
-          git add . 
-          git commit -am "BLD: $GITHUB_SHA" || true 
-          git push --set-upstream origin main
-
-  deploy_to_prod:
-    needs: deploy_to_test
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-      - name: Configuring commit Author
-        run: |
-          git config --global user.email "96251909+dpgabot@users.noreply.github.com"
-          git config --global user.name "dpgabot"
-
-      - name: Setup JFrog CLI
-        id: setup_JFrog_CLI
-        uses: jfrog/setup-jfrog-cli@v3
-        env:
-          JF_URL: ${{ secrets.JF_URL }}
-          JF_USER: ${{secrets.JF_USER}}
-          JF_PASSWORD: ${{secrets.JF_PASSWORD}}
-
-      - name: Download Artifacts from Artifactory
-        run: jf rt dl "dpga-website-artifacts/artifacts${{github.run_number}}/*" artifacts/
+          path: artifacts${{ github.run_number }}/
 
       - name: Checkout Prod Repository
         uses: actions/checkout@v2
         with:
           repository: DPGAlliance/publicgoods-website
           path: "prodenv"
-          token: ${{secrets.GITHUBTOKEN }}
+          token: ${{ secrets.GITHUBTOKEN }}
 
       - name: Push to Production Environment
         run: |
-          cp -r artifacts/artifacts${{github.run_number}}/* prodenv/
+          cp -r artifacts${{ github.run_number }}/* prodenv/
           cd prodenv
           find . -name '*.html' -exec sed -i -e "s,https://sourcewp.digitalpublicgoods.net,https://digitalpublicgoods.net,g" {} \;
           touch .nojekyll
@@ -180,21 +100,3 @@ jobs:
           git add .
           git commit -am "BLD: $GITHUB_SHA" || true
           git push --set-upstream origin main
-
-  artifactory_cleanup:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Setup JFrog CLI
-        id: setup_JFrog_CLI
-        uses: jfrog/setup-jfrog-cli@v3
-        env:
-          JF_URL: ${{ secrets.JF_URL }}
-          JF_USER: ${{secrets.JF_USER}}
-          JF_PASSWORD: ${{secrets.JF_PASSWORD}}
-
-      - name: Install cleanup plugin
-        run: jf plugin install rt-cleanup
-
-      - name: Run cleanup
-        run: jf rt-cleanup clean dpga-website-artifacts --time-unit=day --no-dl=14
