@@ -273,25 +273,59 @@ class Filters extends Component {
   }
 }
 
-function ListItemBeta(props){
+function getSVGIcon(dpgtypes) {
+  return dpgtypes.map(dpgtype => {
+    switch (dpgtype) {
+      case 'Open Software':
+        return <><br/><svg style={{height: 24, marginTop: 2}} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 34 10">
+          <polygon points="3,0 31,0 34,4 31,10 2,10 0,7 3,0" fill="rgb(124, 117, 242)"></polygon>
+          <text fontFamily="Now Alt Regular" x="4" y="6.9" fontSize="4.5px" fill="white">SOFTWARE</text>
+        </svg></>;
+      case 'Open Data':
+        return <><br/><svg style={{height: 24, marginTop: 2}} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 10">
+          <polygon points="3,0 19,0 22,4 19,10 2,10 0,7 3,0" fill="rgb(42, 168, 168)"></polygon>
+          <text fontFamily="Now Alt Regular" x="5" y="6.9" fontSize="4.5px" fill="white">DATA</text>
+        </svg></>;
+      case 'Open AI Model':
+        return <><br/><svg style={{height: 24, marginTop: 2}} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 33 10">
+          <polygon points="3,0 30,0 33,4 30,10 2,10 0,7 3,0" fill="rgb(131, 190, 246)"></polygon>
+          <text fontFamily="Now Alt Regular" x="4" y="6.9" fontSize="4.5px" fill="rgb(44, 38, 154)">AI MODELS</text>
+        </svg></>;
+      case 'o':
+        return <><br/><svg style={{height: 24, marginTop: 2}} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 34 10">
+          <polygon points="3,0 31,0 34,4 31,10 2,10 0,7 3,0" fill="rgb(255, 149, 42)"></polygon>
+          <text fontFamily="Now Alt Regular" x="4" y="6.9" fontSize="4.5px" fill="black">STANDARDS</text>
+        </svg></>;
+      case 'Open Content':
+        return <><br/><svg style={{height: 24, marginTop: 2}} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 10">
+          <polygon points="3,0 29,0 32,4 29,10 2,10 0,7 3,0" fill="rgb(33, 33, 128)"></polygon>
+          <text fontFamily="Now Alt Regular" x="4" y="6.9" fontSize="4.5px" fill="white">CONTENT</text>
+        </svg></>;
+      default:
+        return <img src="dpgicon.svg" alt="DPG icon" height="25"/>;
+    }
+  })
+}
+
+function ListItemBeta(props) {
 
   let item = props.item;
   let index = props.index;
 
   if (!item.hasOwnProperty("id")) {
-    return(<div></div>)
+    return (<div></div>)
   }
 
   let name;
   let nameText = item.name;
 
-  if(item.stage === 'DPG') {
+  if (item.stage === 'DPG') {
     name = <a href={'https://app.digitalpublicgoods.net/a/' + item.id} target="_blank" rel="noopener noreferrer">{nameText}</a>;
     if(item.dpgLink){
-      name = <span>{name} <img src="dpgicon.svg" alt="DPG icon" height="25"/></span>
+      name = <span>{name} {getSVGIcon(item.categories)}</span>
     }
     else {
-      name = <span><a href="/blog/announcing-the-first-vetted-digital-public-goods-for-foundational-literacy-and-early-grade-reading/" target="_blank" rel="noopener noreferrer">{nameText} <img src="dpgicon.svg" alt="DPG icon" height="25"/></a></span>;
+      name = <span><a href="/blog/announcing-the-first-vetted-digital-public-goods-for-foundational-literacy-and-early-grade-reading/" target="_blank" rel="noopener noreferrer">{nameText} {getSVGIcon(item.categories)}</a></span>;
     }
   }
   else{
