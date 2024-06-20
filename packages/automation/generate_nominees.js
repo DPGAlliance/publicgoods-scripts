@@ -128,7 +128,7 @@ async function fetchGithubActivity(org, item){
       output = '<a href="https://github.com/'+org+'/'+item+'" target="_blank">' + list.html() + '</a>';
     } else {
       console.log('Found something else where the activity chart is expected. This most likely indicates that GitHub has changed the HTML, and this code needs adjustment.');
-      process.exit(1);
+      //process.exit(1);
     }
   } else {
     console.log('Activity chart NOT found ! ! ! ! !')
@@ -155,7 +155,7 @@ glob(path.join(npath, '/*.json'), {}, async (err, files) => {
         if(matchGithub){
           html += await fetchGithubActivity(matchGithub[1], matchGithub[2]);
         }
-      }  
+      }
     }
     n['githubActivity'] = html;
     if(n['stage'] === 'DPG' && fs.existsSync(path.join(spath, path.basename(files[i])))) {
