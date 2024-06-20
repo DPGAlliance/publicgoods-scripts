@@ -25,7 +25,7 @@ async function start() {
   // Fetch all migrated DPGs from new app api at https://app.digitalpublicgoods.net/api/dpgs
   let dpgjson = await fetch("https://api.digitalpublicgoods.net/dpgs");
   dpgjson = await dpgjson.json();
-  
+
   const dpgs = [...dpgjson];
   console.log("DPG's in registry API - ",dpgs.length)
   let allData = [];
@@ -213,7 +213,7 @@ async function fetchGithubActivity(org, item) {
       console.log(
         "Found something else where the activity chart is expected. This most likely indicates that GitHub has changed the HTML, and this code needs adjustment."
       );
-      process.exit(1);
+      //process.exit(1);
     }
   } else {
     console.log("Activity chart NOT found ! ! ! ! !");
