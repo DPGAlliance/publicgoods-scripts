@@ -41,7 +41,7 @@ var quizQuestions = [
                           </p>
                   },
                   {
-                    subHeading: "If a digital solution is open content, must all content have the same license?",
+                    subHeading: "Is the digital solution an open content collection? And does all content have the same license?",
                     text: <p style={{fontSize:"1rem"}}>
                             If a digital solution is being submitted as an open content DPG, then all of the content does not have to use the same license. 
                             However, all of the content contained in the collection must use one of the <a href="https://opendefinition.org/licenses/" rel="noopener noreferrer" target="_blank">approved creative commons licenses</a>. 
@@ -106,7 +106,7 @@ var quizQuestions = [
         copy: [
                 {
                   subHeading: "What type of documentation is required?",
-                  text: "The digital solution must have documentation of the source code, use cases, and/or functional requirements. For content, this should include all relevant/compatible apps, software, or hardware required to access the content, and instructions regarding how to use it. For software digital solutions, this should be technical documentation that would allow a technical person unfamiliar with the digital solution to launch and run the software. For data digital solutions, this should be documentation that describes all the fields in the set, and provides context on how data was collected, and how it should be interpreted."
+                  text: "The digital solution must have documentation of the source code, use cases, and/or functional requirements. For content, this should include all relevant/compatible apps, software, or hardware required to access the content, and instructions regarding how to use it. For software digital solutions, this should be technical documentation that would allow a technical person unfamiliar with the digital solution to launch and run the software. For datasets digital solutions, this should be documentation that describes all the fields in the set, and provides context on how data was collected, and how it should be interpreted."
                 }
               ],
         name: "documentation",
