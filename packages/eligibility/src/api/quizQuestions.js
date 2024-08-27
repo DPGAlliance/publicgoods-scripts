@@ -34,17 +34,17 @@ var quizQuestions = [
                   },
                   {
                     subHeading: "What licenses are approved?",
-                    text: <p style={{fontSize:"1rem"}}>For open source software, only <a href="https://opensource.org/licenses" rel="noopener noreferrer" target="_blank">OSI approved licenses</a> are accepted. 
-                             For open content, the use of a <a href="https://creativecommons.org/licenses/" rel="noopener noreferrer" target="_blank">Creative Commons license</a> is required. 
-                             For open data, an <a href="https://opendefinition.org/licenses/" rel="noopener noreferrer" target="_blank">Open Data Commons</a> approved license is required. 
-                             See the <a href="https://github.com/DPGAlliance/publicgoods-candidates/blob/master/docs/licenses.md" rel="noopener noreferrer" target="_blank">full license list here</a> for reference.
+                    text: <p style={{fontSize:"1rem"}}>For open source software, only <a href="https://opensource.org/licenses" rel="noopener noreferrer" target="_blank">OSI approved licenses</a> are accepted.
+                             For open content, the use of a <a href="https://creativecommons.org/licenses/" rel="noopener noreferrer" target="_blank">Creative Commons license</a> is required.
+                             For open data, an <a href="https://opendefinition.org/licenses/" rel="noopener noreferrer" target="_blank">Open Data Commons</a> approved license is required.
+                             See the <a href="https://github.com/DPGAlliance/dpg-resources/wiki/2.-Open-Licensing#all-licenses" rel="noopener noreferrer" target="_blank">full license list here</a> for reference.
                           </p>
                   },
                   {
                     subHeading: "If a digital solution is open content, must all content have the same license?",
                     text: <p style={{fontSize:"1rem"}}>
-                            If a digital solution is being submitted as an open content DPG, then all of the content does not have to use the same license. 
-                            However, all of the content contained in the collection must use one of the <a href="https://opendefinition.org/licenses/" rel="noopener noreferrer" target="_blank">approved creative commons licenses</a>. 
+                            If a digital solution is being submitted as an open content DPG, then all of the content does not have to use the same license.
+                            However, all of the content contained in the collection must use one of the <a href="https://opendefinition.org/licenses/" rel="noopener noreferrer" target="_blank">approved creative commons licenses</a>.
                           </p>
                   }
                 ],
@@ -81,8 +81,8 @@ var quizQuestions = [
         copy: [
           {
             subHeading: "What does it mean to be platform independent?",
-            text: <p style={{fontSize:"1rem"}}>Platform-independent digital solutions <a href="https://en.wiktionary.org/wiki/platform-independent" rel="noopener noreferrer" target="_blank">can operate on any computer platform, </a> 
-              environment, hardware, or operating system. In this context, platform independence means that the accessibility or functionality of a digital solution is not limited or dependent upon a closed component. 
+            text: <p style={{fontSize:"1rem"}}>Platform-independent digital solutions <a href="https://en.wiktionary.org/wiki/platform-independent" rel="noopener noreferrer" target="_blank">can operate on any computer platform, </a>
+              environment, hardware, or operating system. In this context, platform independence means that the accessibility or functionality of a digital solution is not limited or dependent upon a closed component.
               In order to ensure this, digital solutions must be able to show that they can function without the closed component.
               </p>
           },
@@ -167,7 +167,7 @@ var quizQuestions = [
       copy: [
               {
                 subHeading: "Is there a list of examples of applicable standards or best practices to refer to?",
-                text: <p style={{fontSize:"1rem"}}>Supported standards may include HTML, CSS, HTTP, JSON, REST, WCAG et al. Best practices may include <a href="https://digitalprinciples.org/principles/" rel="noopener noreferrer" target="_blank">Principles for Digital Development</a> or other industry/sector specific best practices. 
+                text: <p style={{fontSize:"1rem"}}>Supported standards may include HTML, CSS, HTTP, JSON, REST, WCAG et al. Best practices may include <a href="https://digitalprinciples.org/principles/" rel="noopener noreferrer" target="_blank">Principles for Digital Development</a> or other industry/sector specific best practices.
                       </p>
               }
             ],
