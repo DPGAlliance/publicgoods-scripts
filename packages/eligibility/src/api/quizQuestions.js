@@ -49,7 +49,7 @@ var quizQuestions = [
                   }
                 ],
         name: "open license",
-        link: "https://github.com/DPGAlliance/publicgoods-candidates/blob/main/help-center/licenses.md"
+        link: "https://github.com/DPGAlliance/dpg-resources/wiki"
       }
   },
   {
