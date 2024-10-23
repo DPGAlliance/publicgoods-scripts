@@ -23,7 +23,8 @@ var missingRepoActivity = [];
 
 async function start() {
   // Fetch all migrated DPGs from new app api at https://app.digitalpublicgoods.net/api/dpgs
-  let dpgjson = await fetch("https://api.digitalpublicgoods.net/dpgs");
+  //let dpgjson = await fetch("https://api.digitalpublicgoods.net/dpgs");
+  let dpgjson = await fetch("https://app.digitalpublicgoods.net/api/dpgs");
   dpgjson = await dpgjson.json();
 
   const dpgs = [...dpgjson];
