@@ -16,19 +16,21 @@ To test the functionality of these scripts, you can run the following commands i
 1. `npm i`: Installs all the required project dependencies
 2. Clone the other interconnected repositories:
     ```bash 
-    git clone https://github.com/DPGAlliance/publicgoods-website.git ../publicgoods-website
+    git clone https://github.com/DPGAlliance/publicgoods-website.git ../publicgoods-website-test
     git clone https://github.com/DPGAlliance/publicgoods-candidates.git ../publicgoods-candidates
     ```
 3. `./scripts/static.bash`: crawls a private instance of the WordPress website and saves a copy in `../publicgoods-website`
-4. `pushd packages/automation && node consolidate_data.js && popd`: consolidates nomiees and DPGs from the new api into a single `nominees.json` file for the registry page.
+4. `pushd packages/automation && node consolidate_data.js && popd`: consolidates nominees and DPGs from the new api into a single `nominees.json` file for the registry page.
 5. ~~`pushd packages/automation && node generate_dpgs.js && popd`: generates the individual website pages for each vetted digital public good~~
 6. ~~`pushd packages/automation && node generate_nominees.js && popd`: queries the GitHub API for activity data for each linked repo~~
 7. `pushd packages/automation && node index.js && popd`: generates the registry page
 8. `pushd packages/registry && npm run build && popd`: builds the React components associated with the registry
+8. `pushd packages/eligibility && npm run build && popd`: builds the React components associated with the eligibility information
+8. `pushd packages/roadmap && npm run build && popd`: builds the React components associated with the roadmap information
 9. `./scripts/moveFiles.bash`: moves the React components generated above and the registry page into the website folder
 
 To test the result:
-1. Change folders into the website repo: `cd ../publicgoods-website`
+1. Change folders into the website repo: `cd ../publicgoods-website-test`
 2. Run a webserver: `./.develop.bash`
 3. Point your browser to http://localhost:8080 to see the result
 

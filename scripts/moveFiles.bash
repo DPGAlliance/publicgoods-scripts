@@ -1,7 +1,7 @@
 #!/bin/bash
 pushd ../publicgoods-website-test/registry && \
 	git rm -rf static/* || true && \
-    mkdir static && \
+    mkdir static || true && \
     cp -a ../../publicgoods-scripts/packages/registry/build/static/* static && \
     git add static/* && \
     cp ../../publicgoods-scripts/packages/registry/build/index.html . && \
@@ -9,7 +9,7 @@ popd
 
 pushd ../publicgoods-website-test/eligibility && \
 	git rm -rf static/* || true && \
-    mkdir static && \
+    mkdir static || true && \
     cp -a ../../publicgoods-scripts/packages/eligibility/build/static/* static && \
     git add static/* && \
     cp ../../publicgoods-scripts/packages/eligibility/build/index.html . && \
@@ -26,7 +26,7 @@ popd
 
 pushd ../publicgoods-website-test/roadmap && \
     git rm -rf static/* || true && \
-    mkdir static && \
+    mkdir static || true && \
     cp -a ../../publicgoods-scripts/packages/roadmap/build/static/* static && \
     git add static/* && \
     cp ../../publicgoods-scripts/packages/roadmap/build/index.html . && \
